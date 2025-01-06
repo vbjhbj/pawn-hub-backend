@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('settlements', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('name');
+			$table->string('postalCodes');
+			$table->foreignId('holding_id')->constrained();
         });
     }
 

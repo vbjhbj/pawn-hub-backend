@@ -15,6 +15,18 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+			$table->string('idCardNum');
+			$table->timestamp('birthday')->useCurrent();
+			$table->timestamp('idCardExp')->useCurrent();
+			$table->foreignId('user_id')->constrained();
+			$table->string('bankCardNum');
+			$table->string('bankCardExpDate');
+			$table->string('bankCardName');
+			$table->string('shippingAddress');
+			$table->string('billingAddress');
+			$table->string('mobile');
+			$table->string('email');
             $table->timestamps();
         });
     }

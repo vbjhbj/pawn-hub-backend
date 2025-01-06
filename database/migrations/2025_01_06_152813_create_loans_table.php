@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('customer_id')->constrained();
+			$table->foreignId('shop_id')->constrained();
+			$table->timestamp('expDate')->useCurrent();
+			$table->integer('givenAmount');
+			$table->float('interest', precision:8);
             $table->timestamps();
         });
     }

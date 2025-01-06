@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+			$table->string('taxId');
+			$table->string('iban');
+			$table->string('mobile');
+			$table->string('email');
+			$table->foreignId('user_id')->constrained();
+			$table->integer('estYear');
+			$table->foreignId('settlementId')->constrained();
             $table->timestamps();
         });
     }
