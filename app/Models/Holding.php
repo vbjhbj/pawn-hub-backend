@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Holding extends Model
 {
+    public $timestamps = false;
     use HasFactory;
 }
