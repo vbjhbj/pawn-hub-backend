@@ -1,0 +1,106 @@
+
+
+login
+
+--------------------------------------
+
+[get] items/{shopID}/
+	?page="1"
+	&searchKey=""
+	&searchIn="name/category/customer/condition/notes/location"
+	&orderBy="name/category/loan/customer/payedValue/estimatedValue/condition"
+	&desc="false/true"
+	&status="sale/archive/pawned"
+	
+    {
+		30 db item
+	}
+
+[get] items/
+	?page="1"
+	&searchKey=""
+	&orderBy="name/price/condition/shop"
+	&desc="false/true"
+	&category=""
+	&minPrice=
+	&maxPrice=
+	&county=
+	&settlements="settl;settl;settl"
+
+	{
+		30 db item
+	}
+
+[get] item/{itemID}
+
+--------------------------------------
+
+[get] shops/
+	?page=""
+	&searchKey=""
+	&orderBy="name/location/availableItems"
+	&desc="false/true"
+	&county=
+	&settlements="settl;settl;settl"
+
+
+[get] customers/{shopID}/
+	?page="1"
+	&searchKey=""
+	&searchIn="name/email/phone/address/products"
+	&orderBy="name/phone/address/loanSum"
+	&desc="false/true"
+	&status="active/inactive/all"
+
+
+[get] shop/{userID}
+[get] customer/{userID}
+[get] customerNotUser/{customerID} //fejlesztés alatt
+
+Alternatíva:
+[get] shop/
+	?userID=
+	?shopID=
+[get] customer/
+	?userID=
+	?shopID=
+
+--------------------------------------
+
+[get] loans/
+	?page="1"
+	&searchKey=""
+	&searchIn="customer/item/notes"
+	&orderBy="moneyLent/moneyBack/startDate/expDate/interest/customer"
+	&desc="false/true"
+	&status="active/expired/archived"
+
+[get] loan/{loanID}
+
+--------------------------------------
+
+[get] messages/
+	?sender=""
+	&receiver=""
+
+[get] message/{messageID}
+
+--------------------------------------
+--------------------------------------
+
+
+set
+̅̅̅
+[set] item/{itemID}
+[set] shop/{userID}
+[set] loan/{loanID}
+[set] setting/{settingID}
+
+
+post/
+
+
+
+
+
+
