@@ -9,7 +9,7 @@ login
 	&searchKey=""
 	&searchIn="name/category/customer/condition/notes/location"
 	&orderBy="name/category/loan/customer/payedValue/estimatedValue/condition"
-	&desc="false/true"
+	&asc="false/true"
 	&status="sale/archive/pawned"
 	
     {
@@ -20,7 +20,7 @@ login
 	?page="1"
 	&searchKey=""
 	&orderBy="name/price/condition/shop"
-	&desc="false/true"
+	&asc="false/true"
 	&category=""
 	&minPrice=
 	&maxPrice=
@@ -39,7 +39,7 @@ login
 	?page=""
 	&searchKey=""
 	&orderBy="name/location/availableItems"
-	&desc="false/true"
+	&asc="false/true"
 	&county=
 	&settlements="settl;settl;settl"
 
@@ -49,7 +49,7 @@ login
 	&searchKey=""
 	&searchIn="name/email/phone/address/products"
 	&orderBy="name/phone/address/loanSum"
-	&desc="false/true"
+	&asc="false/true"
 	&status="active/inactive/all"
 
 
@@ -72,7 +72,7 @@ Alternatíva:
 	&searchKey=""
 	&searchIn="customer/item/notes"
 	&orderBy="moneyLent/moneyBack/startDate/expDate/interest/customer"
-	&desc="false/true"
+	&asc="false/true"
 	&status="active/expired/archived"
 
 [get] loan/{loanID}
