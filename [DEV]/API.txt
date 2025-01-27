@@ -55,7 +55,7 @@ login
 
 [get] shop/{userID}
 [get] customer/{userID}
-[get] customerNotUser/{customerID} //fejlesztés alatt
+[get] customerNonuser/{customerID} //fejlesztés alatt
 
 Alternatíva:
 [get] shop/
