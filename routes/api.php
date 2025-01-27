@@ -14,6 +14,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/items/
+	?page="{page}"
+	&searchKey="{key}"
+	&orderBy="{orderBy}"
+	&asc="{order}"
+	&category="{cat}"
+	&minPrice={minP}
+	&maxPrice={maxP}
+	&hold="{holding}"
+	&settlements="{setlList}"', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware('auth:sanctum')->get('items/{shopID}/
+	?page="{page}"
+	&searchKey="{key}"
+	&searchIn="{cat}"
+	&orderBy="{orderBy}"
+	&asc="{order}"
+	&status="{stauts}"', function (Request $request) {
+    return $request->user();
+});
+
