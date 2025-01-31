@@ -23,9 +23,8 @@ Route::middleware('auth:sanctum')->get('/items/
 	&minPrice={minP}
 	&maxPrice={maxP}
 	&hold="{holding}"
-	&settlements="{setlList}"', function (Request $request) {
-    return $request->user();
-});
+	&settlements="{setlList}"', [ItemController::class 'index']
+);
 
 Route::middleware('auth:sanctum')->get('items/{shopID}/
 	?page="{page}"

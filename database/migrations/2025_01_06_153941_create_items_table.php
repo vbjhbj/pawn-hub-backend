@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('description');
             $table->string('imgUrl');
 			$table->foreignId('loan_id')->constrained();
 			$table->foreignId('shop_id')->constrained();
