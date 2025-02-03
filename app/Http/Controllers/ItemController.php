@@ -14,7 +14,7 @@ class ItemController extends Controller
      */
     public function index(int $page, string $key, int $orderBy, bool $order, string $cat, int $minP, int $maxP, string $holding, array $setlList)
     {
-        return json_encode(DB::select('select * from Items where name like :key and type_id = :cat and value > :minP and value < :maxP'))
+        return json_encode(DB::select('select * from Items where name like :key and type_id = :cat and value > :minP and value < :maxP'));
     }
 
     /**
@@ -34,9 +34,9 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function show(Item $item)
+    public function show(int $itemId)
     {
-        //
+        return json_encode(DB:select('select * from Items where id = itmeId'));
     }
 
     /**
