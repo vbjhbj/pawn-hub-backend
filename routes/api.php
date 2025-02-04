@@ -32,9 +32,7 @@ Route::middleware('auth:sanctum')->get('items/{shopID}/
 	&searchIn="{cat}"
 	&orderBy="{orderBy}"
 	&asc="{order}"
-	&status="{stauts}"', function (Request $request) {
-    return $request->user();
-});
+	&status="{stauts}"', [ItemController::class, 'store']);
 
 Route::middleware('auth:sanctum')->get('item/{itemID}', [ItemController::class, 'show']);
 
@@ -44,7 +42,7 @@ Route::middleware('auth:sanctum')->get('shops/
 	&orderBy="{orderBy}"
 	&asc="{order}"
 	&hold="{holding}"
-	&settlements="{setlList}"', [ShopController::class, 'index']);
+	&settlements="{settlList}"', [ShopController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('customers/{shopID}/
 	?page="{page}"

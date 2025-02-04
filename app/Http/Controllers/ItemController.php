@@ -23,7 +23,7 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(int $page, string $key, int $orderBy, bool $order, string $cat, string $status, int $shopId)
     {
         //
     }
