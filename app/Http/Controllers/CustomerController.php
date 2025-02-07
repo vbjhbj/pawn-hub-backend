@@ -36,7 +36,7 @@ class CustomerController extends Controller
      */
     public function show(int $customerId)
     {
-        return json_encode(DB::select('select * from customers where user_id = :customerId'))
+        return json_encode(DB::select('select * from customers where user_id = :customerId'));
     }
 
     /**
