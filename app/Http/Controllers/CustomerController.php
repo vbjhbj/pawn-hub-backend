@@ -34,9 +34,9 @@ class CustomerController extends Controller
      * @param  \App\Models\customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(customer $customer)
+    public function show(int $customerId)
     {
-        //
+        return json_encode(DB::select('select * from customers where user_id = :customerId'))
     }
 
     /**

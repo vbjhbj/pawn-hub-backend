@@ -50,9 +50,7 @@ Route::middleware('auth:sanctum')->get('customers/{shopID}/
 	&searchIn="{searchParam}"
 	&orderBy="{orderBy}"
 	&asc="{order}"
-	&status="{status}"', function (Request $request) {
-    return $request->user();
-});
+	&status="{status}"', [CustomerController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('shop/{userID}', function (Request $request) {
     return $request->user();

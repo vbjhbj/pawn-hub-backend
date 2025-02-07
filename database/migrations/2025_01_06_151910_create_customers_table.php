@@ -20,6 +20,7 @@ return new class extends Migration
 			$table->timestamp('birthday')->useCurrent();
 			$table->timestamp('idCardExp')->useCurrent();
 			$table->foreignId('user_id')->constrained();
+            $table->foreignId('shop_id')->constrained();
 			$table->string('bankCardNum');
 			$table->string('bankCardExpDate');
 			$table->string('bankCardName');
