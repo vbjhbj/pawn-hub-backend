@@ -70,9 +70,7 @@ Route::middleware('auth:sanctum')->get('loans/
 	&searchIn="{searchParam}"
 	&orderBy="{orderBy}"
 	&asc="{order}"
-	&status="{status}"', function (Request $request) {
-    return $request->user();
-});
+	&status="{status}"', [LoanController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('loan/{loanID}', function (Request $request) {
     return $request->user();

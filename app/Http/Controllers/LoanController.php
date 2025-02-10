@@ -12,7 +12,7 @@ class LoanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(int $page, string $key, int $orderBy, bool $order, string $searchParam, bool $param) 
     {
         //
     }
