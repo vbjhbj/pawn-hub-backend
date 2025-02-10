@@ -79,13 +79,43 @@ Alternatíva:
 
 --------------------------------------
 
-[get] messages/
-	?sender=""
-	&receiver=""
+[get] messages/{userID}
+	?searchIn="sender/receiver/subject/content"
+	&searchKey=""
+	&page="1"
 
 [get] message/{messageID}
 
 --------------------------------------
+
+[get] userData/{userID}
+
+{
+	- isCustomer: false/true
+	- profilkép
+	- username
+	- név
+	- email
+	- mobile
+	
+	Ha customer:
+	- bankkártyaadatok
+	- szállítási & számlázási cím
+	- személyigazolvány-szám
+	- születési dátum
+	
+	Ha shop:
+	- adószám
+	- bankszámlaszám
+	- város
+	- alapítás éve
+}
+
+[get] isCustomer
+{
+	isCustomer: false/true
+}
+
 --------------------------------------
 
 
@@ -94,7 +124,7 @@ set
 [set] item/{itemID}
 [set] shop/{userID}
 [set] loan/{loanID}
-[set] setting/{settingID}
+[set] userData/{userID}
 
 
 post/
