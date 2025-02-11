@@ -23,6 +23,8 @@ return new class extends Migration
 			$table->foreignId('user_id')->constrained();
 			$table->integer('estYear');
 			$table->foreignId('settlementId')->constrained();
+            $table->string('adress');
+            $table->string('intro');
             $table->timestamps();
         });
     }
