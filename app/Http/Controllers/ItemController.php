@@ -42,7 +42,9 @@ class ItemController extends Controller
      */
     public function show(int $itemId)
     {
-        return json_encode(DB:select('select * from Items where id = :itemId'));
+        $item=Item::findOrFail($itemId);
+    #    $item = DB::table('Items')->where('id', $itemId)->get();
+        return response()->json($item);
     }
 
     /**

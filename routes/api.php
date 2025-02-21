@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ShopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +36,9 @@ Route::middleware('auth:sanctum')->get('items/{shopID}/
 	&asc="{order}"
 	&status="{stauts}"', [ItemController::class, 'store']);
 
-Route::middleware('auth:sanctum')->get('item/{itemID}', [ItemController::class, 'show']);
+#Route::get('/item/{itemID}', [ItemController::class, 'show']);
+Route::get('/item/{itemID}', 'ItemController@show');
+
 
 Route::middleware('auth:sanctum')->get('shops/
 	?page="{page}"
