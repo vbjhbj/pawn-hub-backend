@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('typeGroup_id')->constrained();
+            $table->foreignId('typeGroups_id')->constrained();
 			$table->string('name');
             $table->timestamps();
         });

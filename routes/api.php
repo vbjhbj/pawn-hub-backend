@@ -52,17 +52,11 @@ Route::middleware('auth:sanctum')->get('customers/{shopID}/
 	&asc="{order}"
 	&status="{status}"', [CustomerController::class, 'index']);
 
-Route::middleware('auth:sanctum')->get('shop/{userID}', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->get('shop/{userID}', [ShopController::class, 'show']);
 
-Route::middleware('auth:sanctum')->get('customer/{userID}', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->get('customer/{userID}', [CustomerController::class, 'show']);
 
-Route::middleware('auth:sanctum')->get('customerNonuser/{customerID}', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->get('customerNonuser/{customerID}',  [CustomerController::class, 'show']);
 
 Route::middleware('auth:sanctum')->get('loans/
 	?page="{page}"
@@ -72,30 +66,18 @@ Route::middleware('auth:sanctum')->get('loans/
 	&asc="{order}"
 	&status="{status}"', [LoanController::class, 'index']);
 
-Route::middleware('auth:sanctum')->get('loan/{loanID}', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->get('loan/{loanID}', [LoanController::class, 'show']);
 
-Route::middleware('auth:sanctum')->get('messages/?sender="{sId}"&receiver="{rId}"', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->get('messages/?sender="{sId}"&receiver="{rId}"', [MessageController::class, 'index']);
 
-Route::middleware('auth:sanctum')->get('message/{messageID}', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->get('message/{messageID}', [MessageController::class, 'show']);
 
-Route::middleware('auth:sanctum')->set('item/{itemID}', function (Request $request) {
-    return $request->user();
-});
+#-----------------------------------------------------------------------------------------
 
-Route::middleware('auth:sanctum')->set('shop/{userID}', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->patch('item/{itemID}', [ItemController::class, 'store']);
 
-Route::middleware('auth:sanctum')->set('loan/{loanID}', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->patch('shop/{userID}', [UserController::class, 'store']);
 
-Route::middleware('auth:sanctum')->set('setting/{settingID}', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->patch('loan/{loanID}', [LoanController::class, 'store']);
+
+Route::middleware('auth:sanctum')->patch('setting/{settingID}', [UserController::class, 'show']);

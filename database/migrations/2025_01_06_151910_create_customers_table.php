@@ -21,9 +21,6 @@ return new class extends Migration
 			$table->timestamp('idCardExp')->useCurrent();
 			$table->foreignId('user_id')->constrained();
             $table->foreignId('shop_id')->constrained();
-			$table->string('bankCardNum');
-			$table->string('bankCardExpDate');
-			$table->string('bankCardName');
 			$table->string('shippingAddress');
 			$table->string('billingAddress');
 			$table->string('mobile');

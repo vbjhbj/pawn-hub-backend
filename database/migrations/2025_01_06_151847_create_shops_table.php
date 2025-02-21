@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
 			$table->string('taxId');
-			$table->string('iban');
 			$table->string('mobile');
 			$table->string('email');
+            $table->string('website');
 			$table->foreignId('user_id')->constrained();
 			$table->integer('estYear');
-			$table->foreignId('settlementId')->constrained();
+			$table->foreignId('settlement_id')->constrained();
             $table->string('adress');
             $table->string('intro');
             $table->timestamps();
