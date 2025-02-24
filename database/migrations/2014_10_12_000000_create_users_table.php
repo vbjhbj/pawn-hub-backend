@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->timestamp('lastTransaction')->useCurrent();
-			$table->string('taxId');
 			$table->string('iban');
 			$table->string('imgUrl');
+            $table->bool('isCustomer');
             $table->rememberToken();
             $table->timestamps();
         });

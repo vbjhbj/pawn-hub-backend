@@ -34,10 +34,25 @@ class CustomerController extends Controller
      * @param  \App\Models\customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(int $customerId)
+    public function show($customerId)
     {
-        return json_encode(DB::select('select * from customers where user_id = :customerId'));
+        $customer = Customer::find($customerId);
+        if (!empty($customer)){
+            
+            return response()->json($customer);
+        }
+        else {
+            return response()->json([
+                'message' => 'Az elem nem létezik!'
+            ],404);
+        }
     }
+
+    public function showNU(customer $customer)
+    {
+        //
+    }
+
 
     /**
      * Update the specified resource in storage.

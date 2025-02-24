@@ -34,9 +34,17 @@ class LoanController extends Controller
      * @param  \App\Models\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function show(Loan $loan)
+    public function show($loanId)
     {
-        //
+        $loan = Loan::find($loanId);
+        if (!empty($loan)){
+            return response()->json($loan);
+        }
+        else {
+            return response()->json([
+                'message' => 'Az elem nem létezik!'
+            ],404);
+        }
     }
 
     /**

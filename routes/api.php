@@ -4,6 +4,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\LoanController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\UserController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,17 +23,7 @@ use App\Http\Controllers\ShopController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/items/
-	?page="{page}"
-	&searchKey="{key}"
-	&orderBy="{orderBy}"
-	&asc="{order}"
-	&category="{cat}"
-	&minPrice={minP}
-	&maxPrice={maxP}
-	&hold="{holding}"
-	&settlements="{setlList}"', [ItemController::class, 'index']
-);
+Route::middleware('auth:sanctum')->get('/items/{page}/key/{key}/order/{orderBy?}/or/{order}"/category/{cat}/minPrice/{minP}/maxPrice/{maxP}/hold/{holding}/settlements/{setlList}', [App\Http\Controllers\ItemController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('items/{shopID}/
 	?page="{page}"
@@ -36,8 +33,8 @@ Route::middleware('auth:sanctum')->get('items/{shopID}/
 	&asc="{order}"
 	&status="{stauts}"', [ItemController::class, 'store']);
 
-#Route::get('/item/{itemID}', [ItemController::class, 'show']);
-Route::get('/item/{itemID}', 'ItemController@show');
+Route::get('/item/{itemID}', [ItemController::class, 'show']);
+#Route::get('/item/{itemID}', 'ItemController@show');
 
 
 Route::middleware('auth:sanctum')->get('shops/
@@ -56,11 +53,9 @@ Route::middleware('auth:sanctum')->get('customers/{shopID}/
 	&asc="{order}"
 	&status="{status}"', [CustomerController::class, 'index']);
 
-Route::middleware('auth:sanctum')->get('shop/{userID}', [ShopController::class, 'show']);
+Route::get('shop/{shopID}', [ShopController::class, 'show']);
 
-Route::middleware('auth:sanctum')->get('customer/{userID}', [CustomerController::class, 'show']);
-
-Route::middleware('auth:sanctum')->get('customerNonuser/{customerID}',  [CustomerController::class, 'show']);
+Route::get('customer/{customerID}', [CustomerController::class, 'show']);
 
 Route::middleware('auth:sanctum')->get('loans/
 	?page="{page}"
@@ -70,7 +65,7 @@ Route::middleware('auth:sanctum')->get('loans/
 	&asc="{order}"
 	&status="{status}"', [LoanController::class, 'index']);
 
-Route::middleware('auth:sanctum')->get('loan/{loanID}', [LoanController::class, 'show']);
+Route::get('loan/{loanID}', [LoanController::class, 'show']);
 
 Route::middleware('auth:sanctum')->get('messages/?sender="{sId}"&receiver="{rId}"', [MessageController::class, 'index']);
 

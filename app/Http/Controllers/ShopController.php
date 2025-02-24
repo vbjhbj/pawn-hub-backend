@@ -35,10 +35,20 @@ class ShopController extends Controller
      * @param  \App\Models\Shop  $shop
      * @return \Illuminate\Http\Response
      */
-    public function show(Shop $shop)
+
+    public function show($shopId)
     {
-        //
+        $shop = Shop::find($shopId);
+        if (!empty($shop)){
+            return response()->json($shop);
+        }
+        else {
+            return response()->json([
+                'message' => 'Az elem nem létezik!'
+            ],404);
+        }
     }
+    
 
     /**
      * Update the specified resource in storage.

@@ -40,8 +40,10 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function show(int $itemId)
+    public function show($itemId)
     {
+
+        
         $item=Item::findOrFail($itemId);
     #    $item = DB::table('Items')->where('id', $itemId)->get();
         return response()->json($item);
