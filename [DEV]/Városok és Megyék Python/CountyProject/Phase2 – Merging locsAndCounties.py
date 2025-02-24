@@ -6,6 +6,7 @@ with open("locsAndCounties 1. – Unmerged.csv","r",encoding="utf-8") as f:
 
 
 i = 1
+prevI = i
 while i < len(source):
 
     prevLine = source[i-1].split(";")
@@ -21,12 +22,16 @@ while i < len(source):
 
     elif currLine[2] == prevLine[2]:
         prevLine[1] += f",{currLine[1]}"
+        source[i-1] = ";".join(prevLine)
         source.pop(i)
+        print(f"Act of Merging:", prevLine, currLine)
 
     else:
         i += 1
 
-    source[i-1] = ";".join(prevLine)
+
+    print("Különbség:", i - prevI)
+    prevI = i
 
 
 with open("locsAndCounties 2. – Merged.csv","w",encoding="utf-8") as f:
