@@ -34,9 +34,18 @@ class MessageController extends Controller
      * @param  \App\Models\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function show(Message $message)
+    public function show($messageId)
     {
-        //
+        $message = Message::find($messageId);
+        if (!empty($message)){
+            
+            return response()->json($message);
+        }
+        else {
+            return response()->json([
+                'message' => 'Az elem nem létezik!'
+            ],404);
+        }
     }
 
     /**

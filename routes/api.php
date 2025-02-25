@@ -73,10 +73,36 @@ Route::middleware('auth:sanctum')->get('message/{messageID}', [MessageController
 
 #-----------------------------------------------------------------------------------------
 
-Route::middleware('auth:sanctum')->patch('item/{itemID}', [ItemController::class, 'store']);
+Route::middleware('auth:sanctum')->patch('/item/{itemID}', [ItemController::class, 'update']);
 
-Route::middleware('auth:sanctum')->patch('shop/{userID}', [UserController::class, 'store']);
+Route::middleware('auth:sanctum')->patch('/shop/{shopID}', [ShopController::class, 'update']);
 
-Route::middleware('auth:sanctum')->patch('loan/{loanID}', [LoanController::class, 'store']);
+Route::middleware('auth:sanctum')->patch('/loan/{loanID}', [LoanController::class, 'update']);
 
-Route::middleware('auth:sanctum')->patch('setting/{settingID}', [UserController::class, 'show']);
+Route::middleware('auth:sanctum')->patch('/customer/{customerID}', [CustomerController::class, 'update']);
+
+#-----------------------------------------------------------------------------------------------------
+
+Route::post('/customer', [CustomerController::class, 'create']);
+
+Route::post('/loan', [LoanController::class, 'create']);
+
+Route::post('/shop', [ShopController::class, 'create']);
+
+Route::post('/item', [ItemController::class, 'create']);
+
+Route::post('/user', [UserController::class, 'create']);
+
+Route::post('/message', [MessageController::class, 'create']);
+
+#-------------------------------------------------------------------------------------------------------
+
+Route::delete('/customer', [CustomerController::class, 'delete']);
+
+Route::delete('/loan', [LoanController::class, 'delete']);
+
+Route::delete('/shop', [ShopController::class, 'delete']);
+
+Route::delete('/item', [ItemController::class, 'delete']);
+
+Route::delete('/message', [MessageController::class, 'delete']);
