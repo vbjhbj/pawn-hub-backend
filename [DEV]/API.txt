@@ -122,14 +122,18 @@ Alternatíva:
 set
 ̅̅̅
 [set] item/{itemID}
-[set] shop/{userID}
 [set] loan/{loanID}
-[set] userData/{userID}
+[set] shop/{shopID}
+[set] customer/{customerID}
+
 
 
 post/
 
+---------------------------
 
+[set] connection/?shop={shopID}&customer={customerID}
+[del] connection/?shop={shopID}&customer={customerID}
 
 
 
