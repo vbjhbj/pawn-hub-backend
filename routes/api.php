@@ -73,13 +73,13 @@ Route::middleware('auth:sanctum')->get('message/{messageID}', [MessageController
 
 #-----------------------------------------------------------------------------------------
 
-Route::middleware('auth:sanctum')->patch('/item/{itemID}', [ItemController::class, 'update']);
+Route::middleware('auth:sanctum')->patch('/item', [ItemController::class, 'update']);
 
-Route::patch('/shop/{shopID}', [ShopController::class, 'update']);
+Route::put('/shop', [ShopController::class, 'update']);
 
-Route::middleware('auth:sanctum')->patch('/loan/{loanID}', [LoanController::class, 'update']);
+Route::middleware('auth:sanctum')->patch('/loan', [LoanController::class, 'update']);
 
-Route::middleware('auth:sanctum')->patch('/customer/{customerID}', [CustomerController::class, 'update']);
+Route::middleware('auth:sanctum')->patch('/customer', [CustomerController::class, 'update']);
 
 #-----------------------------------------------------------------------------------------------------
 

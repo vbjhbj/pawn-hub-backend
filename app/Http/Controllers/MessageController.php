@@ -55,9 +55,13 @@ class MessageController extends Controller
      * @param  \App\Models\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Message $message)
+    public function create(Request $request)
     {
-        //
+        $message = new Message;
+        $message->sender = $request->input('sender');
+        $message->subject = $request->input('subject');
+        $message->message = $request->input('message');
+        $message->recipient = $request->input('recipient');
     }
 
     /**

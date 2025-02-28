@@ -57,9 +57,23 @@ class ShopController extends Controller
      * @param  \App\Models\Shop  $shop
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $shopId)
+    public function update(Request $request)
     {
-        $shop=Shop::findOrFail($shopId);
+        $shop=Shop::findOrFail($request->input('id'));
+        $shop->name = $request->input('name');
+        $shop->taxId = $request->input('taxId');
+        $shop->mobile = $request->input('mobile');
+        $shop->email = $request->input('email');
+        $shop->website = $request->input('website');
+        $shop->user_id = $request->input('user_id');
+        $shop->estYear = $request->input('estYear');
+		$shop->adress = $request->input('adress');
+		$shop->intro = $request->input('intro');
+		$shop->save();
+        return response(200);
+    }
+    public function create(Request $request){
+        $shop= new Shop;
         $shop->name = $request->input('name');
         $shop->taxId = $request->input('taxId');
         $shop->mobile = $request->input('mobile');

@@ -82,9 +82,23 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $itemId)
+    public function update(Request $request)
     {
-        $item=Item::findOrFail($itemId);
+        $item=Item::findOrFail($request->input('id'));
+        $item->name = $request->input('name');
+        $item->description = $request->input('description');
+        $item->imgUrl = $request->input('imgUrl');
+        $item->loanId = $request->input('loanId');
+        $item->shopId = $request->input('shopId');
+        $item->typeId = $request->input('typeId');
+        $item->value = $request->input('value');
+        $item->save();
+        return response(200);
+    }
+
+    public function create(Request $request)
+    {
+        $item=new Item;
         $item->name = $request->input('name');
         $item->description = $request->input('description');
         $item->imgUrl = $request->input('imgUrl');

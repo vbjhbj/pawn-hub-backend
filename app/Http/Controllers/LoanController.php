@@ -54,9 +54,20 @@ class LoanController extends Controller
      * @param  \App\Models\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $loanId)
+    public function update(Request $request)
     {
-        $loan=Loan::findOrFail($loanId);
+        $loan=Loan::findOrFail($request->input('id'));
+        $loan->customer_id = $request->input('customer_id');
+        $loan->shop_id = $request->input('shop_id');
+        $loan->expDate = $request->input('expDate');
+        $loan->givenAmount = $request->input('givenAmount');
+        $loan->interest = $request->input('interest');
+        $loan->save();
+    }
+
+    public function create(Request $request)
+    {
+        $loan=new Loan;
         $loan->customer_id = $request->input('customer_id');
         $loan->shop_id = $request->input('shop_id');
         $loan->expDate = $request->input('expDate');
