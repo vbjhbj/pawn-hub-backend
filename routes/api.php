@@ -23,7 +23,7 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/items/{page}/key/{key}/order/{orderBy?}/or/{order}"/category/{cat}/minPrice/{minP}/maxPrice/{maxP}/hold/{holding}/settlements/{setlList}', [App\Http\Controllers\ItemController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/items', [App\Http\Controllers\ItemController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('items/{shopID}/
 	?page="{page}"
@@ -75,7 +75,7 @@ Route::middleware('auth:sanctum')->get('message/{messageID}', [MessageController
 
 Route::middleware('auth:sanctum')->patch('/item/{itemID}', [ItemController::class, 'update']);
 
-Route::middleware('auth:sanctum')->patch('/shop/{shopID}', [ShopController::class, 'update']);
+Route::patch('/shop/{shopID}', [ShopController::class, 'update']);
 
 Route::middleware('auth:sanctum')->patch('/loan/{loanID}', [LoanController::class, 'update']);
 

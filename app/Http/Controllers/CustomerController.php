@@ -61,9 +61,20 @@ class CustomerController extends Controller
      * @param  \App\Models\customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, customer $customer)
+    public function update(Request $request, $customerId)
     {
-        //
+        $customer=customer::findOrFail($customerId);
+        $customer->name = $request->input('name');
+        $customer->idCardNum = $request->input('idCardNum');
+        $customer->birthday = $request->input('birthday');
+        $customer->idCardExp = $request->input('idCardExp');
+        $customer->user_id = $request->input('user_id');
+        $customer->shop_id = $request->input('shop_id');
+        $customer->shippingAddress = $request->input('shippingAddress');
+		$customer->billingAddress = $request->input('billingAddress');
+		$customer->mobile = $request->input('mobile');
+		$customer->email = $request->input('email');
+		$customer->save();
     }
 
     /**
