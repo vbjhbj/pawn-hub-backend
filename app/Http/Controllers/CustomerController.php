@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\customer;
+use App\Models\DeletedUser;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -63,7 +64,7 @@ class CustomerController extends Controller
      */
     public function update(Request $request)
     {
-        $customer=Customer::findOrFail($request->input('id'));
+        $customer=customer::findOrFail($request->input('id'));
         $customer->name = $request->input('name');
         $customer->idCardNum = $request->input('idCardNum');
         $customer->birthday = $request->input('birthday');
@@ -79,7 +80,7 @@ class CustomerController extends Controller
 
     public function create(Request $request)
     {
-        $customer=new Customer;
+        $customer=new customer;
         $customer->name = $request->input('name');
         $customer->idCardNum = $request->input('idCardNum');
         $customer->birthday = $request->input('birthday');
@@ -99,8 +100,16 @@ class CustomerController extends Controller
      * @param  \App\Models\customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(customer $customer)
+    public function destroy($customerId)
     {
-        //
+        $customer = Customer::find($customerId);
+        if ($customer->user_id == NULL){
+            $customer->delete();
+        }
+        else{
+            $deletedUser = new DeletedUser;
+            $user = User::find($customer->user_id);
+            $deletedUser->lastTransaction= $user->lastTransaction;
+        }
     }
 }
