@@ -97,12 +97,12 @@ Route::post('/message', [MessageController::class, 'create']);
 
 #-------------------------------------------------------------------------------------------------------
 
-Route::delete('/customer', [CustomerController::class, 'delete']);
+Route::delete('/customer', [CustomerController::class, 'destroy']);
 
-Route::delete('/loan', [LoanController::class, 'delete']);
+Route::delete('/loan', [LoanController::class, 'destroy']);
 
-Route::delete('/shop', [ShopController::class, 'delete']);
+Route::delete('/shop', [ShopController::class, 'destroy']);
 
-Route::delete('/item', [ItemController::class, 'delete']);
+Route::delete('/item', [ItemController::class, 'destroy']);
 
-Route::delete('/message', [MessageController::class, 'delete']);
+Route::delete('/message', [MessageController::class, 'destroy']);
