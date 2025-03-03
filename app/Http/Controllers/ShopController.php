@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Shop;
 use Illuminate\Http\Request;
+use App\Models\DeletedUser;
+use App\Models\User;
+use App\Http\Controllers\UserController;
 
 class ShopController extends Controller
 {
@@ -101,8 +104,7 @@ class ShopController extends Controller
         $deletedUser->lastTransaction= $user->lastTransaction;
         $deletedUser->iban = $user->iban;
         $deletedUser->name = $shop->name;
-        $user->delete();
         $shop->delete();
-    
+        $user->delete();
     }
 }

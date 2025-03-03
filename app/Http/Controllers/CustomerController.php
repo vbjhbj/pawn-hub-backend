@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\customer;
 use App\Models\DeletedUser;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Http\Controllers\UserController;
+
 
 class CustomerController extends Controller
 {
@@ -113,7 +116,7 @@ class CustomerController extends Controller
             $deletedUser->iban = $user->iban;
             $deletedUser->name = $customer->name;
             $user->delete();
-            $customer->delete;
+            $customer->delete();
         }
     }
 }

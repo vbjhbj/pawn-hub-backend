@@ -8,6 +8,9 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 
 
 
@@ -70,6 +73,8 @@ Route::get('loan/{loanID}', [LoanController::class, 'show']);
 Route::middleware('auth:sanctum')->get('messages/?sender="{sId}"&receiver="{rId}"', [MessageController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('message/{messageID}', [MessageController::class, 'show']);
+
+Route::post('/login', [UserController::class, 'login']);
 
 #-----------------------------------------------------------------------------------------
 
