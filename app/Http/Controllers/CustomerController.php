@@ -115,8 +115,8 @@ class CustomerController extends Controller
             $deletedUser->lastTransaction= $user->lastTransaction;
             $deletedUser->iban = $user->iban;
             $deletedUser->name = $customer->name;
-            $user->delete();
             $customer->delete();
+            $user->delete();
         }
     }
 }
