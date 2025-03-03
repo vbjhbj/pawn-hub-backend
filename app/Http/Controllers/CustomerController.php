@@ -83,6 +83,12 @@ class CustomerController extends Controller
 
     public function create(Request $request)
     {
+        $request->validate([
+            'username' => 'required|max:25',
+            'password' => 'required|regex:/^[a-zA-Z0-9_-]{3,25}$/',
+            'email' => 'required|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
+        ]);
+
         $user = new User;
         $user->username = $request->input('username');
         $user->email = $request->input('email');
