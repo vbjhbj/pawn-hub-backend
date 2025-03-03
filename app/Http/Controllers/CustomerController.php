@@ -110,6 +110,10 @@ class CustomerController extends Controller
             $deletedUser = new DeletedUser;
             $user = User::find($customer->user_id);
             $deletedUser->lastTransaction= $user->lastTransaction;
+            $deletedUser->iban = $user->iban;
+            $deletedUser->name = $customer->name;
+            $user->delete();
+            $customer->delete;
         }
     }
 }

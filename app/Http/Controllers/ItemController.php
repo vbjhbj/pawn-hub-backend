@@ -116,8 +116,9 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Item $item)
+    public function destroy($itemId)
     {
-        //
+        $item = Item::find($itemId);
+        $item->delete();
     }
 }

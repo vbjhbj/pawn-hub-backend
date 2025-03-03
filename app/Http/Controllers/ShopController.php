@@ -93,8 +93,16 @@ class ShopController extends Controller
      * @param  \App\Models\Shop  $shop
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Shop $shop)
+    public function destroy($shopId)
     {
-        //
+        $shop = Shop::find($shopId);
+        $deletedUser = new DeletedUser;
+        $user = User::find($shop->user_id);
+        $deletedUser->lastTransaction= $user->lastTransaction;
+        $deletedUser->iban = $user->iban;
+        $deletedUser->name = $shop->name;
+        $user->delete();
+        $shop->delete();
+    
     }
 }

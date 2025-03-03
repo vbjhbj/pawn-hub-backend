@@ -82,8 +82,9 @@ class LoanController extends Controller
      * @param  \App\Models\Loan  $loan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Loan $loan)
+    public function destroy($loanId)
     {
-        //
+        $loan = Loan::find($loanId);
+        $loan->delete();
     }
 }

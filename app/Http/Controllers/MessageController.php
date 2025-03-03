@@ -70,8 +70,9 @@ class MessageController extends Controller
      * @param  \App\Models\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Message $message)
+    public function destroy($messageId)
     {
-        //
+        $message = Message::find($messageId);
+        $message->delete();
     }
 }
