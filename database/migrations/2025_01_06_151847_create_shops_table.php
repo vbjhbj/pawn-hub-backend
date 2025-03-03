@@ -18,12 +18,11 @@ return new class extends Migration
             $table->string('name');
 			$table->string('taxId');
 			$table->string('mobile');
-			$table->string('email');
             $table->string('website');
 			$table->foreignId('user_id')->constrained();
 			$table->integer('estYear');
 			$table->foreignId('settlement_id')->constrained();
-            $table->string('adress');
+            $table->string('address');
             $table->string('intro');
             $table->timestamps();
         });

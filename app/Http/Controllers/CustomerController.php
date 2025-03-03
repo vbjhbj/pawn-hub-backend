@@ -83,17 +83,25 @@ class CustomerController extends Controller
 
     public function create(Request $request)
     {
+        $user = new User;
+        $user->username = $request->input('username');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->iban = $request->input('iban');
+        $user->isCustomer = false;
+        
+		$user->save();
+
         $customer=new customer;
         $customer->name = $request->input('name');
         $customer->idCardNum = $request->input('idCardNum');
         $customer->birthday = $request->input('birthday');
         $customer->idCardExp = $request->input('idCardExp');
-        $customer->user_id = $request->input('user_id');
-        $customer->shop_id = $request->input('shop_id');
+        $customer->user_id = $user->id;
+        $customer->shop_id = null;
         $customer->shippingAddress = $request->input('shippingAddress');
 		$customer->billingAddress = $request->input('billingAddress');
 		$customer->mobile = $request->input('mobile');
-		$customer->email = $request->input('email');
 		$customer->save();
     }
 

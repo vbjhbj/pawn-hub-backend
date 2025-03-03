@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\DeletedUser;
 use App\Models\User;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Hash;
 
 class ShopController extends Controller
 {
@@ -70,21 +71,30 @@ class ShopController extends Controller
         $shop->website = $request->input('website');
         $shop->user_id = $request->input('user_id');
         $shop->estYear = $request->input('estYear');
-		$shop->adress = $request->input('adress');
+		$shop->address = $request->input('address');
 		$shop->intro = $request->input('intro');
 		$shop->save();
         return response(200);
     }
     public function create(Request $request){
+        $user = new User;
+        $user->username = $request->input('username');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->iban = $request->input('iban');
+        $user->isCustomer = false;
+        
+		$user->save();
+
         $shop= new Shop;
         $shop->name = $request->input('name');
         $shop->taxId = $request->input('taxId');
         $shop->mobile = $request->input('mobile');
-        $shop->email = $request->input('email');
         $shop->website = $request->input('website');
-        $shop->user_id = $request->input('user_id');
+        $shop->user_id = $user->id;
         $shop->estYear = $request->input('estYear');
-		$shop->adress = $request->input('adress');
+        $shop->settlement_id = $request->input('settlement_id');
+		$shop->address = $request->input('address');
 		$shop->intro = $request->input('intro');
 		$shop->save();
         return response(200);
