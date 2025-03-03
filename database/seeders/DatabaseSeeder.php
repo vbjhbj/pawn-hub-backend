@@ -18,10 +18,16 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'username' => Str::random(10),
-            'email' => strtolower(Str::random(10)).'@example.com',
-            'password' => Hash::make('password'),
-            'isCustomer' => 1,
+            'username' => "shopTest",
+            'email' => 'shop@test.org',
+            'password' => Hash::make('shopPassword'),
+            'isCustomer' => 0,
+        ]);
+        DB::table('users')->insert([
+            'username' => "custTest",
+            'email' => 'cust@test.org',
+            'password' => Hash::make('custPassword'),
+            'isCustomer' => 0,
         ]);
 
         //\App\Models\User::factory(10)->create();
