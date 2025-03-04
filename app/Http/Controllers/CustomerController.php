@@ -84,9 +84,12 @@ class CustomerController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'username' => 'required|max:25',
-            'password' => 'required|regex:/^[a-zA-Z0-9_-]{3,25}$/',
+            'username' => 'required|max:25|min:3',
             'email' => 'required|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
+            'password' => 'required|regex:/^[a-zA-Z0-9_-]{3,25}$/',
+            'name' => 'required|regex:^([A-Z][a-z]*)(\. [A-Z][a-z]*)*(\s[A-Z][a-z]*)(\. [A-Z][a-z]*)*$', // At least 1 spaces; Capitalized words; ". " allowed
+            'idCardNum' => 'required|regex:^\d{6}[A-Z]{2}$',
+            'idCardExp' => 'required|date'
         ]);
 
         $user = new User;

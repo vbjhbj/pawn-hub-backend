@@ -30,11 +30,25 @@ class UserController extends Controller
         $user = User::where('username', $name)->first() ?? User::where('email', $name)->first();
 
         //Hash::check($password, $password ? $user->password : '')
-        if (!$user || !Hash::check($password, $password ? $user->password : '')){
+        if (!$user){
             return response()->json([
-                'message' => 'invalid name or password',
+                'error' => [
+                    'code' => "USER_NOT_FOUND",
+                    'message' => 'Invalid username or email address.',
+                ]
+
             ], 401);
         }
+        else if (!Hash::check($password, $password ? $user->password : '')) {
+            return response()->json([
+                'error' => [
+                    'code' => "INVALID_PASSWORD",
+                    'message' => 'Invalid password.',
+                ]
+
+            ], 401);
+        }
+
         $user->tokens()->delete();
 
         $token = $user->createToken('authToken')->plainTextToken;
