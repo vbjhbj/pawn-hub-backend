@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facader\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -26,11 +27,7 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::where('username', $name)->first();
-
-        if (!$user) {
-            $user = User::where('email', $name)->first();
-        }
+        $user = User::where('username', $name)->first() ?? User::where('email', $name)->first();
 
         //Hash::check($password, $password ? $user->password : '')
         if (!$user || !Hash::check($password, $password ? $user->password : '')){
@@ -40,10 +37,10 @@ class UserController extends Controller
         }
         $user->tokens()->delete();
 
-        $user->token = $user->createToken('access')->plainTextToken;
+        $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json([
             'user' => $user,
-        ]);
+        ])->cookie('auth_token', $token, 60 * 24 * 365 * 2, '/', null, false, true);
     }
 }
