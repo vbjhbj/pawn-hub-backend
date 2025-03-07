@@ -26,6 +26,8 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+Route::post('/login', [UserController::class, 'login']);
+/*
 Route::middleware('auth:sanctum')->get('/items', [App\Http\Controllers\ItemController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('items/{shopID}/
@@ -74,7 +76,7 @@ Route::middleware('auth:sanctum')->get('messages/?sender="{sId}"&receiver="{rId}
 
 Route::middleware('auth:sanctum')->get('message/{messageID}', [MessageController::class, 'show']);
 
-Route::post('/login', [UserController::class, 'login']);
+
 
 #-----------------------------------------------------------------------------------------
 
@@ -110,4 +112,4 @@ Route::delete('/shop/{shopId}', [ShopController::class, 'destroy']);
 
 Route::delete('/item/{itemId}', [ItemController::class, 'destroy']);
 
-Route::delete('/message/{messageId}', [MessageController::class, 'destroy']);
+Route::delete('/message/{messageId}', [MessageController::class, 'destroy']);*/
