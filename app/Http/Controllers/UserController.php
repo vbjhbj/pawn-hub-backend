@@ -23,12 +23,11 @@ class UserController extends Controller
 
         $name = $request->input('username');
         $password = $request->input('password');
-        
+
         $request->validate([
             'username' => 'required',
             'password' => 'required',
         ]);
-
 
         $user = User::where('username', $name)->first() ?? User::where('email', $name)->first();
 
