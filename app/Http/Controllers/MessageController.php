@@ -42,14 +42,26 @@ class MessageController extends Controller
      */
     public function show($messageId)
     {
+        $user = Auth::user()->id;
         $message = Message::find($messageId);
+        if ($message->sender != $user && $message->reciever != $user){
+            return response()->json([
+                'error' => [
+                    'code' => "INAPROPRIATE_REQUEST",
+                    'message' => 'Nincs joga az elem megtakintésére!'
+                ]
+            ],403);
+        }
         if (!empty($message)){
             
             return response()->json($message);
         }
         else {
             return response()->json([
-                'message' => 'Az elem nem létezik!'
+                'error' => [
+                    'code' => "INVALID_REQUEST",
+                    'message' => 'Az elem nem létezik!'
+                ]
             ],404);
         }
     }
