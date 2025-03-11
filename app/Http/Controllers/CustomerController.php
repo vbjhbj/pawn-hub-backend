@@ -7,6 +7,8 @@ use App\Models\DeletedUser;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class CustomerController extends Controller
@@ -18,7 +20,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        return $user;
     }
 
     /**
