@@ -56,6 +56,7 @@ class UserController extends Controller
         $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json([
+            'user' => $user,
             'auth_token' => $token,
         ])->cookie('auth_token', $token, 60 * 24 * 365 * 2, '/', null, false, true);
     }
