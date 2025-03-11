@@ -77,6 +77,15 @@ class ShopController extends Controller
         return response(200);
     }
     public function create(Request $request){
+        $request->validate([
+            'username' => 'required|max:25|min:3',
+            'email' => 'required|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
+            'password' => 'required',
+            'name' => 'required', // At least 1 spaces; Capitalized words; ". " allowed
+            'taxId' => 'required|regex:/^\d{8}-\d-\d{2}$/',
+            'settlement_id' => 'required|int',
+            'address' => 'required'
+        ]); 
         $user = new User;
         $user->username = $request->input('username');
         $user->email = $request->input('email');

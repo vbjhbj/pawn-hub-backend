@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('customer_id')->constrained();
 			$table->foreignId('shop_id')->constrained();
 			$table->tinyInteger('rating');
-			$table->text('review');
+			$table->text('review')->nullable();
 			$table->integer('likes');
             $table->timestamps();
         });

@@ -19,12 +19,12 @@ return new class extends Migration
 			$table->string('idCardNum');
 			$table->timestamp('birthday')->useCurrent();
 			$table->timestamp('idCardExp')->useCurrent();
-			$table->foreignId('user_id')->constrained();
-            $table->foreignId('shop_id')->constrained();
-			$table->string('shippingAddress');
-			$table->string('billingAddress');
-			$table->string('mobile');
-			$table->string('email');
+			$table->foreignId('user_id')->constrained()->nullable();
+            $table->foreignId('shop_id')->constrained()->nullable();
+			$table->string('shippingAddress')->nullable();
+			$table->string('billingAddress')->nullable();
+			$table->string('mobile')->nullable();
+			$table->string('email')->nullable();
             $table->timestamps();
         });
     }

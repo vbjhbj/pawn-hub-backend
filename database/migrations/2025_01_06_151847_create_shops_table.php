@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
 			$table->string('taxId');
-			$table->string('mobile');
-            $table->string('website');
+			$table->string('mobile')->nullable();
+            $table->string('website')->nullable();
 			$table->foreignId('user_id')->constrained();
-			$table->integer('estYear');
+			$table->integer('estYear')->nullable();
 			$table->foreignId('settlement_id')->constrained();
             $table->string('address');
-            $table->string('intro');
+            $table->string('intro')->nullable();
             $table->timestamps();
         });
     }
