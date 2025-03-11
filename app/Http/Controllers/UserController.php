@@ -36,7 +36,7 @@ class UserController extends Controller
             return response()->json([
                 'error' => [
                     'code' => "USER_NOT_FOUND",
-                    'message' => 'Invalid username or email address.',
+                    'message' => 'Invalid username or email address.'
                 ]
 
             ], 401);
@@ -45,7 +45,7 @@ class UserController extends Controller
             return response()->json([
                 'error' => [
                     'code' => "INVALID_PASSWORD",
-                    'message' => 'Invalid password.',
+                    'message' => 'Invalid password.'
                 ]
 
             ], 401);
@@ -56,7 +56,7 @@ class UserController extends Controller
         $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json([
-            'user' => $user,
+            'auth_token' => $token,
         ])->cookie('auth_token', $token, 60 * 24 * 365 * 2, '/', null, false, true);
     }
 }
