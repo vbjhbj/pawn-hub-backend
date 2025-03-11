@@ -66,7 +66,7 @@ Route::middleware('auth:sanctum')->get('loans/
 
 Route::get('loan/{loanID}', [LoanController::class, 'show']);
 
-Route::middleware('auth:sanctum')->get('messages/?sender="{sId}"&receiver="{rId}"', [MessageController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/messages', [MessageController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('message/{messageID}', [MessageController::class, 'show']);
 
@@ -74,13 +74,13 @@ Route::middleware('auth:sanctum')->get('message/{messageID}', [MessageController
 
 #-----------------------------------------------------------------------------------------
 
-Route::middleware('auth:sanctum')->patch('/item', [ItemController::class, 'update']);
+Route::middleware('auth:sanctum')->put('/item', [ItemController::class, 'update']);
 
-Route::put('/shop', [ShopController::class, 'update']);
+Route::put('/shop', [ShopController::class, 'update'])->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->patch('/loan', [LoanController::class, 'update']);
+Route::middleware('auth:sanctum')->put('/loan', [LoanController::class, 'update']);
 
-Route::middleware('auth:sanctum')->patch('/customer', [CustomerController::class, 'update']);
+Route::middleware('auth:sanctum')->put('/customer', [CustomerController::class, 'update']);
 
 #-----------------------------------------------------------------------------------------------------
 
@@ -96,12 +96,12 @@ Route::post('/message', [MessageController::class, 'create']);
 
 #-------------------------------------------------------------------------------------------------------
 
-Route::delete('/customer/{customerId}', [CustomerController::class, 'destroy']);
+Route::delete('/customer/{customerId}', [CustomerController::class, 'destroy'])->middleware('auth:sanctum');
 
-Route::delete('/loan/{loanId}', [LoanController::class, 'destroy']);
+Route::delete('/loan/{loanId}', [LoanController::class, 'destroy'])->middleware('auth:sanctum');
 
-Route::delete('/shop/{shopId}', [ShopController::class, 'destroy']);
+Route::delete('/shop/{shopId}', [ShopController::class, 'destroy'])->middleware('auth:sanctum');
 
-Route::delete('/item/{itemId}', [ItemController::class, 'destroy']);
+Route::delete('/item/{itemId}', [ItemController::class, 'destroy'])->middleware('auth:sanctum');
 
-Route::delete('/message/{messageId}', [MessageController::class, 'destroy']);
+Route::delete('/message/{messageId}', [MessageController::class, 'destroy'])->middleware('auth:sanctum');

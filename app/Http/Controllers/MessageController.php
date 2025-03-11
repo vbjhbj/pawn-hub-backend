@@ -14,7 +14,13 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user()->id;
+        $messages += Message::where('sender', $user);
+        $messages += Message::where('recipient', $user);
+
+        return json_encode([
+            $messages
+        ]);
     }
 
     /**
