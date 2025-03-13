@@ -23,7 +23,7 @@ return new class extends Migration
 			$table->integer('estYear')->nullable();
 			$table->foreignId('settlement_id')->constrained();
             $table->string('address');
-            $table->string('intro')->nullable();
+            $table->longText('intro')->nullable();
             $table->timestamps();
         });
     }

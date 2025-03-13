@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained();
 			$table->foreignId('shop_id')->constrained();
-			$table->timestamp('expDate')->useCurrent();
+			$table->date('expDate')->useCurrent();
 			$table->integer('givenAmount');
 			$table->float('interest');
             $table->timestamps();

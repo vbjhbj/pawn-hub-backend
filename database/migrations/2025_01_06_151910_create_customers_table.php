@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
 			$table->string('idCardNum');
-			$table->timestamp('birthday')->useCurrent();
-			$table->timestamp('idCardExp')->useCurrent();
-			$table->foreignId('user_id')->constrained()->nullable();
-            $table->foreignId('shop_id')->constrained()->nullable();
+			$table->date('birthday')->useCurrent();
+			$table->date('idCardExp')->useCurrent();
+			$table->foreignId('user_id')->nullable()->constrained();
+            $table->foreignId('shop_id')->nullable()->constrained();
 			$table->string('shippingAddress')->nullable();
 			$table->string('billingAddress')->nullable();
 			$table->string('mobile')->nullable();

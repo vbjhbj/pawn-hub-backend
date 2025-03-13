@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 
 
@@ -89,9 +90,9 @@ class CustomerController extends Controller
         $request->validate([
             'username' => 'required|max:25|min:3',
             'email' => 'required|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
-            'password' => 'required|regex:/^[a-zA-Z0-9_-]{3,25}$/',
-            'name' => 'required|regex:^(?:[A-Z][a-z]*(?:[-\'][A-Z][a-z]*)*(?:\. (?=[A-Z]))? ?)+$', // At least 1 spaces; Capitalized words; ". ", "'" and "-" allowed
-            'idCardNum' => 'required|regex:^\d{6}[A-Z]{2}$',
+            'password' => 'required',
+            'name' => 'required|regex:/^(?:[A-Z][a-z]*(?:[-\'][A-Z][a-z]*)*(?:\. (?=[A-Z]))? ?)+$/', // At least 1 spaces; Capitalized words; ". ", "'" and "-" allowed
+            'idCardNum' => 'required|regex:/^\d{6}[A-Z]{2}$/',
             'idCardExp' => 'required|date'
         ]);
 
@@ -100,7 +101,7 @@ class CustomerController extends Controller
         $user->email = $request->input('email');
         $user->password = Hash::make($request->input('password'));
         $user->iban = $request->input('iban');
-        $user->isCustomer = false;
+        $user->isCustomer = true;
         
 		$user->save();
 
