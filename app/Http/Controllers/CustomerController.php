@@ -71,8 +71,8 @@ class CustomerController extends Controller
      */
     public function update(Request $request)
     {
-        $customer=customer::findOrFail($request->input('id'));
-        $customer->name = $request->input('name');
+        $customer=customer::findOrFail(Auth::user()->id);
+        $user=User::findOrFail($shop->user_id);
         $customer->idCardNum = $request->input('idCardNum');
         $customer->birthday = $request->input('birthday');
         $customer->idCardExp = $request->input('idCardExp');
@@ -82,6 +82,9 @@ class CustomerController extends Controller
 		$customer->billingAddress = $request->input('billingAddress');
 		$customer->mobile = $request->input('mobile');
 		$customer->email = $request->input('email');
+        $user->email = $request->input('email');
+        $user->iban = $request->input('iban');
+        $user->save();
 		$customer->save();
     }
 

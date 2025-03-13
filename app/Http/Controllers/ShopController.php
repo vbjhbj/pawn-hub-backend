@@ -63,13 +63,16 @@ class ShopController extends Controller
      */
     public function update(Request $request)
     {
-        $shop=Shop::findOrFail($request->input('id'));
+        $shop=Shop::findOrFail(Auth::user()->id);
+        $user=User::findOrFail($shop->user_id);
+        $user->email = $request->input('email');
+        $user->iban = $request->input('iban');
+        $user->save();
         $shop->name = $request->input('name');
         $shop->taxId = $request->input('taxId');
         $shop->mobile = $request->input('mobile');
         $shop->email = $request->input('email');
         $shop->website = $request->input('website');
-        $shop->user_id = $request->input('user_id');
         $shop->estYear = $request->input('estYear');
 		$shop->address = $request->input('address');
 		$shop->intro = $request->input('intro');
