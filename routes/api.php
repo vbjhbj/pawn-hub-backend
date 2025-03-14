@@ -94,6 +94,8 @@ Route::post('/item', [ItemController::class, 'create']);
 
 Route::post('/message', [MessageController::class, 'create']);
 
+Route::post('/ownCustomer', [CustomerController::class, 'store']);
+
 #-------------------------------------------------------------------------------------------------------
 
 Route::delete('/customer/{customerId}', [CustomerController::class, 'destroy'])->middleware('auth:sanctum');

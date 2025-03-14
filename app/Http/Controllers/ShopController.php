@@ -16,10 +16,9 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(int $page, string $key, string $orderBy, bool $order, string $holding, array $settlList)
+    public function index()
     {
-        $key = '%' + $key + '%';
-        return json_encode(DB::select('select * from Shops where name like :key order by :orderBy'));
+        
     }
 
     /**
