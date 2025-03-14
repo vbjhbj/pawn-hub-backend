@@ -6,3 +6,10 @@ Teendők:
 - 
 - Query Builder
 - 
+
+
+
+
+API-tesztelők:
+- REST-client (VS Code)
+- Insomnia
