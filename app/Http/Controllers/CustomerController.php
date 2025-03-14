@@ -129,13 +129,13 @@ class CustomerController extends Controller
      */
     public function destroy($customerId)
     {
+        $user = User::find(Auth::user()->id);
         $customer = Customer::find($customerId);
         if ($customer->user_id == NULL){
             $customer->delete();
         }
-        else{
+        else if ($customer->user_id == $user->id){
             $deletedUser = new DeletedUser;
-            $user = User::find($customer->user_id);
             $deletedUser->lastTransaction= $user->lastTransaction;
             $deletedUser->iban = $user->iban;
             $deletedUser->name = $customer->name;

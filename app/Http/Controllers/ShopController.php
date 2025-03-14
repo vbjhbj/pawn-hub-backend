@@ -63,8 +63,9 @@ class ShopController extends Controller
      */
     public function update(Request $request)
     {
-        $shop=Shop::findOrFail(Auth::user()->id);
-        $user=User::findOrFail($shop->user_id);
+        
+        $user=User::findOrFail(Auth::user()->id);
+        $shop=Shop::findOrFail($shop->user_id);
         $user->email = $request->input('email');
         $user->iban = $request->input('iban');
         $user->save();
@@ -80,7 +81,7 @@ class ShopController extends Controller
         return response(200);
     }
     public function create(Request $request){
-        /*$request->validate([
+        $request->validate([
             'username' => 'required|max:25|min:3',
             'email' => 'required|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
             'password' => 'required',
@@ -88,7 +89,7 @@ class ShopController extends Controller
             'taxId' => 'required|regex:/^\d{8}-\d-\d{2}$/',
             'settlement_id' => 'required|int',
             'address' => 'required'
-        ]); */
+        ]); 
         $user = new User;
         $user->username = $request->input('username');
         $user->email = $request->input('email');
@@ -118,11 +119,11 @@ class ShopController extends Controller
      * @param  \App\Models\Shop  $shop
      * @return \Illuminate\Http\Response
      */
-    public function destroy($shopId)
+    public function destroy()
     {
-        $shop = Shop::find($shopId);
+        $user=User::findOrFail(Auth::user()->id);
+        $shop=Shop::findOrFail($shop->user_id);
         $deletedUser = new DeletedUser;
-        $user = User::find($shop->user_id);
         $deletedUser->lastTransaction= $user->lastTransaction;
         $deletedUser->iban = $user->iban;
         $deletedUser->name = $shop->name;
