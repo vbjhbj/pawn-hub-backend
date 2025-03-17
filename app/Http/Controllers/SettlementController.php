@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Settlement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SettlementController extends Controller
 {
@@ -12,9 +13,16 @@ class SettlementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $key = $request->query("searchKey");
+        $pCode = $request->query("postCode");
+        if($key){
+            $results = DB::table("settlemets")->where('name', 'like', $key.'%');
+        }else{
+            $results = DB::table("settlemets")->where('postalCodes', 'like', $pCode.'%');
+        }
+        return $results;
     }
 
     /**

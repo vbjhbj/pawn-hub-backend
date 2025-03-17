@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SettlementController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -51,6 +52,8 @@ Route::middleware('auth:sanctum')->get('shops/
 	&settlements="{settlList}"', [ShopController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/customers', [CustomerController::class, 'index']);
+
+Route::get('/settlements', [SettlementController::class, 'index']);
 
 Route::get('shop/{shopID}', [ShopController::class, 'show']);
 
