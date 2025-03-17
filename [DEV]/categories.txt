@@ -1,0 +1,74 @@
+Antik tárgyak
+- Bútor
+- Fegyver
+- Ékszer
+- Pénz
+- Páncélzat
+- Jármű
+- Egyéb
+Művészet
+- Festmény
+- Szobor
+- Irodalom
+- Rajz
+- Egyéb
+Elektronikus eszközök
+- Játékkonzol
+- Mobiltelefon
+- Okosóra
+- Audio
+- Monitor és TV
+- Asztali számítógép
+- Számítógép-kiegészítők
+- Laptop
+- Egyéb
+Média
+- Szoftver
+- Film
+- Zene
+- Egyéb
+
+Ékszerek és kiegészítők
+- Karóra
+- Nyaklánc
+- Fülbevaló
+- Gyűrű
+- Hajpánt
+- Egyéb
+Ruhadarabok
+- Kabát
+- Nadrág
+- Szoknya
+- Kesztyű
+- Sapka, kalap
+- Sál
+- Öltöny
+- Egyberuha
+- Lábbeli
+- Egyéb
+Szerszámok
+- Mezőgazdasági szerszám
+- Barkácsszerszámok
+- Egyéb
+Nemesfém
+- Arany
+- Ezüst
+- Bronz
+- Egyéb
+Háztartási eszközök
+
+Bútorok
+Járművek
+Gyerekjátékok
+Sporteszközök
+- Labda
+- Ütő
+- Horgászat
+- Lovaglás
+- Vívás
+- Extrém sport
+- Egyéb
+
+
+Egyéb
+- Egyéb
