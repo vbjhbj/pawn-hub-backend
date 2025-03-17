@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -39,7 +40,7 @@ class CustomerController extends Controller
         foreach ($connections as $con){
             DB::table("customers")->where('id', $con->customer_id)->where($sfor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30);
         }
-        return $user;
+        return $results;
     }
 
     /**
