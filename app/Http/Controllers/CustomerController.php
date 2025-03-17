@@ -143,8 +143,8 @@ class CustomerController extends Controller
 
         try {
             $validated = $request->validate([
-                'username' => 'required|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/',
-                'email' => 'required|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
+                'username' => 'required|unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/',
+                'email' => 'required|unique:users|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
                 'password' => 'required',
                 'name' => 'required|regex:/^(?:[A-Z][a-z]*(?:[-\'][A-Z][a-z]*)*(?:\. (?=[A-Z]))? ?)+$/', // At least 1 spaces; Capitalized words; ". ", "'" and "-" allowed
                 'idCardNum' => 'required',
@@ -152,6 +152,11 @@ class CustomerController extends Controller
             ]);
         }
         catch (\Illuminate\Validation\ValidationException $e) {
+
+            return response()->json([
+                "errors" => $e->errors()
+                
+            ], 422);
 
         }
 
@@ -180,9 +185,8 @@ class CustomerController extends Controller
 		$customer->save();
 
         return response()->json([
-
+            
             'message' => 'Customer created.'
-
         ], 200);
 
     }

@@ -80,15 +80,28 @@ class ShopController extends Controller
         return response(200);
     }
     public function create(Request $request){
-        $request->validate([
-            'username' => 'required|max:25|min:3|regex:^[a-zA-Z0-9_.-]+$',
-            'email' => 'required|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
-            'password' => 'required',
-            'name' => 'required', // At least 1 spaces; Capitalized words; ". " allowed
-            'taxId' => 'required|regex:/^\d{8}-\d-\d{2}$/',
-            'settlement_id' => 'required|int',
-            'address' => 'required'
-        ]); 
+
+        try {
+            $request->validate([
+                'username' => 'required|unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/',
+                'email' => 'required|unique:users|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
+                'password' => 'required',
+                'name' => 'required', // At least 1 spaces; Capitalized words; ". " allowed
+                'taxId' => 'required|regex:/^\d{8}-\d-\d{2}$/', // 12345678-9-12
+                'settlement_id' => 'required|int',
+                'address' => 'required'
+            ]); 
+        }
+        catch (\Illuminate\Validation\ValidationException $e) {
+
+            return response()->json([
+                "errors" => $e->errors()
+                
+            ], 422);
+
+        }
+
+
         $user = new User;
         $user->username = $request->input('username');
         $user->email = $request->input('email');
@@ -109,7 +122,11 @@ class ShopController extends Controller
 		$shop->address = $request->input('address');
 		$shop->intro = $request->input('intro');
 		$shop->save();
-        return response(200);
+
+        return response()->json([
+            
+            'message' => 'Shop created.'
+        ], 200);
     }
 
     /**
