@@ -17,6 +17,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        $this->call([
+            HoldingSeeder::class,
+            SettlementSeeder::class,
+        ]);
+
+
         DB::table('users')->insert([
             'username' => "shopTest",
             'email' => 'shop@test.org',
