@@ -133,19 +133,28 @@ class CustomerController extends Controller
             $customer->save();
         }
         
+
         
     }
 
     public function create(Request $request)
     {
-        $request->validate([
-            'username' => 'required|max:25|min:3',
-            'email' => 'required|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
-            'password' => 'required',
-            'name' => 'required|regex:/^(?:[A-Z][a-z]*(?:[-\'][A-Z][a-z]*)*(?:\. (?=[A-Z]))? ?)+$/', // At least 1 spaces; Capitalized words; ". ", "'" and "-" allowed
-            'idCardNum' => 'required|regex:/^\d{6}[A-Z]{2}$/',
-            'idCardExp' => 'required|date'
-        ]);
+
+        try {
+            $validated = $request->validate([
+                'username' => 'required|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/',
+                'email' => 'required|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
+                'password' => 'required',
+                'name' => 'required|regex:/^(?:[A-Z][a-z]*(?:[-\'][A-Z][a-z]*)*(?:\. (?=[A-Z]))? ?)+$/', // At least 1 spaces; Capitalized words; ". ", "'" and "-" allowed
+                'idCardNum' => 'required',
+                'idCardExp' => 'required|date'
+            ]);
+        }
+        catch (\Illuminate\Validation\ValidationException $e) {
+
+        }
+
+
 
         $user = new User;
         $user->username = $request->input('username');
@@ -168,6 +177,13 @@ class CustomerController extends Controller
 		$customer->mobile = $request->input('mobile');
         $customer->email = $request->input('email');
 		$customer->save();
+
+        return response()->json([
+
+            'message' => 'Customer created.'
+
+        ], 200);
+
     }
 
     /**

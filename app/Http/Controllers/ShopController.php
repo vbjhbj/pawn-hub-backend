@@ -81,7 +81,7 @@ class ShopController extends Controller
     }
     public function create(Request $request){
         $request->validate([
-            'username' => 'required|max:25|min:3',
+            'username' => 'required|max:25|min:3|regex:^[a-zA-Z0-9_.-]+$',
             'email' => 'required|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
             'password' => 'required',
             'name' => 'required', // At least 1 spaces; Capitalized words; ". " allowed
