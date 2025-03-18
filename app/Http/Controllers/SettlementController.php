@@ -17,10 +17,10 @@ class SettlementController extends Controller
     {
         $key = $request->query("searchKey");
         $pCode = $request->query("postCode");
-        if($key){
+        if($key!=null){
             $results = DB::table("settlements")->where( 'name', 'like', $key.'%')->get();
         }else{
-            $results = DB::table("settlements")->where('postalCodes', 'like', $pCode.'%')->get();
+            $results = DB::table("settlements")->where('postalCode', 'like', $pCode.'%')->get();
         }
         return json_encode($results);
     }

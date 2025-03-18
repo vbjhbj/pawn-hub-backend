@@ -19,18 +19,13 @@ class ItemController extends Controller
 
     public function index(Request $request)
     {
-        $request->validate([
-            'query' => 'string',
-            'cat' => 'int',
-            'settlements' => 'array',
-            'holding' => 'string',
+        
 
-        ]);
-
-        $query = $request->input('query');
+        $key = $request->query('searchKey');
         $holding = $request->input('hold');
+        $sFor = $request->query("searchIn");
 
-        $items = Item::where('name', 'like', "%$query%")
+        $items = Item::where($sFor, 'like', '%'.$key.'%')
             ->where('type_id', '=', $cat)
             /*->whereHas('shop', function ($q) use ($shop) {
                 $q->whereIn('county', $counties);

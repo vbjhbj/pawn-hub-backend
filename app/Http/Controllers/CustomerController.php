@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\customer;
 use App\Models\DeletedUser;
+use App\Models\Shop;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\UserController;
@@ -23,8 +24,8 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $shop = DB::table("shops")->where('user_id', $user->id);
-        $connections = DB::table("connections")->where('shop_id', $shop->id);
+        $shop = DB::table("shops")->where('user_id', $user->id)->first();
+        $connections = DB::table("connections")->where('shop_id', $shop->id)->get();
         $page = $request->query("page")-1;
         $key = $request->query("searchKey");
         $sFor = $request->query("searchIn");
@@ -35,10 +36,10 @@ class CustomerController extends Controller
         else{
             $asc = "desc";
         }
-        $sFor = $request->query("status");
-        $results = DB::table("customers")->where('shop_id', $shop->id)->where($sfor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30);
+        
+        $results = DB::table("customers")->where('shop_id', $shop->id)->where($sFor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30)->get();
         foreach ($connections as $con){
-            DB::table("customers")->where('id', $con->customer_id)->where($sfor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30);
+            DB::table("customers")->where('id', $con->customer_id)->where($sFor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30)->get();
         }
         return $results;
     }
@@ -51,8 +52,9 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $user=User::findOrFail(Auth::user()->id);
-        $shop=Shop::findOrFail($shop->user_id);
+        $userId=Auth::id();
+        $user=User::findOrFail($userId);
+        $shop=Shop::where("user_id", $userId)->first();
         $customer=new customer;
         $customer->name = $request->input('name');
         $customer->idCardNum = $request->input('idCardNum');
