@@ -29,15 +29,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::post('/login', [UserController::class, 'login']);
 
-Route::middleware('auth:sanctum')->get('/items', [App\Http\Controllers\ItemController::class, 'index']);
-
-Route::middleware('auth:sanctum')->get('items/{shopID}/
-	?page="{page}"
-	&searchKey="{key}"
-	&searchIn="{cat}"
-	&orderBy="{orderBy}"
-	&asc="{order}"
-	&status="{stauts}"', [ItemController::class, 'store']);
+Route::get('/items', [ItemController::class, 'index']);//1
 
 Route::get('/item/{itemID}', [ItemController::class, 'show']);
 #Route::get('/item/{itemID}', 'ItemController@show');
@@ -49,7 +41,7 @@ Route::middleware('auth:sanctum')->get('shops/
 	&orderBy="{orderBy}"
 	&asc="{order}"
 	&hold="{holding}"
-	&settlements="{settlList}"', [ShopController::class, 'index']);
+	&settlements="{settlList}"', [ShopController::class, 'index']);//2
 
 Route::middleware('auth:sanctum')->get('/customers', [CustomerController::class, 'index']);
 
@@ -65,11 +57,11 @@ Route::middleware('auth:sanctum')->get('loans/
 	&searchIn="{searchParam}"
 	&orderBy="{orderBy}"
 	&asc="{order}"
-	&status="{status}"', [LoanController::class, 'index']);
+	&status="{status}"', [LoanController::class, 'index']);//3
 
 Route::get('loan/{loanID}', [LoanController::class, 'show']);
 
-Route::middleware('auth:sanctum')->get('/messages', [MessageController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/messages', [MessageController::class, 'index']);//4
 
 Route::middleware('auth:sanctum')->get('message/{messageID}', [MessageController::class, 'show']);
 
