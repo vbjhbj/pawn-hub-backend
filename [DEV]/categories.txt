@@ -1,74 +1,146 @@
+
 Antik tárgyak
 - Bútor
-- Fegyver
 - Ékszer
-- Pénz
-- Páncélzat
+- Ereklye
+- Fegyver
 - Jármű
-- Egyéb
-Művészet
-- Festmény
-- Szobor
-- Irodalom
-- Rajz
-- Egyéb
+- Óra
+- Páncélzat
+- Pénz
+- Egyéb antik tárgy
+
+Bútorok
+- Hálószobabútor
+- Irodabútor
+- Kerti bútor
+- Konyhabútor
+- Nappalibútor
+- Egyéb bútor
+
 Elektronikus eszközök
-- Játékkonzol
-- Mobiltelefon
-- Okosóra
-- Audio
-- Monitor és TV
 - Asztali számítógép
-- Számítógép-kiegészítők
+- Audió
+- Hálózati eszköz
+- Játékkonzol
 - Laptop
-- Egyéb
-Média
-- Szoftver
-- Film
-- Zene
-- Egyéb
+- Mobiltelefon
+- Monitor és TV
+- Okosóra
+- Számítógép-kiegészítő
+- Tablet
+- Egyéb elektronikus eszköz
 
 Ékszerek és kiegészítők
-- Karóra
-- Nyaklánc
+- Bross vagy kitűző
 - Fülbevaló
 - Gyűrű
 - Hajpánt
-- Egyéb
-Ruhadarabok
-- Kabát
-- Nadrág
-- Szoknya
-- Kesztyű
-- Sapka, kalap
-- Sál
-- Öltöny
-- Egyberuha
-- Lábbeli
-- Egyéb
-Szerszámok
-- Mezőgazdasági szerszám
-- Barkácsszerszámok
-- Egyéb
+- Karkötő
+- Karóra
+- Nyaklánc
+- Egyéb ékszer vagy kiegészítő
+
+Gyermekjátékok
+- Babák és figurák
+- Elektronikus játék
+- Építőjáték
+- Kerti és szabadtéri játék
+- Kreatív játék
+- Oktató és fejlesztő játék
+- Plüssjáték
+- Szerepjáték
+- Társasjáték gyermekeknek
+- Egyéb gyermekjáték
+
+Háztartási eszközök
+- Háztartási kisgép
+- Konyhai eszköz
+- Tárolás és rendszerezés
+- Világítás
+- Egyéb háztartási eszköz
+
+Hobbi és gyűjtemény
+- Gyűjthető tárgy
+- Kártyajáték
+- Modellépítés
+- Társasjáték
+- Egyéb hobbi és gyűjtemény
+
+Járművek
+- Járműalkatrész vagy -kiegészítő
+- Kerékpár
+- Motorkerékpár
+- Személyautó
+- Teherautó
+- Egyéb jármű
+
+Katonai és taktikai eszközök
+- Fegyverutánzat
+- Ruházat és kiegészítő
+- Túlélőfelszerelés
+- Egyéb katonai eszköz
+
+Média
+- Film
+- Képregény
+- Könyv
+- Magazin és újság
+- Szoftver
+- Zene
+- Egyéb média
+
+
+
+Művészet
+- Festmény
+- Fénykép
+- Rajz
+- Szobor
+- Egyéb művészet
+
 Nemesfém
 - Arany
-- Ezüst
 - Bronz
-- Egyéb
-Háztartási eszközök
+- Ezüst
+- Platina
+- Egyéb nemesfém
 
-Bútorok
-Járművek
-Gyerekjátékok
+Ruhadarabok
+- Egyberuha
+- Jelmez
+- Kabát
+- Kesztyű
+- Lábbeli
+- Nadrág
+- Öltöny
+- Sapka, kalap
+- Sportruházat
+- Szoknya
+- Sál
+- Egyéb ruhadarab
+
 Sporteszközök
-- Labda
-- Ütő
-- Horgászat
-- Lovaglás
-- Vívás
 - Extrém sport
-- Egyéb
+- Fitness és edzés
+- Horgászat
+- Labda
+- Lovaglás
+- Téli sportok
+- Ütő
+- Vívás
+- Vízi sportok
+- Egyéb sporteszköz
 
+Szerszámok
+- Barkácsszerszám
+- Mezőgazdasági szerszám
+- Egyéb szerszám
 
 Egyéb
 - Egyéb
+
+
+
+
+'\r\n],\r\n[\r\n    'typeGroups_id' => '1',\r\n    'name' => '

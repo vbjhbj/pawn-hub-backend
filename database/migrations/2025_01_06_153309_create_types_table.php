@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('typeGroups_id')->nullable()->constrained();
 			$table->string('name');
-            $table->timestamps();
         });
     }
 
