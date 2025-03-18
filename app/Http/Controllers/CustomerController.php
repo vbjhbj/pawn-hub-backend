@@ -24,8 +24,8 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $shop = DB::table("shops")->where('user_id', $user->id);
-        $connections = DB::table("connections")->where('shop_id', $shop->id);
+        $shop = DB::table("shops")->where('user_id', $user->id)->first();
+        $connections = DB::table("connections")->where('shop_id', $shop->id)->get();
         $page = $request->query("page")-1;
         $key = $request->query("searchKey");
         $sFor = $request->query("searchIn");
@@ -37,9 +37,9 @@ class CustomerController extends Controller
             $asc = "desc";
         }
         $sFor = $request->query("status");
-        $results = DB::table("customers")->where('shop_id', $shop->id)->where($sfor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30);
+        $results = DB::table("customers")->where('shop_id', $shop->id)->where($sFor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30);
         foreach ($connections as $con){
-            DB::table("customers")->where('id', $con->customer_id)->where($sfor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30);
+            DB::table("customers")->where('id', $con->customer_id)->where($sFor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30);
         }
         return $results;
     }
