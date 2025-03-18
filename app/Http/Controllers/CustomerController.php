@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\customer;
 use App\Models\DeletedUser;
+use App\Models\Shop;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\UserController;
@@ -51,8 +52,9 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $user=User::findOrFail(Auth::user()->id);
-        $shop=Shop::findOrFail($shop->user_id);
+        $userId=Auth::id();
+        $user=User::findOrFail($userId);
+        $shop=Shop::where("user_id", $userId)->first();
         $customer=new customer;
         $customer->name = $request->input('name');
         $customer->idCardNum = $request->input('idCardNum');

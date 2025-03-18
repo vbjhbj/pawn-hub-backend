@@ -97,7 +97,7 @@ Route::post('/item', [ItemController::class, 'create']);
 
 Route::post('/message', [MessageController::class, 'create']);
 
-Route::post('/ownCustomer', [CustomerController::class, 'store']);
+Route::post('/ownCustomer', [CustomerController::class, 'store'])->middleware('auth:sanctum');
 
 #-------------------------------------------------------------------------------------------------------
 
