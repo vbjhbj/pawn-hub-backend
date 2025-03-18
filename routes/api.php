@@ -31,14 +31,6 @@ Route::post('/login', [UserController::class, 'login']);
 
 Route::middleware('auth:sanctum')->get('/items', [App\Http\Controllers\ItemController::class, 'index']);
 
-Route::middleware('auth:sanctum')->get('items/{shopID}/
-	?page="{page}"
-	&searchKey="{key}"
-	&searchIn="{cat}"
-	&orderBy="{orderBy}"
-	&asc="{order}"
-	&status="{stauts}"', [ItemController::class, 'store']);
-
 Route::get('/item/{itemID}', [ItemController::class, 'show']);
 #Route::get('/item/{itemID}', 'ItemController@show');
 

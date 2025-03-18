@@ -24,6 +24,19 @@ class ItemController extends Controller
         $key = $request->query('searchKey');
         $holding = $request->input('hold');
         $sFor = $request->query("searchIn");
+        $shop = $request->query("shop");
+        $cat = $request->query("type");
+        $page = $request->query("page")-1;
+        $order = $request->query("orderBy");
+        if($request->query("asc")){
+            $asc = "asc";
+        }
+        else{
+            $asc = "desc";
+        }
+        
+        
+
 
         $items = Item::where($sFor, 'like', '%'.$key.'%')
             ->where('type_id', '=', $cat)
