@@ -36,10 +36,10 @@ class CustomerController extends Controller
         else{
             $asc = "desc";
         }
-        $sFor = $request->query("status");
-        $results = DB::table("customers")->where('shop_id', $shop->id)->where($sFor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30);
+        
+        $results = DB::table("customers")->where('shop_id', $shop->id)->where($sFor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30)->get();
         foreach ($connections as $con){
-            DB::table("customers")->where('id', $con->customer_id)->where($sFor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30);
+            DB::table("customers")->where('id', $con->customer_id)->where($sFor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30)->get();
         }
         return $results;
     }
