@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             HoldingSeeder::class,
             SettlementSeeder::class,
+            TypeGroupSeeder::class,
+            TypeSeeder::class,
         ]);
 
 
