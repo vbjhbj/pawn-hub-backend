@@ -119,6 +119,7 @@ class CustomerController extends Controller
             $customer->email = $request->input('email');
             $user->email = $request->input('email');
             $user->iban = $request->input('iban');
+            $user->img = $request->input('img');
             $user->save();
             $customer->save();
         }else{
@@ -147,7 +148,7 @@ class CustomerController extends Controller
             $validated = $request->validate([
                 'username' => 'required|unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/',
                 'email' => 'required|unique:users|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
-                'password' => 'required',
+                'password' => 'required|min:8',
                 'name' => 'required|regex:/^(?:[A-Z][a-z]*(?:[-\'][A-Z][a-z]*)*(?:\. (?=[A-Z]))? ?)+$/', // At least 1 spaces; Capitalized words; ". ", "'" and "-" allowed
                 'idCardNum' => 'required',
                 'idCardExp' => 'required|date'
@@ -169,6 +170,7 @@ class CustomerController extends Controller
         $user->email = $request->input('email');
         $user->password = Hash::make($request->input('password'));
         $user->iban = $request->input('iban');
+        $user->img = $request->input('img');
         $user->isCustomer = true;
         
 		$user->save();
