@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Shop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
@@ -24,28 +26,88 @@ class ItemController extends Controller
         $key = $request->query('searchKey');
         $holding = $request->input('hold');
         $sFor = $request->query("searchIn");
-        $shop = $request->query("shop");
-        $cat = $request->query("type");
+        
+        $shop = DB::table("shops")->where('id', $request->query("shop"))->first();
+        if ($shop){
+            $shopuser = DB::table("users")->where('id', $shop->user_id)->first();
+        } else{
+            $shopuser = null;
+        }
+        $user = $request->user();
+        if ($request->query("cat")){
+            $types[] = explode(',',$request->query("cat"));
+        }
+        
+        $typeG = $request->query("catG");
         $page = $request->query("page")-1;
         $order = $request->query("orderBy");
+        $settlements[] = explode(',',$request->query("settlements"));
         if($request->query("asc")){
             $asc = "asc";
         }
         else{
             $asc = "desc";
         }
+        $stat = $request->query("status");
+        if($holding){
+            $settlements[] = DB::table("settlements")->where('holding_id', $holding)->get('id');
+        }
+        $items= array();
+        $types[] = DB::table("types")->where('typeGroups_id', $typeG)->get('id');
+        //return json_encode($settlements);
+        foreach ($settlements as $setl){
+            $shops[] = Shop::where("settlement_id", $setl)->get('id');
+        }
         
+        if(!$sFor){
+            $sFor = "name";
+        }
+        if(!$order){
+            $order= "name";
+        }
+        //return json_encode($types);
+        if (is_null($shopuser)||$shopuser != $request->user()){
+            if (!count($shops) === 1){
+                foreach ($shops as $cshop){
+                    if (!count($types) === 1){
+                        foreach($types as $type){
+                            $items[]=DB::table("items")->where('shop_id', 'like', $cshop)->where($sFor, 'like', '%'.$key.'%')->where("loan_id", null)->where("type_id", $type)->orderby($order, $asc)->skip($page*30)->take(30)->get();
+                        }
+                    }else{
+                        $items[]=DB::table("items")->where('shop_id', 'like', $cshop)->where($sFor, 'like', '%'.$key.'%')->where("loan_id", null)->orderby($order, $asc)->skip($page*30)->take(30)->get();
+                    }
+                }
+            }else{
+                if (!count($types) === 1){
+                    foreach($types as $type){
+                        $items[]=DB::table("items")->where($sFor, 'like', '%'.$key.'%')->where("loan_id", null)->where("type_id", $type)->orderby($order, $asc)->skip($page*30)->take(30)->get();
+                    }
+                }else{
+                    $items[]=DB::table("items")->where($sFor, 'like', '%'.$key.'%')->where("loan_id", null)->orderby($order, $asc)->skip($page*30)->take(30)->get();
+                }
+            }
+            if ($shop){
+                $items[]=DB::table("items")->where('shop_id', $shop->id)->whereNull("loan_id")->get();
+            }
+            
+        }elseif(is_null($stat)){
+            $items[]=DB::table("items")->where('shop_id', $shop->id)->get();
+        }elseif($stat){
+            $items[]=DB::table("items")->where('shop_id', $shop->id)->where("loan_id","!=", null)->get();
+        }else{
+            $items[]=DB::table("items")->where('shop_id', $shop->id)->where("loan_id", null)->get();
+        }
         
 
 
-        $items = Item::where($sFor, 'like', '%'.$key.'%')
+        /*$items = Item::where($sFor, 'like', '%'.$key.'%')
             ->where('type_id', '=', $cat)
-            /*->whereHas('shop', function ($q) use ($shop) {
+            ->whereHas('shop', function ($q) use ($shop) {
                 $q->whereIn('county', $counties);
-            })*/
+            })
             ->with(['shop:id,name,settlement_id']) // Include only selected fields from shop
             ->select('id', 'name', 'shop_id') // Select only necessary fields from Item
-            ->get();
+            ->get();*/
 
         return response()->json($items);
     }
