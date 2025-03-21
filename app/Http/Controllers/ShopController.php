@@ -84,13 +84,14 @@ class ShopController extends Controller
 
         try {
             $request->validate([
-                'username' => 'required|unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/',
-                'email' => 'required|unique:users|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
+                'username' => 'required|unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/', // Allowed: A-Z, a-z, 0-9, and tree specials: -._
+                'email' => 'required|unique:users|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/',
                 'password' => 'required|min:8',
                 'name' => 'required', // At least 1 spaces; Capitalized words; ". " allowed
-                'taxId' => 'required|regex:/^\d{8}-\d-\d{2}$/', // 12345678-9-12
+                'taxId' => 'required|regex:/^\\d{8}-\\d-\\d{2}$/', // 12345678-9-12
                 'settlement_id' => 'required|int',
-                'address' => 'required'
+                'address' => 'required',
+                'iban' => 'regex:/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/'
             ]); 
         }
         catch (\Illuminate\Validation\ValidationException $e) {
