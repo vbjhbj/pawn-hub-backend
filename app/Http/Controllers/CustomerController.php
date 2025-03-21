@@ -146,12 +146,13 @@ class CustomerController extends Controller
 
         try {
             $validated = $request->validate([
-                'username' => 'required|unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/',
-                'email' => 'required|unique:users|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
+                'username' => 'required|unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/', // Allowed: A-Z, a-z, 0-9, and tree specials: -._
+                'email' => 'required|unique:users|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
                 'password' => 'required|min:8',
-                'name' => 'required|regex:/^(?:[A-Z][a-z]*(?:[-\'][A-Z][a-z]*)*(?:\. (?=[A-Z]))? ?)+$/', // At least 1 spaces; Capitalized words; ". ", "'" and "-" allowed
+                'name' => 'required|regex:/^(?:[A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]*(?:[-\'][A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]*)*(?:\\. (?=[A-Z]))? ?)+$/', // At least 1 spaces; Capitalized words; ". ", "'" and "-" allowed
                 'idCardNum' => 'required',
-                'idCardExp' => 'required|date'
+                'idCardExp' => 'required|date',
+                'iban' => 'regex:/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/'
             ]);
         }
         catch (\Illuminate\Validation\ValidationException $e) {
