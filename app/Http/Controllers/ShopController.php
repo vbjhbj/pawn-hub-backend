@@ -65,6 +65,7 @@ class ShopController extends Controller
         
         $user=User::findOrFail(Auth::user()->id);
         $shop=Shop::findOrFail($shop->user_id);
+        $user->img = $request->input('img');
         $user->email = $request->input('email');
         $user->iban = $request->input('iban');
         $user->save();
@@ -85,7 +86,7 @@ class ShopController extends Controller
             $request->validate([
                 'username' => 'required|unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/',
                 'email' => 'required|unique:users|regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
-                'password' => 'required',
+                'password' => 'required|min:8',
                 'name' => 'required', // At least 1 spaces; Capitalized words; ". " allowed
                 'taxId' => 'required|regex:/^\d{8}-\d-\d{2}$/', // 12345678-9-12
                 'settlement_id' => 'required|int',
@@ -108,6 +109,7 @@ class ShopController extends Controller
         $user->password = Hash::make($request->input('password'));
         $user->iban = $request->input('iban');
         $user->isCustomer = false;
+        $user->img = $request->input('img');
         
 		$user->save();
 

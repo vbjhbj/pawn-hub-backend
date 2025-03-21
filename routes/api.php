@@ -29,7 +29,9 @@ use Illuminate\Support\Facades\Auth;
 
 Route::post('/login', [UserController::class, 'login']);
 
+
 Route::get('/items', [ItemController::class, 'index']);//1
+
 
 Route::get('/item/{itemID}', [ItemController::class, 'show']);
 #Route::get('/item/{itemID}', 'ItemController@show');

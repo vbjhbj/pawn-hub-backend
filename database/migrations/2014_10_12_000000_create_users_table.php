@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->timestamp('lastTransaction')->useCurrent();
 			$table->string('iban')->nullable();
-			$table->string('imgUrl')->nullable();
+			$table->text('img')->nullable();
             $table->boolean('isCustomer');
             $table->rememberToken();
             $table->timestamps();
