@@ -91,7 +91,6 @@ class ShopController extends Controller
                 'taxId' => 'required|regex:/^\\d{8}-\\d-\\d{2}$/', // 12345678-9-12
                 'settlement_id' => 'required|int',
                 'address' => 'required',
-                'iban' => 'regex:/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/'
             ]); 
         }
         catch (\Illuminate\Validation\ValidationException $e) {

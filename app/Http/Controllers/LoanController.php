@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Loan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class LoanController extends Controller
 {
@@ -12,9 +14,35 @@ class LoanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(int $page, string $key, int $orderBy, bool $order, string $searchParam, bool $param) 
+    public function index(Request $request) 
     {
-        //
+        $expiredloans[] = DB::table("loans")->where('expDate', '<=', now()->toDate());
+        foreach ($expiredloans as $loan){
+            $loan->delete();
+        }
+
+
+        $user = Auth::user();
+        $shop = DB::table("shops")->where('user_id', $user->id)->first();
+        if (!$shop){
+            $customer = DB::table("customers")->where('user_id', $user->id)->first();
+        }
+        $page = $request->query("page")-1;
+        $key = $request->query("searchKey");
+        $sFor = $request->query("searchIn");
+        $order = $request->query("orderBy");
+        if($request->query("asc")){
+            $asc = "asc";
+        }
+        else{
+            $asc = "desc";
+        }
+        if (!$shop){
+            $results=DB::table("loans")->where("customer_id", $customer->id);
+        }else{
+            $results= DB::table("loans");
+        }
+        return json_encode($results);
     }
 
     /**
