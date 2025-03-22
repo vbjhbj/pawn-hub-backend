@@ -40,7 +40,7 @@ class LoanController extends Controller
         if (!$shop){
             $results=DB::table("loans")->where("customer_id", $customer->id);
         }else{
-            $results= DB::table("loans");
+            $results= DB::table("loans")->where($sFor, 'like', $key)->order($order, $asc)->skip($page*30)->take(30)->get();
         }
         return json_encode($results);
     }
@@ -65,6 +65,8 @@ class LoanController extends Controller
     public function show($loanId)
     {
         $loan = Loan::find($loanId);
+        $items = DB::table('items')->where("loan_id", $loanId)->get();
+        $loan += $items;
         if (!empty($loan)){
             return response()->json($loan);
         }

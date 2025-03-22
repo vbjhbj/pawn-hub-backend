@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('imgUrl');
-			$table->foreignId('loan_id')->nullable()->constrained();
+			$table->foreignId('loan_id')->nullable()->constrained()->onDelete('set null');
 			$table->foreignId('shop_id')->constrained();
 			$table->foreignId('type_id')->constrained();
 			$table->integer('value');
