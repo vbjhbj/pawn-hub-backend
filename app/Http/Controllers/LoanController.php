@@ -30,17 +30,31 @@ class LoanController extends Controller
         $page = $request->query("page")-1;
         $key = $request->query("searchKey");
         $sFor = $request->query("searchIn");
+        if(!$sFor){
+            $sFor="expDate";
+        }
         $order = $request->query("orderBy");
+        if(!$order){
+            $order="expDate";
+        }
         if($request->query("asc")){
             $asc = "asc";
         }
         else{
             $asc = "desc";
         }
+        $results = array();
         if (!$shop){
-            $results=DB::table("loans")->where("customer_id", $customer->id);
+            $loans=DB::table("loans")->where("customer_id", $customer->id)->get();
         }else{
-            $results= DB::table("loans")->where($sFor, 'like', $key)->order($order, $asc)->skip($page*30)->take(30)->get();
+            $loans= DB::table("loans")
+            ->where($sFor, 'like', '%'.$key.'%')
+            ->orderBy($order, $asc)
+            ->skip($page*30)->take(30)->get();
+        }
+        $results[]=$loans;
+        foreach ($loans as $loan){
+            $results[]=DB::table("items")->where("loan_id", $loan->id)->get();
         }
         return json_encode($results);
     }
