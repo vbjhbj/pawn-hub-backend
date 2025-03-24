@@ -37,13 +37,7 @@ Route::get('/item/{itemID}', [ItemController::class, 'show']);
 #Route::get('/item/{itemID}', 'ItemController@show');
 
 
-Route::middleware('auth:sanctum')->get('shops/
-	?page="{page}"
-	&searchKey="{key}"
-	&orderBy="{orderBy}"
-	&asc="{order}"
-	&hold="{holding}"
-	&settlements="{settlList}"', [ShopController::class, 'index']);//1
+Route::middleware('auth:sanctum')->get('/shops', [ShopController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/customers', [CustomerController::class, 'index']);
 

@@ -18,7 +18,29 @@ class ShopController extends Controller
      */
     public function index()
     {
-        
+        $key = $request->query('searchKey');
+        $holding = $request->input('hold');
+        $sFor = $request->query("searchIn");
+        $page = $request->query("page")-1;
+        $order = $request->query("orderBy");
+        $settlements[] = explode(',',$request->query("settlements"));
+        if($holding){
+            $settlements[] = DB::table("settlements")->where('holding_id', $holding)->get('id');
+        }
+        if(!$sFor){
+            $sFor = "name";
+        }
+        if(!$order){
+            $order= "name";
+        }
+        if($request->query("asc")){
+            $asc = "asc";
+        }
+        else{
+            $asc = "desc";
+        }
+        $shops[] = Shop::where("settlement_id", $setl)->where($sFor, 'like', '%'.$key.'%')->get();
+        return response()->json($shops);
     }
 
     /**
