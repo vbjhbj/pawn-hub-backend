@@ -28,7 +28,9 @@ class CustomerFactory extends Factory
                         ->asCustomer()
                         ->username($username)
                         ->email($email)
+                        ->img((mt_rand(0, 3) == 1) ? null : Functions::randomImg("customer") )
                         ->create();
+
 
         $days = mt_rand(1, 25 * 365);
         $randomFutureDate = date('Y-m-d', strtotime("+$days days"));
@@ -47,7 +49,6 @@ class CustomerFactory extends Factory
             'shippingAddress' => fake()->address(),
             'billingAddress' => fake()->address(),
             'mobile' => "+36 " . str_pad(mt_rand(0, 99), 2, '0', STR_PAD_LEFT) . " " . str_pad(mt_rand(0, 999), 3, '0', STR_PAD_LEFT) . " " . str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT),
-
         ];
     }
 }

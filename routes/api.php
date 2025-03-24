@@ -12,6 +12,7 @@ use App\Http\Controllers\SettlementController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
+use App\Services\Functions;
 
 
 
@@ -26,6 +27,10 @@ use Illuminate\Support\Facades\Auth;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+/*Route::get('/test', function () {
+    return response()->json(['message' => Functions::randomImg("customer")]);
+});*/
 
 Route::post('/login', [UserController::class, 'login']);
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Faker\Provider\hu_HU\Person;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Log;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -55,6 +55,15 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) use ($email) {
             return [
                 'email' => $email,
+            ];
+        });
+    }
+    public function img($img)
+    {
+        return $this->state(function (array $attributes) use ($img) {
+
+            return [
+                'img' => $img,
             ];
         });
     } 
