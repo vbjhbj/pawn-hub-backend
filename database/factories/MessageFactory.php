@@ -27,11 +27,16 @@ class MessageFactory extends Factory
 
         } while (!($sender == $recipient));
 
+        $days = mt_rand(1, 12 * 365);
+        $randomPastDate = date('Y-m-d', strtotime("-$days days"));
+
         return [
             'sender' => $sender,
             'recipient' => $recipient,
             'subject' => Functions::removeSpecialChars(fake()->realTextBetween($minNbChars = 3, $maxNbChars = 100, $indexSize = 3)),
-            'message' => fake()->realTextBetween($minNbChars = 40, $maxNbChars = 5000, $indexSize = 4)
+            'message' => fake()->realTextBetween($minNbChars = 40, $maxNbChars = 5000, $indexSize = 4),
+            'created_at' => $randomPastDate,
+            'updated_at' => $randomPastDate,
         ];
     }
 }
