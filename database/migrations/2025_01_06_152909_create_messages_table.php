@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('sender');
     		$table->foreign('sender')->references('id')->on('users');
 			$table->string('subject');
-			$table->string('message');
+			$table->longText('message');
 			$table->unsignedBigInteger('recipient');
     		$table->foreign('recipient')->references('id')->on('users');
             $table->timestamps();

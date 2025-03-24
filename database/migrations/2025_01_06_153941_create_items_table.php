@@ -17,11 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->string('imgUrl');
+            $table->string('img')->default('');
 			$table->foreignId('loan_id')->nullable()->constrained()->onDelete('set null');
 			$table->foreignId('shop_id')->constrained();
 			$table->foreignId('type_id')->constrained();
-			$table->integer('value');
+			$table->integer('estimatedValue');
+			$table->integer('payedValue');
         });
     }
 

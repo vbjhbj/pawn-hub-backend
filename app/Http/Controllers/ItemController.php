@@ -157,7 +157,7 @@ class ItemController extends Controller
         $item=Item::findOrFail($request->input('id'));
         $item->name = $request->input('name');
         $item->description = $request->input('description');
-        $item->imgUrl = $request->input('imgUrl');
+        $item->img = $request->input('img');
         $item->loanId = $request->input('loanId');
         $item->shopId = $request->input('shopId');
         $item->typeId = $request->input('typeId');
@@ -171,7 +171,7 @@ class ItemController extends Controller
         $item=new Item;
         $item->name = $request->input('name');
         $item->description = $request->input('description');
-        $item->imgUrl = $request->input('imgUrl');
+        $item->img = $request->input('img');
         $item->loanId = $request->input('loanId');
         $item->shopId = $request->input('shopId');
         $item->typeId = $request->input('typeId');
