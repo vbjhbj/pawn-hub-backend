@@ -7,6 +7,9 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\Customer;
+use App\Models\Shop;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,6 +27,14 @@ class DatabaseSeeder extends Seeder
             TypeGroupSeeder::class,
             TypeSeeder::class,
         ]);
+
+        Customer::factory()
+        ->count(100)
+        ->create();
+
+        Shop::factory()
+        ->count(100)
+        ->create();
 
 
         DB::table('users')->insert([

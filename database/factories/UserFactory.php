@@ -4,6 +4,9 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Faker\Provider\hu_HU\Person;
+use Illuminate\Support\Facades\Hash;
+
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -17,14 +20,44 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'password' => Hash::make('password'),
+            'lastTransaction' => now(),
+            'iban' =>  implode('', array_map(fn() => chr(mt_rand(65, 90)), range(1, 2))) . str_pad(mt_rand(0, 9999999), 25, '0', STR_PAD_LEFT),
+            'isCustomer' => true,
         ];
     }
+
+    public function asCustomer()
+    {
+        return $this->state([
+            'isCustomer' => true,
+        ]);
+    }
+    public function asShop()
+    {
+        return $this->state([
+            'isCustomer' => false,
+        ]);
+    }
+
+    public function username($username)
+    {
+        return $this->state(function (array $attributes) use ($username) {
+            return [
+                'username' => $username,
+            ];
+        });
+    }
+    public function email($email)
+    {
+        return $this->state(function (array $attributes) use ($email) {
+            return [
+                'email' => $email,
+            ];
+        });
+    } 
 
     /**
      * Indicate that the model's email address should be unverified.
