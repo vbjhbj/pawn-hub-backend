@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Customer;
 use App\Models\Shop;
+use App\Models\Loan;
+use App\Models\Item;
+use App\Models\Message;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,13 +31,57 @@ class DatabaseSeeder extends Seeder
             TypeSeeder::class,
         ]);
 
-        Customer::factory()
-        ->count(100)
-        ->create();
+        if (filter_var(env('RUN_FACTORY', false), FILTER_VALIDATE_BOOLEAN)) {
 
-        Shop::factory()
-        ->count(100)
-        ->create();
+            $this->command->line('Running Factories:');
+
+            $this->command->line('  Customer Factory...');
+            Customer::factory()->count(84)->create();
+    
+            $this->command->line('  Shop Factory...');
+            Shop::factory()->count(62)->create();
+
+            $this->command->line('  Loan Factory...');
+            Loan::factory()->count(102)->create();
+
+            $this->command->line('  Item Factory...');
+            Item::factory()->count(202)->create();
+
+            $this->command->line('  Message Factory...');
+            Message::factory()->count(302)->create();
+
+            $this->command->line('  Connection Factory...');
+
+            for ($shopId = 1; $shopId < 62; $shopId++) {
+
+                $added = [];
+                $stop = random_int(0, 11);
+
+                for ($j = 0; $j <= $stop; $j++) {
+
+                    $custId = random_int(1, 84);
+
+                    if (!in_array($custId, $added)){
+
+                        DB::table('connections')->insert([
+                            'customer_id' => $custId,
+                            'shop_id' => $shopId,
+    
+                        ]);
+
+                        $list[] = $custId;
+                    }
+
+                }
+            }
+
+
+
+            $this->command->line('');
+
+        }
+
+
 
 
         DB::table('users')->insert([

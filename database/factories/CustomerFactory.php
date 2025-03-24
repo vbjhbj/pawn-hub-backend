@@ -19,7 +19,7 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
 
-        $first_name = fake()->unique()->firstName();
+        $first_name = fake()->firstName();
         $last_name = fake()->unique()->lastName();
         $username = Functions::removeAccents($last_name . $first_name);
         $email = strtolower(Functions::removeAccents($last_name . "." . $first_name . "@cust.org"));
