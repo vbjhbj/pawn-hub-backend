@@ -8,6 +8,10 @@ use App\Models\DeletedUser;
 use App\Models\User;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+
 
 class ShopController extends Controller
 {
@@ -16,7 +20,7 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($request)
     {
         $key = $request->query('searchKey');
         $holding = $request->input('hold');
@@ -86,7 +90,7 @@ class ShopController extends Controller
     {
         
         $user=User::findOrFail(Auth::user()->id);
-        $shop=Shop::findOrFail($shop->user_id);
+        $shop=Shop::where("user_id", $user->id);
         $user->img = $request->input('img');
         $user->email = $request->input('email');
         $user->iban = $request->input('iban');
