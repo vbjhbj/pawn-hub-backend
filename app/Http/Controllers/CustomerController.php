@@ -116,10 +116,11 @@ class CustomerController extends Controller
             $customer->shippingAddress = $request->input('shippingAddress') ?? $customer->shippingAddress;
             $customer->billingAddress = $request->input('billingAddress') ?? $customer->billingAddress;
             $customer->mobile = $request->input('mobile') ?? $customer->mobile;
-            $customer->email = $request->input('email') ?? $customer->email;
+            $customer->name = $request->input('name') ?? $customer->name;
 
-            if ($request->input('email') && $request->input('email') != $user->email){
-                if (User::where("email", $request->input('email'))){
+
+            if (!is_null($request->input('email')) && $request->input('email') != $user->email){
+                if ( User::where("email", $request->input('email'))->first() ){
 
                     return response()->json([
                         "error" => [
@@ -131,30 +132,32 @@ class CustomerController extends Controller
                 }
                 else {
                     $user->email = $request->input('email');
+                    $customer->email = $request->input('email');
                 }
             }
 
-
+            $user->password = Hash::make($request->input('password')) ?? $user->password;
             $user->iban = $request->input('iban') ?? $user->iban;
             $user->img = $request->input('img') ?? $user->img;
-
-
 
             $user->save();
             $customer->save();
 
+            return response()->json([
+                "message" => 'Data modified.'
+                
+            ], 200);
+
         } else {
             $shop=Shop::where("user_id", $user->id);
             $customer=customer::where("shop_id", $shop->id)->where("id", $request->input('id'));
-            $customer->idCardNum = $request->input('idCardNum');
-            $customer->birthday = $request->input('birthday');
-            $customer->idCardExp = $request->input('idCardExp');
-            $customer->user_id = $request->input('user_id');
-            $customer->shop_id = $request->input('shop_id');
-            $customer->shippingAddress = $request->input('shippingAddress');
-            $customer->billingAddress = $request->input('billingAddress');
-            $customer->mobile = $request->input('mobile');
-            $customer->email = $request->input('email');
+            $customer->idCardNum = $request->input('idCardNum') ?? $customer->idCardNum;
+            $customer->birthday = $request->input('birthday') ?? $customer->birthday;
+            $customer->idCardExp = $request->input('idCardExp') ?? $customer->idCardExp;
+            $customer->shippingAddress = $request->input('shippingAddress') ?? $customer->shippingAddress;
+            $customer->billingAddress = $request->input('billingAddress') ?? $customer->billingAddress;
+            $customer->mobile = $request->input('mobile') ?? $customer->mobile;
+            $customer->email = $request->input('email') ?? $customer->email;
             $customer->save();
         }
         

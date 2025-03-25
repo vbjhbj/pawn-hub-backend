@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
             'website' => 'shoptest.hu',
             'estYear' => 1999,
             'user_id' => 1,
-            'address' => 'Shop Test u. 7.',
+            'address' => 'Zálogház u. 7.',
             'mobile' => "+36 12 345 6789",
             'settlement_id' => 2,
             'intro' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -66,8 +66,8 @@ class DatabaseSeeder extends Seeder
             'idCardExp' => '2030-10-10',
             'birthday' => '1969-07-20',
             'user_id' => '2',
-            'shippingAddress' => 'Cust Shipping Test u. 7.',
-            'billingAddress' => 'Cust Billing Test u. 7.',
+            'shippingAddress' => '2750 Nagykőrös, Hajó u. 1.',
+            'billingAddress' => '2750 Nagykőrös, Számla u. 1.',
             'mobile' => "+36 98 765 4321"
         ]);
 

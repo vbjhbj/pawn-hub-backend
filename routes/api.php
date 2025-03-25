@@ -42,9 +42,9 @@ Route::get('/item/{itemID}', [ItemController::class, 'show']);
 #Route::get('/item/{itemID}', 'ItemController@show');
 
 
-Route::middleware('auth:sanctum')->get('/shops', [ShopController::class, 'index']);
+Route::get('/shops', [ShopController::class, 'index'])->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->get('/customers', [CustomerController::class, 'index']);
+Route::get('/customers', [CustomerController::class, 'index'])->middleware('auth:sanctum');
 
 Route::get('/settlements', [SettlementController::class, 'index']);
 
@@ -52,25 +52,25 @@ Route::get('shop/{shopID}', [ShopController::class, 'show']);
 
 Route::get('customer/{customerID}', [CustomerController::class, 'show']);
 
-Route::middleware('auth:sanctum')->get('/loans', [LoanController::class, 'index']);//2
+Route::get('/loans', [LoanController::class, 'index'])->middleware('auth:sanctum');//2
 
 Route::get('loan/{loanID}', [LoanController::class, 'show']);
 
-Route::middleware('auth:sanctum')->get('/messages', [MessageController::class, 'index']);
+Route::get('/messages', [MessageController::class, 'index'])->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->get('message/{messageID}', [MessageController::class, 'show']);
+Route::get('message/{messageID}', [MessageController::class, 'show'])->middleware('auth:sanctum');
 
 
 
 #-----------------------------------------------------------------------------------------
 
-Route::middleware('auth:sanctum')->put('/item', [ItemController::class, 'update']);
+Route::put('/item', [ItemController::class, 'update'])->middleware('auth:sanctum');
 
 Route::put('/shop', [ShopController::class, 'update'])->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->put('/loan', [LoanController::class, 'update']);
+Route::put('/loan', [LoanController::class, 'update'])->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->patch('/customer', [CustomerController::class, 'update']);
+Route::patch('/customer', [CustomerController::class, 'update'])->middleware('auth:sanctum');
 
 #-----------------------------------------------------------------------------------------------------
 
