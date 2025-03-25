@@ -106,23 +106,44 @@ class CustomerController extends Controller
     public function update(Request $request)
     {
         $user=User::findOrFail(Auth::user()->id);
-        $customer=customer::where("user_id", $user->id);
+
+        $customer=Customer::where("user_id", $user->id)->first();
+
         if ($customer){
-            $customer->idCardNum = $request->input('idCardNum');
-            $customer->birthday = $request->input('birthday');
-            $customer->idCardExp = $request->input('idCardExp');
-            $customer->user_id = $request->input('user_id');
-            $customer->shop_id = $request->input('shop_id');
-            $customer->shippingAddress = $request->input('shippingAddress');
-            $customer->billingAddress = $request->input('billingAddress');
-            $customer->mobile = $request->input('mobile');
-            $customer->email = $request->input('email');
-            $user->email = $request->input('email');
-            $user->iban = $request->input('iban');
-            $user->img = $request->input('img');
+            $customer->idCardNum = $request->input('idCardNum') ?? $customer->idCardNum;
+            $customer->birthday = $request->input('birthday') ?? $customer->birthday;
+            $customer->idCardExp = $request->input('idCardExp') ?? $customer->idCardExp;
+            $customer->shippingAddress = $request->input('shippingAddress') ?? $customer->shippingAddress;
+            $customer->billingAddress = $request->input('billingAddress') ?? $customer->billingAddress;
+            $customer->mobile = $request->input('mobile') ?? $customer->mobile;
+            $customer->email = $request->input('email') ?? $customer->email;
+
+            if ($request->input('email') && $request->input('email') != $user->email){
+                if (User::where("email", $request->input('email'))){
+
+                    return response()->json([
+                        "error" => [
+                            'code' => "EXISTING_EMAIL",
+                            'message' => 'Ez az e-mail-cím már használatban van!'
+                        ]
+                        
+                    ], 422);
+                }
+                else {
+                    $user->email = $request->input('email');
+                }
+            }
+
+
+            $user->iban = $request->input('iban') ?? $user->iban;
+            $user->img = $request->input('img') ?? $user->img;
+
+
+
             $user->save();
             $customer->save();
-        }else{
+
+        } else {
             $shop=Shop::where("user_id", $user->id);
             $customer=customer::where("shop_id", $shop->id)->where("id", $request->input('id'));
             $customer->idCardNum = $request->input('idCardNum');

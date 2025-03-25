@@ -70,7 +70,7 @@ Route::put('/shop', [ShopController::class, 'update'])->middleware('auth:sanctum
 
 Route::middleware('auth:sanctum')->put('/loan', [LoanController::class, 'update']);
 
-Route::middleware('auth:sanctum')->put('/customer', [CustomerController::class, 'update']);
+Route::middleware('auth:sanctum')->patch('/customer', [CustomerController::class, 'update']);
 
 #-----------------------------------------------------------------------------------------------------
 
