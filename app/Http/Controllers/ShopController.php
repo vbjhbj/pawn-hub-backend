@@ -43,7 +43,9 @@ class ShopController extends Controller
         else{
             $asc = "desc";
         }
-        $shops[] = Shop::where("settlement_id", $setl)->where($sFor, 'like', '%'.$key.'%')->get();
+        foreach ($settlements as $setl){
+            $shops[] = Shop::where("settlement_id", $setl)->where($sFor, 'like', '%'.$key.'%')->get();
+        }
         return response()->json($shops);
     }
 
