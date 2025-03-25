@@ -109,7 +109,7 @@ class ShopController extends Controller
                 'username' => 'required|unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/', // Allowed: A-Z, a-z, 0-9, and tree specials: -._
                 'email' => 'required|unique:users|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/',
                 'password' => 'required|min:8',
-                'name' => 'required', // At least 1 spaces; Capitalized words; ". " allowed
+                'name' => 'required|min:5|max:100',
                 'taxId' => 'required|regex:/^\\d{8}-\\d-\\d{2}$/', // 12345678-9-12
                 'settlement_id' => 'required|int',
                 'address' => 'required',
