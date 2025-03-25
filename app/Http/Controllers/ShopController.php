@@ -92,21 +92,43 @@ class ShopController extends Controller
     {
         
         $user=User::findOrFail(Auth::user()->id);
-        $shop=Shop::where("user_id", $user->id);
-        $user->img = $request->input('img');
-        $user->email = $request->input('email');
-        $user->iban = $request->input('iban');
+        $shop=Shop::where("user_id", $user->id)->first();
+
+        $shop->name = $request->input('name') ?? $shop->name;
+        $shop->taxId = $request->input('taxId') ?? $shop->taxId;
+        $shop->mobile = $request->input('mobile') ?? $shop->mobile;
+        $shop->website = $request->input('website') ?? $shop->website;
+        $shop->estYear = $request->input('estYear') ?? $shop->estYear;
+		$shop->address = $request->input('address') ?? $shop->address;
+		$shop->intro = $request->input('intro') ?? $shop->intro;
+		$shop->settlement_id = $request->input('settlement_id') ?? $shop->settlement_id;
+
+        $user->img = $request->input('img') ?? $user->img;
+        $user->iban = $request->input('iban') ?? $user->iban;
+        $user->password = Hash::make($request->input('password')) ?? $user->password;
+
+        if (!is_null($request->input('email')) && $request->input('email') != $user->email){
+            if ( User::where("email", $request->input('email'))->first() ){
+
+                return response()->json([
+                    "error" => [
+                        'code' => "EXISTING_EMAIL",
+                        'message' => 'Ez az e-mail-cím már használatban van!'
+                    ]
+                    
+                ], 422);
+            }
+            else {
+                $user->email = $request->input('email');
+            }
+        }
+
         $user->save();
-        $shop->name = $request->input('name');
-        $shop->taxId = $request->input('taxId');
-        $shop->mobile = $request->input('mobile');
-        $shop->email = $request->input('email');
-        $shop->website = $request->input('website');
-        $shop->estYear = $request->input('estYear');
-		$shop->address = $request->input('address');
-		$shop->intro = $request->input('intro');
 		$shop->save();
-        return response(200);
+
+        return response()->json([
+            "message" => 'Data modified.'
+        ], 200);
     }
     public function create(Request $request){
 
