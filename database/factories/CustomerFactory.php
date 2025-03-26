@@ -28,7 +28,7 @@ class CustomerFactory extends Factory
                         ->asCustomer()
                         ->username($username)
                         ->email($email)
-                        ->img((mt_rand(0, 3) == 1) ? null : null /*Functions::randomImg("customer")*/ )
+                        ->img((mt_rand(0, 3) == 1) ? null : Functions::randomImg("customer") )
                         ->create();
 
 

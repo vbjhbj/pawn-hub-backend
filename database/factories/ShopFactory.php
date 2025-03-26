@@ -31,7 +31,7 @@ class ShopFactory extends Factory
                         ->asShop()
                         ->username($username)
                         ->email($email)
-                        ->img((mt_rand(0, 4) == 1) ? null : null /*Functions::randomImg("shop")*/ )
+                        ->img((mt_rand(0, 4) == 1) ? null : Functions::randomImg("shop") )
                         ->create();
 
 
