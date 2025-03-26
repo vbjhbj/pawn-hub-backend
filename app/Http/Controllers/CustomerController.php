@@ -105,6 +105,27 @@ class CustomerController extends Controller
      */
     public function update(Request $request)
     {
+
+        
+        try {
+            $validated = $request->validate([
+                'username' => 'unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/', // Allowed: A-Z, a-z, 0-9, and tree specials: -._
+                'email' => 'unique:users|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+                'password' => 'min:8',
+                'name' => 'regex:/^(?:[A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]*(?:[-\'][A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]*)*(?:\\. (?=[A-Z]))? ?)+$/', // At least 1 spaces; Capitalized words; ". ", "'" and "-" allowed
+                'idCardExp' => 'date',
+                'iban' => 'regex:/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/'
+            ]);
+        }
+        catch (\Illuminate\Validation\ValidationException $e) {
+
+            return response()->json([
+                "errors" => $e->errors()
+                
+            ], 422);
+
+        }
+
         $user=User::findOrFail(Auth::user()->id);
 
         $customer=Customer::where("user_id", $user->id)->first();
@@ -186,8 +207,6 @@ class CustomerController extends Controller
             ], 422);
 
         }
-
-
 
         $user = new User;
         $user->username = $request->input('username');

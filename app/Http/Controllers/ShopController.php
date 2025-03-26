@@ -90,6 +90,26 @@ class ShopController extends Controller
      */
     public function update(Request $request)
     {
+
+        
+        try {
+            $request->validate([
+                'username' => 'unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/', // Allowed: A-Z, a-z, 0-9, and tree specials: -._
+                'email' => 'unique:users|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/',
+                'password' => 'min:8',
+                'name' => 'min:5|max:100',
+                'taxId' => 'regex:/^\\d{8}-\\d-\\d{2}$/', // 12345678-9-12
+                'settlement_id' => 'int',
+            ]); 
+        }
+        catch (\Illuminate\Validation\ValidationException $e) {
+
+            return response()->json([
+                "errors" => $e->errors()
+                
+            ], 422);
+
+        }
         
         $user=User::findOrFail(Auth::user()->id);
         $shop=Shop::where("user_id", $user->id)->first();
