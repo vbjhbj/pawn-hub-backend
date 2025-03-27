@@ -158,7 +158,36 @@ class CustomerController extends Controller
                 }
             }
 
-            $user->password = Hash::make($request->input('password')) ?? $user->password;
+
+            if ($request->input('password')) {
+
+                if ($request->input('oldPassword')) {
+
+                    if (Hash::check($request->input('oldPassword'), $user->password)){
+                        
+                        $user->password = Hash::make($request->input('password'));
+                    }
+                    else {
+                        return response()->json([
+                            "error" => [
+                                'code' => "INVALID_PASSWORD",
+                                'message' => 'Hibás jelszó!'
+                            ]
+                        ], 403);
+                    }
+                }
+                else {
+                    return response()->json([
+                        "error" => [
+                            'code' => "INVALID_PASSWORD",
+                            'message' => 'Hibás jelszó!'
+                        ]
+                    ], 403);
+                }
+
+            }
+
+
             $user->iban = Functions::handleNull($request->input('iban')) ?? $user->iban;
             $user->img = $request->input('img') ?? $user->img;
 
