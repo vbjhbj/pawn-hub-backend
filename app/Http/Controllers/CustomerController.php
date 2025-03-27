@@ -11,6 +11,8 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Services\Functions;
+
 
 
 
@@ -110,11 +112,11 @@ class CustomerController extends Controller
         try {
             $validated = $request->validate([
                 'username' => 'unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/', // Allowed: A-Z, a-z, 0-9, and tree specials: -._
-                'email' => 'unique:users|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+                'email' => 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
                 'password' => 'min:8',
                 'name' => "regex:/^(?:[A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]+(?:[-'][A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]*)*)(?: (?:[A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]+(?:[-'][A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]*)*))+(?:\\. (?=[A-Z]))?$/", // At least 1 spaces; Capitalized words; ". ", "'" and "-" allowed
                 'idCardExp' => 'date',
-                'iban' => 'regex:/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/'
+                'iban' => ['regex:/(?:^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$|^<null>$)/']
             ]);
         }
         catch (\Illuminate\Validation\ValidationException $e) {
@@ -134,11 +136,10 @@ class CustomerController extends Controller
             $customer->idCardNum = $request->input('idCardNum') ?? $customer->idCardNum;
             $customer->birthday = $request->input('birthday') ?? $customer->birthday;
             $customer->idCardExp = $request->input('idCardExp') ?? $customer->idCardExp;
-            $customer->shippingAddress = $request->input('shippingAddress') ?? $customer->shippingAddress;
-            $customer->billingAddress = $request->input('billingAddress') ?? $customer->billingAddress;
-            $customer->mobile = $request->input('mobile') ?? $customer->mobile;
+            $customer->shippingAddress = Functions::handleNull($request->input('shippingAddress')) ?? $customer->shippingAddress;
+            $customer->billingAddress = Functions::handleNull($request->input('billingAddress')) ?? $customer->billingAddress;
+            $customer->mobile = Functions::handleNull($request->input('mobile')) ?? $customer->mobile;
             $customer->name = $request->input('name') ?? $customer->name;
-
 
             if (!is_null($request->input('email')) && $request->input('email') != $user->email){
                 if ( User::where("email", $request->input('email'))->first() ){
@@ -158,7 +159,7 @@ class CustomerController extends Controller
             }
 
             $user->password = Hash::make($request->input('password')) ?? $user->password;
-            $user->iban = $request->input('iban') ?? $user->iban;
+            $user->iban = Functions::handleNull($request->input('iban')) ?? $user->iban;
             $user->img = $request->input('img') ?? $user->img;
 
             $user->save();
@@ -196,7 +197,7 @@ class CustomerController extends Controller
                 'name' => "required|regex:/^(?:[A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]+(?:[-'][A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]*)*)(?: (?:[A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]+(?:[-'][A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]*)*))+(?:\\. (?=[A-Z]))?$/", // At least 1 spaces; Capitalized words; ". ", "'" and "-" allowed
                 'idCardNum' => 'required',
                 'idCardExp' => 'required|date',
-                'iban' => 'regex:/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/'
+                'iban' => ['regex:/(?:^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$|^$)/']
             ]);
         }
         catch (\Illuminate\Validation\ValidationException $e) {

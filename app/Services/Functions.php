@@ -32,5 +32,20 @@ class Functions
 
         
     }
+
+    public static function handleNull($val) {
+
+        if ($val == "<null>") {
+            return "";
+        }
+        else {
+            return $val;
+        }
+
+
+
+
+        
+    }
 }
 
