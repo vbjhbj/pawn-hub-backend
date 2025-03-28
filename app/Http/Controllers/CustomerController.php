@@ -7,6 +7,8 @@ use App\Models\DeletedUser;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Loan;
+use App\Models\Connection;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -282,16 +284,59 @@ class CustomerController extends Controller
     {
         $user = User::find(Auth::user()->id);
         $customer = Customer::find($customerId);
-        if ($customer->user_id == NULL && $customer->shop_id ==$user->id){
+
+        if (is_null($customer->user_id) && $customer->shop_id == $user->id){
             $customer->delete();
+
+            return response()->json([
+                'message' => 'Saját ügyfél törölve.'
+            ], 200);
         }
         else if ($customer->user_id == $user->id){
-            $deletedUser = new DeletedUser;
-            $deletedUser->lastTransaction= $user->lastTransaction;
-            $deletedUser->iban = $user->iban;
-            $deletedUser->name = $customer->name;
-            $customer->delete();
-            $user->delete();
+
+            if (!Loan::where("customer_id", $customer->id)->first()) {  // Ha nincs adóssága
+
+                $conns = Connection::where("customer_id", $customer->id)->get();
+
+                if (count($conns) > 0) {
+                    foreach ($conns as $conn) {
+                        $conn->delete();
+                    }
+                }
+
+                $deletedUser = new DeletedUser;
+                $deletedUser->lastTransaction= $user->lastTransaction;
+                $deletedUser->iban = $user->iban;
+                $deletedUser->name = $customer->name;
+                $customer->delete();
+                $user->delete();
+                $deletedUser->save();
+            }
+            else {
+                return response()->json([
+                    'error' => [
+                        'code' => 'LOANS_FOUND',
+                        'message' => 'Egy ügyfél sem törölheti a fiókját, amíg vannak adósságai.'
+                    ]
+                ], 403);
+            }
+
+
+
+
+            return response()->json([
+                'message' => 'Ügyfélfiók törölve.'
+            ], 200);
         }
+        else {
+            return response()->json([
+                'error' => [
+                    'code' => 'WRONG_CUSTOMER_ID',
+                    'message' => 'Ügyfélként csak a saját fiókodat törölheted.'
+                ]
+            ], 403);
+        }
+
+
     }
 }

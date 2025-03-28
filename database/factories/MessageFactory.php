@@ -33,7 +33,7 @@ class MessageFactory extends Factory
         return [
             'sender' => $sender,
             'recipient' => $recipient,
-            'subject' => Functions::removeSpecialChars(fake()->realTextBetween($minNbChars = 3, $maxNbChars = 100, $indexSize = 3)),
+            'subject' => str_replace("\xC3 ", " ", Functions::removeSpecialChars(fake()->realTextBetween($minNbChars = 3, $maxNbChars = 100, $indexSize = 3))),
             'message' => str_replace("\xC3 ", " ", fake()->realTextBetween($minNbChars = 40, $maxNbChars = 5000, $indexSize = 4)),
             'created_at' => $randomPastDate,
             'updated_at' => $randomPastDate,

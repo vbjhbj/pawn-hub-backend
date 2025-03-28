@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             'username' => "shopTest",
             'email' => 'shop@test.org',
             'password' => Hash::make('shopPassword'),
+            'iban' => "SO90000000000000",
             'isCustomer' => 0,
             'img' => File::get(storage_path('app/images/shop/00.txt'))
         ]);
@@ -60,6 +61,7 @@ class DatabaseSeeder extends Seeder
             'username' => "custTest",
             'email' => 'cust@test.org',
             'password' => Hash::make('custPassword'),
+            'iban' => "CU90000000000000",
             'isCustomer' => 1,
             'img' => File::get(storage_path('app/images/customer/00.txt'))
         ]);

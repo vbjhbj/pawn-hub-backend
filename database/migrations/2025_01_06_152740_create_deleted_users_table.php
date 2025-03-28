@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('deleted_users', function (Blueprint $table) {
             $table->id();
             $table->timestamp('lastTransaction')->useCurrent();
-			$table->string('iban');
+			$table->string('iban')->nullable();
 			$table->string('name');
             $table->timestamps();
         });

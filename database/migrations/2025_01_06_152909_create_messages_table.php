@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('sender');
-    		$table->foreign('sender')->references('id')->on('users');
+            $table->unsignedBigInteger('sender')->nullable();
+    		$table->foreign('sender')->references('id')->on('users')->onDelete('set null');
 			$table->string('subject');
 			$table->longText('message');
-			$table->unsignedBigInteger('recipient');
-    		$table->foreign('recipient')->references('id')->on('users');
+			$table->unsignedBigInteger('recipient')->nullable();
+    		$table->foreign('recipient')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }
