@@ -75,7 +75,10 @@ class ShopController extends Controller
         }
         else {
             return response()->json([
-                'message' => 'Az elem nem létezik!'
+                'error' => [
+                    'code' => 'NOT_FOUND',
+                    'message' => 'Az elem nem létezik!'
+                ]
             ],404);
         }
     }
