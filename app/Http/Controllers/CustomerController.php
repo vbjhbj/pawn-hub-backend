@@ -82,7 +82,11 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($customerId);
         if (!empty($customer)){
-            
+
+            if ($customer->user_id){
+                $customer->iban = User::where("id", $customer->user_id)->first()->iban;
+            }
+
             return response()->json($customer);
         }
         else {
@@ -189,7 +193,7 @@ class CustomerController extends Controller
 
 
             $user->iban = Functions::handleNull($request->input('iban')) ?? $user->iban;
-            $user->img = $request->input('img') ?? $user->img;
+            $user->img = Functions::handleNull($request->input('img') ?? $user->img);
 
             $user->save();
             $customer->save();
