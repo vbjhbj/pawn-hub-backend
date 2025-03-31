@@ -73,6 +73,8 @@ class ShopController extends Controller
     {
         $shop = Shop::with("settlement")->find($shopId);
         if (!empty($shop)){
+            $shop->iban = User::where("id", $shop->user_id)->first()->iban;
+
             return response()->json($shop);
         }
         else {

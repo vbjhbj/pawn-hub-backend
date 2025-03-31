@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
         DB::table('shops')->insert([
             'name' => 'Shop Test',
             'taxId' => '12345678-9-12',
-            'website' => 'shoptest.hu',
+            'website' => 'https://www.shoptest.hu',
             'estYear' => 1999,
             'user_id' => 1,
             'address' => 'Zálogház u. 7.',
