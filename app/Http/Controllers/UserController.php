@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Shop;
+use App\Models\Customer;
 use Illuminate\Support\Facader\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -19,6 +21,7 @@ class UserController extends Controller
         
 		$user->save();
     }
+
     public function login(Request $request){
 
         $name = $request->input('username');
@@ -55,9 +58,17 @@ class UserController extends Controller
 
         $token = $user->createToken('authToken')->plainTextToken;
 
+
+        if ($user->isCustomer) {
+            $user->customer_id = Customer::where('user_id', $user->id)->first()->id;
+        }
+        else {
+            $user->shop_id = Shop::where('user_id', $user->id)->first()->id;
+        }
+
         return response()->json([
             'user' => $user,
             'auth_token' => $token,
-        ])->cookie('auth_token', $token, 60 * 24 * 365 * 2, '/', null, false, true);
+        ]);
     }
 }

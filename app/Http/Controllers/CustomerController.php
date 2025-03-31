@@ -7,10 +7,14 @@ use App\Models\DeletedUser;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Loan;
+use App\Models\Connection;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use App\Services\Functions;
+
 
 
 
@@ -80,12 +84,19 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($customerId);
         if (!empty($customer)){
-            
+
+            if ($customer->user_id){
+                $customer->iban = User::where("id", $customer->user_id)->first()->iban;
+            }
+
             return response()->json($customer);
         }
         else {
             return response()->json([
-                'message' => 'Az elem nem létezik!'
+                'error' => [
+                    'code' => 'NOT_FOUND',
+                    'message' => 'Az elem nem létezik!'
+                ]
             ],404);
         }
         
@@ -105,6 +116,27 @@ class CustomerController extends Controller
      */
     public function update(Request $request)
     {
+
+        
+        try {
+            $validated = $request->validate([
+                'username' => 'unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/', // Allowed: A-Z, a-z, 0-9, and tree specials: -._
+                'email' => 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+                'password' => 'min:8',
+                'name' => "regex:/^(?:[A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]+(?:[-'][A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]*)*)(?: (?:[A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]+(?:[-'][A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]*)*))+(?:\\. (?=[A-Z]))?$/", // At least 1 spaces; Capitalized words; ". ", "'" and "-" allowed
+                'idCardExp' => 'date',
+                'iban' => ['regex:/(?:^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$|^<null>$)/']
+            ]);
+        }
+        catch (\Illuminate\Validation\ValidationException $e) {
+
+            return response()->json([
+                "errors" => $e->errors()
+                
+            ], 422);
+
+        }
+
         $user=User::findOrFail(Auth::user()->id);
 
         $customer=Customer::where("user_id", $user->id)->first();
@@ -113,13 +145,13 @@ class CustomerController extends Controller
             $customer->idCardNum = $request->input('idCardNum') ?? $customer->idCardNum;
             $customer->birthday = $request->input('birthday') ?? $customer->birthday;
             $customer->idCardExp = $request->input('idCardExp') ?? $customer->idCardExp;
-            $customer->shippingAddress = $request->input('shippingAddress') ?? $customer->shippingAddress;
-            $customer->billingAddress = $request->input('billingAddress') ?? $customer->billingAddress;
-            $customer->mobile = $request->input('mobile') ?? $customer->mobile;
-            $customer->email = $request->input('email') ?? $customer->email;
+            $customer->shippingAddress = Functions::handleNull($request->input('shippingAddress')) ?? $customer->shippingAddress;
+            $customer->billingAddress = Functions::handleNull($request->input('billingAddress')) ?? $customer->billingAddress;
+            $customer->mobile = Functions::handleNull($request->input('mobile')) ?? $customer->mobile;
+            $customer->name = $request->input('name') ?? $customer->name;
 
-            if ($request->input('email') && $request->input('email') != $user->email){
-                if (User::where("email", $request->input('email'))){
+            if (!is_null($request->input('email')) && $request->input('email') != $user->email){
+                if ( User::where("email", $request->input('email'))->first() ){
 
                     return response()->json([
                         "error" => [
@@ -131,30 +163,60 @@ class CustomerController extends Controller
                 }
                 else {
                     $user->email = $request->input('email');
+                    $customer->email = $request->input('email');
                 }
             }
 
 
-            $user->iban = $request->input('iban') ?? $user->iban;
-            $user->img = $request->input('img') ?? $user->img;
+            if ($request->input('password')) {
+
+                if ($request->input('oldPassword')) {
+
+                    if (Hash::check($request->input('oldPassword'), $user->password)){
+                        
+                        $user->password = Hash::make($request->input('password'));
+                    }
+                    else {
+                        return response()->json([
+                            "error" => [
+                                'code' => "INVALID_PASSWORD",
+                                'message' => 'Hibás jelszó!'
+                            ]
+                        ], 403);
+                    }
+                }
+                else {
+                    return response()->json([
+                        "error" => [
+                            'code' => "INVALID_PASSWORD",
+                            'message' => 'Hibás jelszó!'
+                        ]
+                    ], 403);
+                }
+
+            }
 
 
+            $user->iban = Functions::handleNull($request->input('iban')) ?? $user->iban;
+            $user->img = Functions::handleNull($request->input('img') ?? $user->img);
 
             $user->save();
             $customer->save();
 
+            return response()->json([
+                "message" => 'Data modified.'
+            ], 200);
+
         } else {
             $shop=Shop::where("user_id", $user->id);
             $customer=customer::where("shop_id", $shop->id)->where("id", $request->input('id'));
-            $customer->idCardNum = $request->input('idCardNum');
-            $customer->birthday = $request->input('birthday');
-            $customer->idCardExp = $request->input('idCardExp');
-            $customer->user_id = $request->input('user_id');
-            $customer->shop_id = $request->input('shop_id');
-            $customer->shippingAddress = $request->input('shippingAddress');
-            $customer->billingAddress = $request->input('billingAddress');
-            $customer->mobile = $request->input('mobile');
-            $customer->email = $request->input('email');
+            $customer->idCardNum = $request->input('idCardNum') ?? $customer->idCardNum;
+            $customer->birthday = $request->input('birthday') ?? $customer->birthday;
+            $customer->idCardExp = $request->input('idCardExp') ?? $customer->idCardExp;
+            $customer->shippingAddress = $request->input('shippingAddress') ?? $customer->shippingAddress;
+            $customer->billingAddress = $request->input('billingAddress') ?? $customer->billingAddress;
+            $customer->mobile = $request->input('mobile') ?? $customer->mobile;
+            $customer->email = $request->input('email') ?? $customer->email;
             $customer->save();
         }
         
@@ -170,10 +232,10 @@ class CustomerController extends Controller
                 'username' => 'required|unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/', // Allowed: A-Z, a-z, 0-9, and tree specials: -._
                 'email' => 'required|unique:users|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
                 'password' => 'required|min:8',
-                'name' => 'required|regex:/^(?:[A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]*(?:[-\'][A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]*)*(?:\\. (?=[A-Z]))? ?)+$/', // At least 1 spaces; Capitalized words; ". ", "'" and "-" allowed
+                'name' => "required|regex:/^(?:[A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]+(?:[-'][A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]*)*)(?: (?:[A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]+(?:[-'][A-ZÁÉÍÓÖŐÚÜŰÄÖÜẞÈÊËÑÅÆØČĆĐŠŽŁŃĘÓ][a-záéíóöőúüűäöüßèêëñåæøčćđšžłńęó]*)*))+(?:\\. (?=[A-Z]))?$/", // At least 1 spaces; Capitalized words; ". ", "'" and "-" allowed
                 'idCardNum' => 'required',
                 'idCardExp' => 'required|date',
-                'iban' => 'regex:/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/'
+                'iban' => ['regex:/(?:^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$|^$)/']
             ]);
         }
         catch (\Illuminate\Validation\ValidationException $e) {
@@ -184,8 +246,6 @@ class CustomerController extends Controller
             ], 422);
 
         }
-
-
 
         $user = new User;
         $user->username = $request->input('username');
@@ -227,16 +287,59 @@ class CustomerController extends Controller
     {
         $user = User::find(Auth::user()->id);
         $customer = Customer::find($customerId);
-        if ($customer->user_id == NULL && $customer->shop_id ==$user->id){
+
+        if (is_null($customer->user_id) && $customer->shop_id == $user->id){
             $customer->delete();
+
+            return response()->json([
+                'message' => 'Saját ügyfél törölve.'
+            ], 200);
         }
         else if ($customer->user_id == $user->id){
-            $deletedUser = new DeletedUser;
-            $deletedUser->lastTransaction= $user->lastTransaction;
-            $deletedUser->iban = $user->iban;
-            $deletedUser->name = $customer->name;
-            $customer->delete();
-            $user->delete();
+
+            if (!Loan::where("customer_id", $customer->id)->first()) {  // Ha nincs adóssága
+
+                $conns = Connection::where("customer_id", $customer->id)->get();
+
+                if (count($conns) > 0) {
+                    foreach ($conns as $conn) {
+                        $conn->delete();
+                    }
+                }
+
+                $deletedUser = new DeletedUser;
+                $deletedUser->lastTransaction= $user->lastTransaction;
+                $deletedUser->iban = $user->iban;
+                $deletedUser->name = $customer->name;
+                $customer->delete();
+                $user->delete();
+                $deletedUser->save();
+            }
+            else {
+                return response()->json([
+                    'error' => [
+                        'code' => 'LOANS_FOUND',
+                        'message' => 'Egy ügyfél sem törölheti a fiókját, amíg vannak adósságai.'
+                    ]
+                ], 403);
+            }
+
+
+
+
+            return response()->json([
+                'message' => 'Ügyfélfiók törölve.'
+            ], 200);
         }
+        else {
+            return response()->json([
+                'error' => [
+                    'code' => 'WRONG_CUSTOMER_ID',
+                    'message' => 'Ügyfélként csak a saját fiókodat törölheted.'
+                ]
+            ], 403);
+        }
+
+
     }
 }
