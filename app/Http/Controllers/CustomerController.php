@@ -117,7 +117,6 @@ class CustomerController extends Controller
     public function update(Request $request)
     {
 
-        
         try {
             $validated = $request->validate([
                 'username' => 'unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/', // Allowed: A-Z, a-z, 0-9, and tree specials: -._

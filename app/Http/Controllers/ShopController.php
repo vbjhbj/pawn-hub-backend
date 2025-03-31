@@ -10,6 +10,8 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Services\Functions;
+
 
 
 
@@ -103,6 +105,8 @@ class ShopController extends Controller
                 'name' => 'min:5|max:100',
                 'taxId' => 'regex:/^\\d{8}-\\d-\\d{2}$/', // 12345678-9-12
                 'settlement_id' => 'int',
+                'website' => ["regex:/(?:^(https?:\\/\\/)([a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})(\\/.*)?$|^<null>$)/"]
+
             ]); 
         }
         catch (\Illuminate\Validation\ValidationException $e) {
@@ -120,7 +124,7 @@ class ShopController extends Controller
         $shop->name = $request->input('name') ?? $shop->name;
         $shop->taxId = $request->input('taxId') ?? $shop->taxId;
         $shop->mobile = $request->input('mobile') ?? $shop->mobile;
-        $shop->website = $request->input('website') ?? $shop->website;
+        $shop->website = Functions::handleNull($request->input('website')) ?? $shop->website;
         $shop->estYear = $request->input('estYear') ?? $shop->estYear;
 		$shop->address = $request->input('address') ?? $shop->address;
 		$shop->intro = $request->input('intro') ?? $shop->intro;
@@ -164,6 +168,8 @@ class ShopController extends Controller
                 'taxId' => 'required|regex:/^\\d{8}-\\d-\\d{2}$/', // 12345678-9-12
                 'settlement_id' => 'required|int',
                 'address' => 'required',
+                'iban' => ['regex:/(?:^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$|^<null>$)/'],
+                'website' => ["regex:/^(https?:\\/\\/)([a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})(\\/.*)?$/"]
             ]); 
         }
         catch (\Illuminate\Validation\ValidationException $e) {
@@ -190,7 +196,7 @@ class ShopController extends Controller
         $shop->name = $request->input('name');
         $shop->taxId = $request->input('taxId');
         $shop->mobile = $request->input('mobile');
-        $shop->website = $request->input('website');
+        $shop->website = Functions::handleNull($request->input('website'));
         $shop->user_id = $user->id;
         $shop->estYear = $request->input('estYear');
         $shop->settlement_id = $request->input('settlement_id');
