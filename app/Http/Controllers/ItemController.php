@@ -23,9 +23,9 @@ class ItemController extends Controller
     {
         
 
-        $key = $request->query('searchKey');
+        $key = "%" . $request->query('searchKey') . "%" ?? "%%";
         $holding = $request->input('hold');
-        $sFor = $request->query("searchIn");
+        $sFor = $request->query("searchIn") ?? "name";
         
         $shop = DB::table("shops")->where('id', $request->query("shop"))->first();
         if ($shop){
@@ -40,7 +40,7 @@ class ItemController extends Controller
         
         $typeG = $request->query("catG");
         $page = $request->query("page")-1;
-        $order = $request->query("orderBy");
+        $order = $request->query("orderBy") ?? "name";
         $settlements[] = explode(',',$request->query("settlements"));
         if($request->query("asc")){
             $asc = "asc";
@@ -59,31 +59,25 @@ class ItemController extends Controller
             $shops[] = Shop::where("settlement_id", $setl)->get('id');
         }
         
-        if(!$sFor){
-            $sFor = "name";
-        }
-        if(!$order){
-            $order= "name";
-        }
         //return json_encode($types);
         if (is_null($shopuser)||$shopuser != $request->user()){
             if (!count($shops) === 1){
                 foreach ($shops as $cshop){
                     if (!count($types) === 1){
                         foreach($types as $type){
-                            $items[]=DB::table("items")->where('shop_id', 'like', $cshop)->where($sFor, 'like', '%'.$key.'%')->where("loan_id", null)->where("type_id", $type)->orderby($order, $asc)->skip($page*30)->take(30)->get();
+                            $items[]=DB::table("items")->where('shop_id', 'like', $cshop)->where($sFor, 'like', $key)->where("loan_id", null)->where("type_id", $type)->orderby($order, $asc)->skip($page*30)->take(30)->get();
                         }
                     }else{
-                        $items[]=DB::table("items")->where('shop_id', 'like', $cshop)->where($sFor, 'like', '%'.$key.'%')->where("loan_id", null)->orderby($order, $asc)->skip($page*30)->take(30)->get();
+                        $items[]=DB::table("items")->where('shop_id', 'like', $cshop)->where($sFor, 'like', $key)->where("loan_id", null)->orderby($order, $asc)->skip($page*30)->take(30)->get();
                     }
                 }
             }else{
                 if (!count($types) === 1){
                     foreach($types as $type){
-                        $items[]=DB::table("items")->where($sFor, 'like', '%'.$key.'%')->where("loan_id", null)->where("type_id", $type)->orderby($order, $asc)->skip($page*30)->take(30)->get();
+                        $items[]=DB::table("items")->where($sFor, 'like', $key)->where("loan_id", null)->where("type_id", $type)->orderby($order, $asc)->skip($page*30)->take(30)->get();
                     }
                 }else{
-                    $items[]=DB::table("items")->where($sFor, 'like', '%'.$key.'%')->where("loan_id", null)->orderby($order, $asc)->skip($page*30)->take(30)->get();
+                    $items[]=DB::table("items")->where($sFor, 'like', $key)->where("loan_id", null)->orderby($order, $asc)->skip($page*30)->take(30)->get();
                 }
             }
             if ($shop){
@@ -100,7 +94,7 @@ class ItemController extends Controller
         
 
 
-        /*$items = Item::where($sFor, 'like', '%'.$key.'%')
+        /*$items = Item::where($sFor, 'like', $key)
             ->where('type_id', '=', $cat)
             ->whereHas('shop', function ($q) use ($shop) {
                 $q->whereIn('county', $counties);
