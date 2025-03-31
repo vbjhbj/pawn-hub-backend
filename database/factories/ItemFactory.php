@@ -20,6 +20,8 @@ class ItemFactory extends Factory
     {
         $payed = round(random_int(400, 9999999), -2);
         $estimated = round($payed * (mt_rand(11, 15) / 10), -3);
+        
+        ini_set('memory_limit', '256M');
 
         return [
             'name'=> Functions::removeSpecialChars(fake()->sentence()),
@@ -29,7 +31,7 @@ class ItemFactory extends Factory
             'type_id' => random_int(1, 107),
             'payedValue' => $payed,
             'estimatedValue' => $estimated,
-
+            'img' => (mt_rand(0, 9) == 1) ? null : Functions::randomImg("item")
         ];
     }
 }

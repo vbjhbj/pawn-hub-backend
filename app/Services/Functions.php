@@ -28,6 +28,10 @@ class Functions
         // - item
         $max = 8;
 
+        if ($for == "item") {
+            $max = 16;
+        }
+
         return File::get(storage_path('app/images/' . $for . '/' . str_pad(rand(1,  $max), 2, '0', STR_PAD_LEFT) . '.txt'));
 
         
