@@ -127,12 +127,18 @@ class ShopController extends Controller
         $shop->taxId = $request->input('taxId') ?? $shop->taxId;
         $shop->mobile = $request->input('mobile') ?? $shop->mobile;
         $shop->website = Functions::handleNull($request->input('website')) ?? $shop->website;
-        $shop->estYear = $request->input('estYear') ?? $shop->estYear;
+
+        if ($request->input('estYear')) {
+            $estYear = Functions::handleNull($request->input('estYear')) == "" ? null : $request->input('estYear');
+            $shop->estYear = $estYear;
+        }
+
+
 		$shop->address = $request->input('address') ?? $shop->address;
-		$shop->intro = $request->input('intro') ?? $shop->intro;
+		$shop->intro = Functions::handleNull($request->input('intro')) ?? $shop->intro;
 		$shop->settlement_id = $request->input('settlement_id') ?? $shop->settlement_id;
 
-        $user->img = $request->input('img') ?? $user->img;
+        $user->img = Functions::handleNull($request->input('img')) ?? $user->img;
         $user->iban = $request->input('iban') ?? $user->iban;
 
         if (!is_null($request->input('email')) && $request->input('email') != $user->email){
