@@ -102,7 +102,7 @@ class ShopController extends Controller
         try {
             $request->validate([
                 'username' => 'unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/', // Allowed: A-Z, a-z, 0-9, and tree specials: -._
-                'email' => 'unique:users|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/',
+                'email' => 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/',
                 'password' => 'min:8',
                 'name' => 'min:5|max:100',
                 'taxId' => 'regex:/^\\d{8}-\\d-\\d{2}$/', // 12345678-9-12
@@ -127,13 +127,19 @@ class ShopController extends Controller
         $shop->taxId = $request->input('taxId') ?? $shop->taxId;
         $shop->mobile = $request->input('mobile') ?? $shop->mobile;
         $shop->website = Functions::handleNull($request->input('website')) ?? $shop->website;
-        $shop->estYear = $request->input('estYear') ?? $shop->estYear;
+
+        if ($request->input('estYear')) {
+            $estYear = Functions::handleNull($request->input('estYear')) == "" ? null : $request->input('estYear');
+            $shop->estYear = $estYear;
+        }
+
+
 		$shop->address = $request->input('address') ?? $shop->address;
-		$shop->intro = $request->input('intro') ?? $shop->intro;
+		$shop->intro = Functions::handleNull($request->input('intro')) ?? $shop->intro;
 		$shop->settlement_id = $request->input('settlement_id') ?? $shop->settlement_id;
 
-        $user->img = $request->input('img') ?? $user->img;
-        $user->iban = $request->input('iban') ?? $user->iban;
+        $user->img = Functions::handleNull($request->input('img')) ?? $user->img;
+        $user->iban = Functions::handleNull($request->input('iban')) ?? $user->iban;
 
         if (!is_null($request->input('email')) && $request->input('email') != $user->email){
             if ( User::where("email", $request->input('email'))->first() ){
