@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Holding;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class HoldingController extends Controller
 {
@@ -14,7 +16,10 @@ class HoldingController extends Controller
      */
     public function index()
     {
-        //
+
+        $results = DB::table("holdings")->get();
+
+        return response()->json($results);
     }
 
     /**
@@ -23,10 +28,6 @@ class HoldingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -34,10 +35,12 @@ class HoldingController extends Controller
      * @param  \App\Models\Holding  $holding
      * @return \Illuminate\Http\Response
      */
-    public function show(Holding $holding)
+    /*public function show(Holding $holdingId)
     {
-        //
-    }
+        $holding = Holding::findOrFail($holdingId)->first();
+
+        return response()->json($holding);
+    }*/
 
     /**
      * Update the specified resource in storage.

@@ -22,7 +22,7 @@ class SettlementController extends Controller
         }else{
             $results = DB::table("settlements")->where('postalCode', 'like', $pCode.'%')->get();
         }
-        return json_encode($results);
+        return response()->json($results);
     }
 
     /**
@@ -31,10 +31,6 @@ class SettlementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -42,9 +38,11 @@ class SettlementController extends Controller
      * @param  \App\Models\Settlement  $settlement
      * @return \Illuminate\Http\Response
      */
-    public function show(Settlement $settlement)
+    public function show($settlementId)
     {
-        //
+        $settlement = Settlement::with("holding")->find($settlementId);
+
+        return response()->json($settlement);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HoldingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
@@ -47,6 +48,9 @@ Route::get('/shops', [ShopController::class, 'index'])->middleware('auth:sanctum
 Route::get('/customers', [CustomerController::class, 'index'])->middleware('auth:sanctum');
 
 Route::get('/settlements', [SettlementController::class, 'index']);
+Route::get('/settlement/{settlementID}', [SettlementController::class, 'show']);
+
+Route::get('/holdings', [HoldingController::class, 'index']);
 
 Route::get('shop/{shopID}', [ShopController::class, 'show']);
 

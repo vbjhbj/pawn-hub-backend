@@ -132,7 +132,6 @@ class ShopController extends Controller
 
         $user->img = $request->input('img') ?? $user->img;
         $user->iban = $request->input('iban') ?? $user->iban;
-        $user->password = Hash::make($request->input('password')) ?? $user->password;
 
         if (!is_null($request->input('email')) && $request->input('email') != $user->email){
             if ( User::where("email", $request->input('email'))->first() ){
@@ -149,6 +148,35 @@ class ShopController extends Controller
                 $user->email = $request->input('email');
             }
         }
+
+        if ($request->input('password')) {
+
+            if ($request->input('oldPassword')) {
+
+                if (Hash::check($request->input('oldPassword'), $user->password)){
+                    
+                    $user->password = Hash::make($request->input('password'));
+                }
+                else {
+                    return response()->json([
+                        "error" => [
+                            'code' => "INVALID_PASSWORD",
+                            'message' => 'Hibás jelszó!'
+                        ]
+                    ], 403);
+                }
+            }
+            else {
+                return response()->json([
+                    "error" => [
+                        'code' => "INVALID_PASSWORD",
+                        'message' => 'Hibás jelszó!'
+                    ]
+                ], 403);
+            }
+
+        }
+
 
         $user->save();
 		$shop->save();
