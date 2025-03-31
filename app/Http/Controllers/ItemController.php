@@ -23,7 +23,7 @@ class ItemController extends Controller
     {
         
 
-        $key = "%" . $request->query('searchKey') . "%" ?? "%%";
+        $key = "%" . $request->query('searchKey') . "%" ?? "%";
         $holding = $request->input('hold');
         $sFor = $request->query("searchIn") ?? "name";
         
@@ -40,6 +40,9 @@ class ItemController extends Controller
         
         $typeG = $request->query("catG");
         $page = $request->query("page")-1;
+        if ($page<0){
+            $page = 0;
+        }
         $order = $request->query("orderBy") ?? "name";
         $settlements[] = explode(',',$request->query("settlements"));
         if($request->query("asc")){
