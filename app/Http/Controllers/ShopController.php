@@ -71,7 +71,7 @@ class ShopController extends Controller
 
     public function show($shopId)
     {
-        $shop = Shop::find($shopId);
+        $shop = Shop::with("settlement")->find($shopId);
         if (!empty($shop)){
             return response()->json($shop);
         }
