@@ -37,6 +37,10 @@ class ItemController extends Controller
         if ($request->query("cat")){
             $types[] = explode(',',$request->query("cat"));
         }
+
+        $typeG = $request->query("minPrice");
+        $typeG = $request->query("maxPrice");
+
         
         $typeG = $request->query("catG");
         $page = $request->query("page")-1;
