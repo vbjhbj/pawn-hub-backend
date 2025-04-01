@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TypeGroup;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TypeGroupController extends Controller
 {
@@ -15,8 +16,10 @@ class TypeGroupController extends Controller
      */
     public function index()
     {
-        return TypeGroup::get();
-        
+        //$typeGroups = DB::table("typeGroups")->join('types', 'typeGroups_id', '=', 'typeGroups.id')->get();
+        $typeGroups = DB::select("SELECT  FROM typeGroups JOIN types ON types.typeGroups_id = typeGroups.id");
+
+        return response()->json($typeGroups);
     }
 
     /**
@@ -25,10 +28,6 @@ class TypeGroupController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -48,10 +47,7 @@ class TypeGroupController extends Controller
      * @param  \App\Models\TypeGroup  $typeGroup
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TypeGroup $typeGroup)
-    {
-        //
-    }
+
 
     /**
      * Remove the specified resource from storage.
@@ -59,8 +55,5 @@ class TypeGroupController extends Controller
      * @param  \App\Models\TypeGroup  $typeGroup
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TypeGroup $typeGroup)
-    {
-        //
-    }
+
 }
