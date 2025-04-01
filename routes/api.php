@@ -10,6 +10,7 @@ use App\Http\Controllers\LoanController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SettlementController;
+use App\Http\Controllers\TypeGroupController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -64,6 +65,7 @@ Route::get('/messages', [MessageController::class, 'index'])->middleware('auth:s
 
 Route::get('message/{messageID}', [MessageController::class, 'show'])->middleware('auth:sanctum');
 
+Route::get('types', [TypeGroupController::class, 'index']);
 
 
 #-----------------------------------------------------------------------------------------

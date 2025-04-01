@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TypeGroup;
+use App\Models\Type;
 use Illuminate\Http\Request;
 
 class TypeGroupController extends Controller
@@ -14,7 +15,8 @@ class TypeGroupController extends Controller
      */
     public function index()
     {
-        //
+        return TypeGroup::get();
+        
     }
 
     /**
