@@ -6,6 +6,11 @@ use App\Models\Shop;
 use Illuminate\Http\Request;
 use App\Models\DeletedUser;
 use App\Models\User;
+use App\Models\Loan;
+use App\Models\Message;
+use App\Models\Connection;
+use App\Models\Item;
+use App\Models\Customer;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -255,12 +260,36 @@ class ShopController extends Controller
     public function destroy()
     {
         $user=User::findOrFail(Auth::user()->id);
-        $shop=Shop::findOrFail($shop->user_id);
+        $shop=Shop::where("user_id", $user->id)->first();
+
+        // Deleting every foreign connection:
+        $toDelete = [];
+        /*$toDelete[] = Loan::where("shop_id", $shop->id)->get();
+        $toDelete[] = Item::where("shop_id", $shop->id)->get();
+        $toDelete[] = Customer::where("shop_id", $shop->id)->get();
+        $toDelete[] = Connection::where("shop_id", $shop->id)->get();*/
+        array_push($toDelete, ...Loan::where("shop_id", $shop->id)->get());
+        array_push($toDelete, ...Item::where("shop_id", $shop->id)->get());
+        array_push($toDelete, ...Customer::where("shop_id", $shop->id)->get());
+        array_push($toDelete, ...Connection::where("shop_id", $shop->id)->get());
+         
+        if (count($toDelete) > 0) {
+            foreach ($toDelete as $element) {
+                $element->delete();
+            }
+        }
+
         $deletedUser = new DeletedUser;
         $deletedUser->lastTransaction= $user->lastTransaction;
         $deletedUser->iban = $user->iban;
         $deletedUser->name = $shop->name;
         $shop->delete();
         $user->delete();
+
+        return response()->json([
+
+            'message' => 'Zálogházfiók törölve.'
+        ], 200);
+
     }
 }
