@@ -279,10 +279,7 @@ class ShopController extends Controller
             }
         }
 
-        $deletedUser = new DeletedUser;
-        $deletedUser->lastTransaction= $user->lastTransaction;
-        $deletedUser->iban = $user->iban;
-        $deletedUser->name = $shop->name;
+
         $shop->delete();
         $user->delete();
 

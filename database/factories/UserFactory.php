@@ -23,7 +23,6 @@ class UserFactory extends Factory
 
         return [
             'password' => Hash::make('password'),
-            'lastTransaction' => now(),
             'iban' =>  implode('', array_map(fn() => chr(mt_rand(65, 90)), range(1, 2))) . str_pad(mt_rand(0, 999999999999), 12, '0', STR_PAD_LEFT)  . str_pad(mt_rand(0, 999999999999), 12, '0', STR_PAD_LEFT),
             'isCustomer' => true,
         ];

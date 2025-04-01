@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->timestamp('lastTransaction')->useCurrent();
 			$table->string('iban')->nullable();
 			$table->longText('img')->nullable();
             $table->boolean('isCustomer');
