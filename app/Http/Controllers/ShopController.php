@@ -6,6 +6,11 @@ use App\Models\Shop;
 use Illuminate\Http\Request;
 use App\Models\DeletedUser;
 use App\Models\User;
+use App\Models\Loan;
+use App\Models\Message;
+use App\Models\Connection;
+use App\Models\Item;
+use App\Models\Customer;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -102,7 +107,7 @@ class ShopController extends Controller
         try {
             $request->validate([
                 'username' => 'unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/', // Allowed: A-Z, a-z, 0-9, and tree specials: -._
-                'email' => 'unique:users|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/',
+                'email' => 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/',
                 'password' => 'min:8',
                 'name' => 'min:5|max:100',
                 'taxId' => 'regex:/^\\d{8}-\\d-\\d{2}$/', // 12345678-9-12
@@ -138,8 +143,8 @@ class ShopController extends Controller
 		$shop->intro = Functions::handleNull($request->input('intro')) ?? $shop->intro;
 		$shop->settlement_id = $request->input('settlement_id') ?? $shop->settlement_id;
 
-        $user->img = $request->input('img') ?? $user->img;
-        $user->iban = $request->input('iban') ?? $user->iban;
+        $user->img = Functions::handleNull($request->input('img')) ?? $user->img;
+        $user->iban = Functions::handleNull($request->input('iban')) ?? $user->iban;
 
         if (!is_null($request->input('email')) && $request->input('email') != $user->email){
             if ( User::where("email", $request->input('email'))->first() ){
@@ -255,12 +260,36 @@ class ShopController extends Controller
     public function destroy()
     {
         $user=User::findOrFail(Auth::user()->id);
-        $shop=Shop::findOrFail($shop->user_id);
+        $shop=Shop::where("user_id", $user->id)->first();
+
+        // Deleting every foreign connection:
+        $toDelete = [];
+        /*$toDelete[] = Loan::where("shop_id", $shop->id)->get();
+        $toDelete[] = Item::where("shop_id", $shop->id)->get();
+        $toDelete[] = Customer::where("shop_id", $shop->id)->get();
+        $toDelete[] = Connection::where("shop_id", $shop->id)->get();*/
+        array_push($toDelete, ...Loan::where("shop_id", $shop->id)->get());
+        array_push($toDelete, ...Item::where("shop_id", $shop->id)->get());
+        array_push($toDelete, ...Customer::where("shop_id", $shop->id)->get());
+        array_push($toDelete, ...Connection::where("shop_id", $shop->id)->get());
+         
+        if (count($toDelete) > 0) {
+            foreach ($toDelete as $element) {
+                $element->delete();
+            }
+        }
+
         $deletedUser = new DeletedUser;
         $deletedUser->lastTransaction= $user->lastTransaction;
         $deletedUser->iban = $user->iban;
         $deletedUser->name = $shop->name;
         $shop->delete();
         $user->delete();
+
+        return response()->json([
+
+            'message' => 'Zálogházfiók törölve.'
+        ], 200);
+
     }
 }

@@ -96,7 +96,7 @@ Route::delete('/customer/{customerId}', [CustomerController::class, 'destroy'])-
 
 Route::delete('/loan/{loanId}', [LoanController::class, 'destroy'])->middleware('auth:sanctum');
 
-Route::delete('/shop/{shopId}', [ShopController::class, 'destroy'])->middleware('auth:sanctum');
+Route::delete('/shop', [ShopController::class, 'destroy'])->middleware('auth:sanctum');
 
 Route::delete('/item/{itemId}', [ItemController::class, 'destroy'])->middleware('auth:sanctum');
 

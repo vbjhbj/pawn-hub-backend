@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         DB::statement("ALTER DATABASE laravel CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci;");
+        DB::statement("SET GLOBAL max_allowed_packet=67108864"); // 64 MB
     }
 
     /**
