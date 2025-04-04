@@ -106,7 +106,7 @@ class ItemController extends Controller
             ->select('id', 'name', 'shop_id') // Select only necessary fields from Item
             ->get();*/
 
-        return response()->json($items);
+        return response()->json($items[0]);
     }
 
 
