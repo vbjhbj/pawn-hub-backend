@@ -94,17 +94,6 @@ class ItemController extends Controller
         }else{
             $items[]=DB::table("items")->where('shop_id', $shop->id)->where("loan_id", null)->get();
         }
-        
-
-
-        /*$items = Item::where($sFor, 'like', $key)
-            ->where('type_id', '=', $cat)
-            ->whereHas('shop', function ($q) use ($shop) {
-                $q->whereIn('county', $counties);
-            })
-            ->with(['shop:id,name,settlement_id']) // Include only selected fields from shop
-            ->select('id', 'name', 'shop_id') // Select only necessary fields from Item
-            ->get();*/
 
         return response()->json($items);
     }
@@ -135,10 +124,7 @@ class ItemController extends Controller
      */
     public function show($itemId)
     {
-
-        
         $item=Item::findOrFail($itemId);
-    #    $item = DB::table('Items')->where('id', $itemId)->get();
         return response()->json($item);
     }
 
