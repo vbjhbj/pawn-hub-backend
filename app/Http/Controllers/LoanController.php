@@ -20,8 +20,6 @@ class LoanController extends Controller
         foreach ($expiredloans as $loan){
             $loan->delete();
         }
-
-
         $user = Auth::user();
         $shop = DB::table("shops")->where('user_id', $user->id)->first();
         if (!$shop){
@@ -60,17 +58,6 @@ class LoanController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Models\Loan  $loan
@@ -92,24 +79,6 @@ class LoanController extends Controller
                 ]
             ],404);
         }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Loan  $loan
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
-    {
-        $loan=Loan::findOrFail($request->input('id'));
-        $loan->customer_id = $request->input('customer_id');
-        $loan->shop_id = $request->input('shop_id');
-        $loan->expDate = $request->input('expDate');
-        $loan->givenAmount = $request->input('givenAmount');
-        $loan->interest = $request->input('interest');
-        $loan->save();
     }
 
     public function create(Request $request)

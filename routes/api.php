@@ -50,21 +50,19 @@ Route::get('/settlement/{settlementID}', [SettlementController::class, 'show']);
 
 Route::get('/item/{itemID}', [ItemController::class, 'show']);
 
-Route::get('shop/{shopID}', [ShopController::class, 'show']);
+Route::get('/shop/{shopID}', [ShopController::class, 'show']);
 
-Route::get('customer/{customerID}', [CustomerController::class, 'show'])->middleware('auth:sanctum');
+Route::get('/customer/{customerID}', [CustomerController::class, 'show'])->middleware('auth:sanctum');
 
-Route::get('loan/{loanID}', [LoanController::class, 'show'])->middleware('auth:sanctum');
+Route::get('/loan/{loanID}', [LoanController::class, 'show'])->middleware('auth:sanctum');
 
-Route::get('message/{messageID}', [MessageController::class, 'show'])->middleware('auth:sanctum');
+Route::get('/message/{messageID}', [MessageController::class, 'show'])->middleware('auth:sanctum');
 
 #-----------------------------------------------------------------------------------------
 
-Route::put('/item', [ItemController::class, 'update'])->middleware('auth:sanctum');
+Route::patch('/item', [ItemController::class, 'update'])->middleware('auth:sanctum');
 
 Route::patch('/shop', [ShopController::class, 'update'])->middleware('auth:sanctum');
-
-Route::put('/loan', [LoanController::class, 'update'])->middleware('auth:sanctum');
 
 Route::patch('/customer', [CustomerController::class, 'update'])->middleware('auth:sanctum');
 

@@ -14,10 +14,6 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    /*public function index(int $page, string $key, int $orderBy, bool $order, int $cat, int $minP, int $maxP, string $holding, array $setlList)
-    {
-        return json_encode(DB::select('select * from Items where name like :key and type_id = :cat and value > :minP and value < :maxP and loanId is null order by :orderBy order limit 30*:page, 30'));
-    }*/
 
     public function index(Request $request)
     {
@@ -57,12 +53,9 @@ class ItemController extends Controller
         }
         $items= array();
         $types[] = DB::table("types")->where('typeGroups_id', $typeG)->get('id');
-        //return json_encode($settlements);
         foreach ($settlements as $setl){
             $shops[] = Shop::where("settlement_id", $setl)->get('id');
         }
-        
-        //return json_encode($types);
         if (is_null($shopuser)||$shopuser != $request->user()){
             if (!count($shops) === 1){
                 foreach ($shops as $cshop){
@@ -94,37 +87,8 @@ class ItemController extends Controller
         }else{
             $items[]=DB::table("items")->where('shop_id', $shop->id)->where("loan_id", null)->get();
         }
-        
-
-
-        /*$items = Item::where($sFor, 'like', $key)
-            ->where('type_id', '=', $cat)
-            ->whereHas('shop', function ($q) use ($shop) {
-                $q->whereIn('county', $counties);
-            })
-            ->with(['shop:id,name,settlement_id']) // Include only selected fields from shop
-            ->select('id', 'name', 'shop_id') // Select only necessary fields from Item
-            ->get();*/
 
         return response()->json($items[0]);
-    }
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(int $page, string $key, int $orderBy, bool $order, int $cat, bool $status, int $shopId)
-    {
-        if ($status = NULL){
-            return json_encode(DB:select('select * from Items where shopId = :shopId and type_id = :cat and name like :key order by :orderBy order limit 30*:page, 30'));
-        }elseif($status){
-            return json_encode(DB:select('select * from Items where shopId = :shopId and type_id = :cat and name like :key and loan_id is not null order by :orderBy order limit 30*:page, 30'));
-        }else{
-            return json_encode(DB:select('select * from Items where shopId = :shopId and type_id = :cat and name like :key and loan_id is null order by :orderBy order limit 30*:page, 30'));
-        }
     }
 
     /**
@@ -135,10 +99,7 @@ class ItemController extends Controller
      */
     public function show($itemId)
     {
-
-        
         $item=Item::findOrFail($itemId);
-    #    $item = DB::table('Items')->where('id', $itemId)->get();
         return response()->json($item);
     }
 
@@ -155,8 +116,6 @@ class ItemController extends Controller
         $item->name = $request->input('name');
         $item->description = $request->input('description');
         $item->img = $request->input('img');
-        $item->loanId = $request->input('loanId');
-        $item->shopId = $request->input('shopId');
         $item->typeId = $request->input('typeId');
         $item->value = $request->input('value');
         $item->save();

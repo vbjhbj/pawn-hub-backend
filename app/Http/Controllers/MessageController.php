@@ -17,23 +17,11 @@ class MessageController extends Controller
         $user = Auth::user()->id;
         $messages += Message::where('sender', $user);
         $messages += Message::where('recipient', $user);
-
         return json_encode([
             $messages
         ]);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
+    
     /**
      * Display the specified resource.
      *
