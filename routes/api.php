@@ -30,42 +30,33 @@ use App\Services\Functions;
 |
 */
 
-/*Route::get('/test', function () {
-    return response()->json(['message' => Functions::randomImg("customer")]);
-});*/
-
-Route::post('/login', [UserController::class, 'login']);
-
-
 Route::get('/items', [ItemController::class, 'index']);
 
-
-Route::get('/item/{itemID}', [ItemController::class, 'show']);
-#Route::get('/item/{itemID}', 'ItemController@show');
-
-
-Route::get('/shops', [ShopController::class, 'index'])->middleware('auth:sanctum');
-
-Route::get('/customers', [CustomerController::class, 'index'])->middleware('auth:sanctum');
+Route::get('/shops', [ShopController::class, 'index']);
 
 Route::get('/settlements', [SettlementController::class, 'index']);
-Route::get('/settlement/{settlementID}', [SettlementController::class, 'show']);
 
 Route::get('/holdings', [HoldingController::class, 'index']);
 
-Route::get('shop/{shopID}', [ShopController::class, 'show']);
-
-Route::get('customer/{customerID}', [CustomerController::class, 'show']);
-
-Route::get('/loans', [LoanController::class, 'index'])->middleware('auth:sanctum');//2
-
-Route::get('loan/{loanID}', [LoanController::class, 'show']);
+Route::get('types', [TypeGroupController::class, 'index']);
 
 Route::get('/messages', [MessageController::class, 'index'])->middleware('auth:sanctum');
 
-Route::get('message/{messageID}', [MessageController::class, 'show'])->middleware('auth:sanctum');
+Route::get('/customers', [CustomerController::class, 'index'])->middleware('auth:sanctum');
 
-Route::get('types', [TypeGroupController::class, 'index']);
+Route::get('/loans', [LoanController::class, 'index'])->middleware('auth:sanctum');
+
+Route::get('/settlement/{settlementID}', [SettlementController::class, 'show']);
+
+Route::get('/item/{itemID}', [ItemController::class, 'show']);
+
+Route::get('shop/{shopID}', [ShopController::class, 'show']);
+
+Route::get('customer/{customerID}', [CustomerController::class, 'show'])->middleware('auth:sanctum');
+
+Route::get('loan/{loanID}', [LoanController::class, 'show'])->middleware('auth:sanctum');
+
+Route::get('message/{messageID}', [MessageController::class, 'show'])->middleware('auth:sanctum');
 
 
 #-----------------------------------------------------------------------------------------
@@ -80,15 +71,17 @@ Route::patch('/customer', [CustomerController::class, 'update'])->middleware('au
 
 #-----------------------------------------------------------------------------------------------------
 
+Route::post('/login', [UserController::class, 'login']);
+
 Route::post('/customer', [CustomerController::class, 'create']);
 
-Route::post('/loan', [LoanController::class, 'create']);
+Route::post('/loan', [LoanController::class, 'create'])->middleware('auth:sanctum');
 
 Route::post('/shop', [ShopController::class, 'create']);
 
-Route::post('/item', [ItemController::class, 'create']);
+Route::post('/item', [ItemController::class, 'create'])->middleware('auth:sanctum');
 
-Route::post('/message', [MessageController::class, 'create']);
+Route::post('/message', [MessageController::class, 'create'])->middleware('auth:sanctum');
 
 Route::post('/ownCustomer', [CustomerController::class, 'store'])->middleware('auth:sanctum');
 
