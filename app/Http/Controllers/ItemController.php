@@ -48,7 +48,7 @@ class ItemController extends Controller
             $page = 0;
         }
         $order = $request->query("orderBy") ?? "name";
-        $settlements[] = explode(',',$request->query("settlements"));
+        $settlements[] = explode('_',$request->query("settlements"));
         if($request->query("asc")){
             $asc = "asc";
         }
