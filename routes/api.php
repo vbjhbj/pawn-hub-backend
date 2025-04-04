@@ -60,11 +60,9 @@ Route::get('/message/{messageID}', [MessageController::class, 'show'])->middlewa
 
 #-----------------------------------------------------------------------------------------
 
-Route::put('/item', [ItemController::class, 'update'])->middleware('auth:sanctum');
+Route::patch('/item', [ItemController::class, 'update'])->middleware('auth:sanctum');
 
 Route::patch('/shop', [ShopController::class, 'update'])->middleware('auth:sanctum');
-
-Route::put('/loan', [LoanController::class, 'update'])->middleware('auth:sanctum');
 
 Route::patch('/customer', [CustomerController::class, 'update'])->middleware('auth:sanctum');
 

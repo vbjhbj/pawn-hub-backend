@@ -102,11 +102,6 @@ class CustomerController extends Controller
         
     }
 
-    public function showNU(customer $customer)
-    {
-    }
-
-
     /**
      * Update the specified resource in storage.
      *
@@ -116,7 +111,6 @@ class CustomerController extends Controller
      */
     public function update(Request $request)
     {
-
         try {
             $validated = $request->validate([
                 'username' => 'unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/', // Allowed: A-Z, a-z, 0-9, and tree specials: -._
@@ -135,11 +129,8 @@ class CustomerController extends Controller
             ], 422);
 
         }
-
         $user=User::findOrFail(Auth::user()->id);
-
         $customer=Customer::where("user_id", $user->id)->first();
-
         if ($customer){
             $customer->idCardNum = $request->input('idCardNum') ?? $customer->idCardNum;
             $customer->birthday = $request->input('birthday') ?? $customer->birthday;
@@ -148,7 +139,6 @@ class CustomerController extends Controller
             $customer->billingAddress = Functions::handleNull($request->input('billingAddress')) ?? $customer->billingAddress;
             $customer->mobile = Functions::handleNull($request->input('mobile')) ?? $customer->mobile;
             $customer->name = $request->input('name') ?? $customer->name;
-
             if (!is_null($request->input('email')) && $request->input('email') != $user->email){
                 if ( User::where("email", $request->input('email'))->first() ){
 
@@ -165,8 +155,6 @@ class CustomerController extends Controller
                     $customer->email = $request->input('email');
                 }
             }
-
-
             if ($request->input('password')) {
 
                 if ($request->input('oldPassword')) {
@@ -192,10 +180,7 @@ class CustomerController extends Controller
                         ]
                     ], 403);
                 }
-
             }
-
-
             $user->iban = Functions::handleNull($request->input('iban')) ?? $user->iban;
             $user->img = Functions::handleNull($request->input('img') ?? $user->img);
 
@@ -222,9 +207,6 @@ class CustomerController extends Controller
                 "message" => 'Data modified.'
             ], 200);
         }
-        
-
-        
     }
 
     public function create(Request $request)

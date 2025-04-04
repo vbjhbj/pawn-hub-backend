@@ -90,9 +90,7 @@ class ShopController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
-    {
-
-        
+    {   
         try {
             $request->validate([
                 'username' => 'unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/', // Allowed: A-Z, a-z, 0-9, and tree specials: -._
@@ -116,25 +114,19 @@ class ShopController extends Controller
         
         $user=User::findOrFail(Auth::user()->id);
         $shop=Shop::where("user_id", $user->id)->first();
-
         $shop->name = $request->input('name') ?? $shop->name;
         $shop->taxId = $request->input('taxId') ?? $shop->taxId;
         $shop->mobile = $request->input('mobile') ?? $shop->mobile;
         $shop->website = Functions::handleNull($request->input('website')) ?? $shop->website;
-
         if ($request->input('estYear')) {
             $estYear = Functions::handleNull($request->input('estYear')) == "" ? null : $request->input('estYear');
             $shop->estYear = $estYear;
         }
-
-
 		$shop->address = $request->input('address') ?? $shop->address;
 		$shop->intro = Functions::handleNull($request->input('intro')) ?? $shop->intro;
 		$shop->settlement_id = $request->input('settlement_id') ?? $shop->settlement_id;
-
         $user->img = Functions::handleNull($request->input('img')) ?? $user->img;
         $user->iban = Functions::handleNull($request->input('iban')) ?? $user->iban;
-
         if (!is_null($request->input('email')) && $request->input('email') != $user->email){
             if ( User::where("email", $request->input('email'))->first() ){
 
@@ -150,7 +142,6 @@ class ShopController extends Controller
                 $user->email = $request->input('email');
             }
         }
-
         if ($request->input('password')) {
 
             if ($request->input('oldPassword')) {
@@ -178,17 +169,13 @@ class ShopController extends Controller
             }
 
         }
-
-
         $user->save();
 		$shop->save();
-
         return response()->json([
             "message" => 'Data modified.'
         ], 200);
     }
     public function create(Request $request){
-
         try {
             $request->validate([
                 'username' => 'required|unique:users|max:25|min:3|regex:/^[a-zA-Z0-9_.-]+$/', // Allowed: A-Z, a-z, 0-9, and tree specials: -._
@@ -203,15 +190,11 @@ class ShopController extends Controller
             ]); 
         }
         catch (\Illuminate\Validation\ValidationException $e) {
-
             return response()->json([
                 "errors" => $e->errors()
                 
             ], 422);
-
         }
-
-
         $user = new User;
         $user->username = $request->input('username');
         $user->email = $request->input('email');
@@ -235,7 +218,6 @@ class ShopController extends Controller
 		$shop->save();
 
         return response()->json([
-            
             'message' => 'Shop created.'
         ], 200);
     }
@@ -250,20 +232,16 @@ class ShopController extends Controller
     {
         $user=User::findOrFail(Auth::user()->id);
         $shop=Shop::where("user_id", $user->id)->first();
-
-
         $toDelete = [];
         array_push($toDelete, ...Loan::where("shop_id", $shop->id)->get());
         array_push($toDelete, ...Item::where("shop_id", $shop->id)->get());
         array_push($toDelete, ...Customer::where("shop_id", $shop->id)->get());
         array_push($toDelete, ...Connection::where("shop_id", $shop->id)->get());
-         
         if (count($toDelete) > 0) {
             foreach ($toDelete as $element) {
                 $element->delete();
             }
         }
-
 
         $shop->delete();
         $user->delete();
@@ -272,6 +250,5 @@ class ShopController extends Controller
 
             'message' => 'Zálogházfiók törölve.'
         ], 200);
-
     }
 }

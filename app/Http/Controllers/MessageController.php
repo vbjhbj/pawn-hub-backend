@@ -21,18 +21,7 @@ class MessageController extends Controller
             $messages
         ]);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
+    
     /**
      * Display the specified resource.
      *
