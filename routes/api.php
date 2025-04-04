@@ -58,7 +58,6 @@ Route::get('loan/{loanID}', [LoanController::class, 'show'])->middleware('auth:s
 
 Route::get('message/{messageID}', [MessageController::class, 'show'])->middleware('auth:sanctum');
 
-
 #-----------------------------------------------------------------------------------------
 
 Route::put('/item', [ItemController::class, 'update'])->middleware('auth:sanctum');
