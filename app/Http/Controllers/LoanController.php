@@ -114,9 +114,12 @@ class LoanController extends Controller
 
     public function create(Request $request)
     {
+        $userId=Auth::id();
+        $user=User::findOrFail($userId);
+        $shop=Shop::where("user_id", $userId)->first();
         $loan=new Loan;
         $loan->customer_id = $request->input('customer_id');
-        $loan->shop_id = $request->input('shop_id');
+        $loan->shop_id = $shop->id();
         $loan->expDate = $request->input('expDate');
         $loan->givenAmount = $request->input('givenAmount');
         $loan->interest = $request->input('interest');
@@ -131,7 +134,11 @@ class LoanController extends Controller
      */
     public function destroy($loanId)
     {
+        $user = User::find(Auth::user()->id);
+        $shop=Shop::where("user_id", $user->id);
         $loan = Loan::find($loanId);
-        $loan->delete();
+        if ($loan->shop_id == $shop->id){
+            $loan->delete();
+       }
     }
 }

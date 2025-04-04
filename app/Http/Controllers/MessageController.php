@@ -76,10 +76,11 @@ class MessageController extends Controller
     public function create(Request $request)
     {
         $message = new Message;
-        $message->sender = $request->input('sender');
+        $message->sender = Auth::user()->id();
         $message->subject = $request->input('subject');
         $message->message = $request->input('message');
         $message->recipient = $request->input('recipient');
+        $message->save();
     }
 
     /**
@@ -90,7 +91,13 @@ class MessageController extends Controller
      */
     public function destroy($messageId)
     {
+        $user = User::find(Auth::user()->id);
         $message = Message::find($messageId);
-        $message->delete();
+        if ($message->sender == $user->id){
+            $message->delete();
+        }
+        if ($message->recipient == $user->id){
+            $message->delete();
+        }
     }
 }

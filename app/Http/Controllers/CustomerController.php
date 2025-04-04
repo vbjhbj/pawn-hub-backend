@@ -217,6 +217,10 @@ class CustomerController extends Controller
             $customer->mobile = $request->input('mobile') ?? $customer->mobile;
             $customer->email = $request->input('email') ?? $customer->email;
             $customer->save();
+
+            return response()->json([
+                "message" => 'Data modified.'
+            ], 200);
         }
         
 

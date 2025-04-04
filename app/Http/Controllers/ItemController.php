@@ -37,10 +37,6 @@ class ItemController extends Controller
         if ($request->query("cat")){
             $types[] = explode(',',$request->query("cat"));
         }
-
-        $typeG = $request->query("minPrice");
-        $typeG = $request->query("maxPrice");
-
         
         $typeG = $request->query("catG");
         $page = $request->query("page")-1;
@@ -169,12 +165,15 @@ class ItemController extends Controller
 
     public function create(Request $request)
     {
+        $userId=Auth::id();
+        $user=User::findOrFail($userId);
+        $shop=Shop::where("user_id", $userId)->first();
         $item=new Item;
         $item->name = $request->input('name');
         $item->description = $request->input('description');
         $item->img = $request->input('img');
         $item->loanId = $request->input('loanId');
-        $item->shopId = $request->input('shopId');
+        $item->shopId = $shop->id;
         $item->typeId = $request->input('typeId');
         $item->value = $request->input('value');
         $item->save();
@@ -189,7 +188,11 @@ class ItemController extends Controller
      */
     public function destroy($itemId)
     {
+        $user = User::find(Auth::user()->id);
+        $shop=Shop::where("user_id", $user->id);
         $item = Item::find($itemId);
-        $item->delete();
+        if ($item->shop_id == $shop->id){
+             $item->delete();
+        }
     }
 }

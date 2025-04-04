@@ -57,17 +57,6 @@ class ShopController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Models\Shop  $shop
@@ -262,12 +251,8 @@ class ShopController extends Controller
         $user=User::findOrFail(Auth::user()->id);
         $shop=Shop::where("user_id", $user->id)->first();
 
-        // Deleting every foreign connection:
+
         $toDelete = [];
-        /*$toDelete[] = Loan::where("shop_id", $shop->id)->get();
-        $toDelete[] = Item::where("shop_id", $shop->id)->get();
-        $toDelete[] = Customer::where("shop_id", $shop->id)->get();
-        $toDelete[] = Connection::where("shop_id", $shop->id)->get();*/
         array_push($toDelete, ...Loan::where("shop_id", $shop->id)->get());
         array_push($toDelete, ...Item::where("shop_id", $shop->id)->get());
         array_push($toDelete, ...Customer::where("shop_id", $shop->id)->get());
