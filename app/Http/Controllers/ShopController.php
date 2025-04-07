@@ -69,13 +69,21 @@ class ShopController extends Controller
         if (!empty($shop)){
             $shop->iban = User::where("id", $shop->user_id)->first()->iban;
 
+            unset($shop->settlement_id);
+
+            $user = User::findOrFail($shop->user_id);
+
+            $shop->img = $user->img;
+            $shop->email = $user->email;
+            $shop->username = $user->username;
+
             return response()->json($shop);
         }
         else {
             return response()->json([
                 'error' => [
                     'code' => 'NOT_FOUND',
-                    'message' => 'Az elem nem létezik!'
+                    'message' => 'A zálogház nem található.'
                 ]
             ],404);
         }
