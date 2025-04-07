@@ -136,8 +136,20 @@ class ItemController extends Controller
      */
     public function show($itemId)
     {
-        $item=Item::findOrFail($itemId);
-        return response()->json($item);
+        $item=Item::find($itemId);
+
+        if ($item){
+            return response()->json($item);
+        }
+        else {
+            return response()->json([
+                'error' => [
+                    'code' => 'NOT_FOUND',
+                    'message' => 'A termék nem található.'
+                ]
+            ], 404);
+        }
+
     }
 
     /**
