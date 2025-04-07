@@ -61,19 +61,19 @@ class ItemController extends Controller
                 foreach ($shops as $cshop){
                     if (!count($types) === 1){
                         foreach($types as $type){
-                            $items[]=DB::table("items")->where('shop_id', 'like', $cshop)->where($sFor, 'like', $key)->where("loan_id", null)->where("type_id", $type)->orderby($order, $asc)->skip($page*30)->take(30)->get();
+                            $items[]=DB::table("items")->where('shop_id', 'like', $cshop)->where($sFor, 'like', $key)->where("loan_id", null)->where("type_id", $type)->orderby($order, $asc)->get();
                         }
                     }else{
-                        $items[]=DB::table("items")->where('shop_id', 'like', $cshop)->where($sFor, 'like', $key)->where("loan_id", null)->orderby($order, $asc)->skip($page*30)->take(30)->get();
+                        $items[]=DB::table("items")->where('shop_id', 'like', $cshop)->where($sFor, 'like', $key)->where("loan_id", null)->orderby($order, $asc)->get();
                     }
                 }
             }else{
                 if (!count($types) === 1){
                     foreach($types as $type){
-                        $items[]=DB::table("items")->where($sFor, 'like', $key)->where("loan_id", null)->where("type_id", $type)->orderby($order, $asc)->skip($page*30)->take(30)->get();
+                        $items[]=DB::table("items")->where($sFor, 'like', $key)->where("loan_id", null)->where("type_id", $type)->orderby($order, $asc)->get();
                     }
                 }else{
-                    $items[]=DB::table("items")->where($sFor, 'like', $key)->where("loan_id", null)->orderby($order, $asc)->skip($page*30)->take(30)->get();
+                    $items[]=DB::table("items")->where($sFor, 'like', $key)->where("loan_id", null)->orderby($order, $asc)->get();
                 }
             }
             if ($shop){
@@ -88,7 +88,16 @@ class ItemController extends Controller
             $items[]=DB::table("items")->where('shop_id', $shop->id)->where("loan_id", null)->get();
         }
 
-        foreach ($items[0] as $item){
+
+        $length = count($items[0]);
+        //$items = array_slice($items, $page*30, 30);
+
+        $itemsOnPage = [];
+
+        for ($i = $page*30; $i < $page*30+30 && $i < count($items[0]); $i++) {
+            $itemsOnPage[] = $items[0][$i];
+            $item = $itemsOnPage[count($itemsOnPage)-1];
+
             $shop = Shop::find($item->shop_id);
 
             $item->shop = [
@@ -96,11 +105,27 @@ class ItemController extends Controller
                 'name' => $shop->name,
             ];
             $item->settlement = $shop->settlement;
+
+            $itemsOnPage[count($itemsOnPage)-1] = $item;
+
         }
-        
 
 
-        return response()->json($items[0]);
+        /*foreach ($items[0] as $item){
+            $shop = Shop::find($item->shop_id);
+
+            $item->shop = [
+                'id'=> $item->shop_id,
+                'name' => $shop->name,
+            ];
+            $item->settlement = $shop->settlement;
+        }*/
+
+
+        return response()->json([
+            'length' => $length,
+            'items' => $itemsOnPage
+        ]);
     }
 
     /**
