@@ -7,7 +7,7 @@ use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class TypeGroupController extends Controller
+class TypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +17,8 @@ class TypeGroupController extends Controller
     public function index()
     {
         //$typeGroups = DB::table("typeGroups")->join('types', 'typeGroups_id', '=', 'typeGroups.id')->get();
-        // $typeGroups = DB::table("typeGroups")->join('types', 'types.typeGroups_id', '=', 'typeGroups.id', 'right')->get();
+        $types = Type::all();
 
-
-        return response()->json();
+        return response()->json($types);
     }
 }

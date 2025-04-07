@@ -88,6 +88,18 @@ class ItemController extends Controller
             $items[]=DB::table("items")->where('shop_id', $shop->id)->where("loan_id", null)->get();
         }
 
+        foreach ($items[0] as $item){
+            $shop = Shop::find($item->shop_id);
+
+            $item->shop = [
+                'id'=> $item->shop_id,
+                'name' => $shop->name,
+            ];
+            $item->settlement = $shop->settlement;
+        }
+        
+
+
         return response()->json($items[0]);
     }
 

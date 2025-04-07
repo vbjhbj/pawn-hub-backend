@@ -11,6 +11,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SettlementController;
 use App\Http\Controllers\TypeGroupController;
+use App\Http\Controllers\TypeController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,7 +39,7 @@ Route::get('/settlements', [SettlementController::class, 'index']);
 
 Route::get('/holdings', [HoldingController::class, 'index']);
 
-Route::get('types', [TypeGroupController::class, 'index']);
+Route::get('types', [TypeController::class, 'index']);
 
 Route::get('/messages', [MessageController::class, 'index'])->middleware('auth:sanctum');
 
