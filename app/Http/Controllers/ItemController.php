@@ -23,13 +23,27 @@ class ItemController extends Controller
         $holding = $request->input('hold');
         $sFor = $request->query("searchIn") ?? "name";
         
-        $shop = DB::table("shops")->where('id', $request->query("shop"))->first();
+        $shopId = $request->query("shopId");
+
+        // Bálint's code for filtering to Shop:
+
+        if ($shopId) {
+            $items = Item::where('shop_id', $shopId)->get();
+
+            return response()->json($items);
+        }
+
+        // ---------------------------
+
+        $shop = DB::table("shops")->where('id', $request->query("shopId"))->first();
         if ($shop){
             $shopuser = DB::table("users")->where('id', $shop->user_id)->first();
         } else{
             $shopuser = null;
         }
         $user = $request->user();
+        
+
         if ($request->query("cat")){
             $types[] = explode(',',$request->query("cat"));
         }

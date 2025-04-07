@@ -24,7 +24,7 @@ class ShopFactory extends Factory
         $name = Functions::removeSpecialChars(fake()->unique()->realTextBetween($minNbChars = 8, $maxNbChars = 40, $indexSize = 3) . " " . fake()->companySuffix());
         $username = str_replace(" ","",Functions::removeAccents($name));
         $email = strtolower($username) . "@shop.com";
-        $website = strtolower($username) . ".hu";
+        $website = "https://www." . strtolower($username) . ".hu";
         $estYear = strval(random_int(1800, 2025));
 
         $user = User::factory()
