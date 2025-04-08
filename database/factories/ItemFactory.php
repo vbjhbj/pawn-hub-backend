@@ -31,7 +31,7 @@ class ItemFactory extends Factory
             'type_id' => random_int(1, 107),
             'payedValue' => $payed,
             'estimatedValue' => $estimated,
-            'img' => (mt_rand(0, 9) == 1) ? null : Functions::randomImg("item")
+            'img' => ''// (mt_rand(0, 9) == 1) ? null : Functions::randomImg("item")
         ];
     }
 }

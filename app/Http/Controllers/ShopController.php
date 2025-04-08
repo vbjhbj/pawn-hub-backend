@@ -27,14 +27,23 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($request)
+    public function index(Request $request)
     {
-        $key = $request->query('searchKey');
-        $holding = $request->input('hold');
+        $key = "%" . $request->query('searchKey') . "%" ?? "%";
+        $holding = $request->query('hold');
         $sFor = $request->query("searchIn");
-        $page = $request->query("page")-1;
+        $page = ($request->query("page") ?? 1) - 1;
         $order = $request->query("orderBy");
-        $settlements[] = explode(',',$request->query("settlements"));
+        
+        $settlements = [];
+
+        if ($request->query("settlements")){
+            $settlements[] = explode(',',$request->query("settlements"));
+        }
+        else {
+            $settlements = [];
+        }
+
         if($holding){
             $settlements[] = DB::table("settlements")->where('holding_id', $holding)->get('id');
         }
@@ -50,8 +59,12 @@ class ShopController extends Controller
         else{
             $asc = "desc";
         }
+        if (count($settlements) == 0) {
+            $shops[] = Shop::where($sFor, 'like', value: $key)->get();
+        }
+
         foreach ($settlements as $setl){
-            $shops[] = Shop::where("settlement_id", $setl)->where($sFor, 'like', '%'.$key.'%')->get();
+            $shops[] = Shop::where("settlement_id", $setl)->where($sFor, 'like', $key)->get();
         }
         return response()->json($shops);
     }

@@ -43,7 +43,7 @@ class ItemController extends Controller
         }
         $user = $request->user();
         
-
+        $types = [];
         if ($request->query("cat")){
             $types[] = explode(',',$request->query("cat"));
         }
