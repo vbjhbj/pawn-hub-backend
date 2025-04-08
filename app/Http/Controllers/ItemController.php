@@ -43,10 +43,12 @@ class ItemController extends Controller
         }
         $user = $request->user();
         
+        
         $types = [];
-        if ($request->query("cat")){
-            $types[] = explode(',',$request->query("cat"));
-        }
+        /*if ($request->query("cat")){
+            $types = explode(',',$request->query("cat"));
+        }*/
+
         
         $typeG = $request->query("catG");
         $page = $request->query("page")-1;
@@ -62,16 +64,17 @@ class ItemController extends Controller
             $asc = "desc";
         }
         $stat = $request->query("status");
-        if($holding){
-            $settlements[] = DB::table("settlements")->where('holding_id', $holding)->get('id');
+        if($request->input('hold')){
+            $settlements[] = DB::table("settlements")->where('holding_id', $request->input('hold'))->get('id');
         }
         $items= array();
         $types[] = DB::table("types")->where('typeGroups_id', $typeG)->get('id');
         foreach ($settlements as $setl){
             $shops[] = Shop::where("settlement_id", $setl)->get('id');
         }
+        $items = [];
         if (is_null($shopuser)||$shopuser != $request->user()){
-            if (!count($shops) === 1){
+            if (count($shops) != 1){
                 foreach ($shops as $cshop){
                     if (!count($types) === 1){
                         foreach($types as $type){
@@ -82,8 +85,8 @@ class ItemController extends Controller
                     }
                 }
             }else{
-                if (!count($types) === 1){
-                    foreach($types as $type){
+                if (count($types) != 1){
+                    foreach($types[1] as $type){
                         $items[]=DB::table("items")->where($sFor, 'like', $key)->where("loan_id", null)->where("type_id", $type)->orderby($order, $asc)->get();
                     }
                 }else{
