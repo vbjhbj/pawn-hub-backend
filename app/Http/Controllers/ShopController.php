@@ -45,7 +45,8 @@ class ShopController extends Controller
         }
 
         if($holding){
-            $settlements[] = DB::table("settlements")->where('holding_id', $holding)->get('id');
+            // Not workin:
+            //$settlements[] = DB::table("settlements")->where('holding_id', $holding)->get('id');
         }
         if(!$sFor){
             $sFor = "name";
@@ -60,13 +61,40 @@ class ShopController extends Controller
             $asc = "desc";
         }
         if (count($settlements) == 0) {
-            $shops[] = Shop::where($sFor, 'like', value: $key)->get();
+            $shops[] = Shop::with("settlement")->where($sFor, 'like', value: $key)->get();
         }
 
         foreach ($settlements as $setl){
-            $shops[] = Shop::where("settlement_id", $setl)->where($sFor, 'like', $key)->get();
+            $shops[] = Shop::with("settlement")->where("settlement_id", $setl)->where($sFor, 'like', $key)->get();
         }
-        return response()->json($shops);
+
+        // Making pages:
+
+        $length = count($shops[0]);
+
+        $shopsOnPage = [];
+
+        for ($i = $page*30; $i < $page*30+30 && $i < count($shops[0]); $i++) {
+            $shopsOnPage[] = $shops[0][$i];
+
+            $shop = $shopsOnPage[count($shopsOnPage)-1];
+            
+            $user = User::findOrFail($shop->user_id);
+
+            unset($shop->settlement_id);
+            $shop->email = $user->email;
+            $shop->username = $user->username;
+            $shop->img = $user->img;
+
+
+            $shopsOnPage[count($shopsOnPage)-1] = $shop;
+
+        }
+
+        return response()->json([
+            'length' => $length,
+            'shops' => $shopsOnPage
+        ]);
     }
 
     /**
@@ -86,9 +114,9 @@ class ShopController extends Controller
 
             $user = User::findOrFail($shop->user_id);
 
-            $shop->img = $user->img;
             $shop->email = $user->email;
             $shop->username = $user->username;
+            $shop->img = $user->img;
 
             return response()->json($shop);
         }

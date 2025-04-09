@@ -17,8 +17,6 @@ class ItemController extends Controller
 
     public function index(Request $request)
     {
-        
-
         $key = "%" . $request->query('searchKey') . "%" ?? "%";
         $holding = $request->input('hold');
         $sFor = $request->query("searchIn") ?? "name";
@@ -64,8 +62,9 @@ class ItemController extends Controller
             $asc = "desc";
         }
         $stat = $request->query("status");
-        if($request->input('hold')){
-            $settlements[] = DB::table("settlements")->where('holding_id', $request->input('hold'))->get('id');
+        if($holding){
+            // Not workin:
+            // $settlements[] = DB::table("settlements")->where('holding_id', $request->input('hold'))->get('id');
         }
         $items= array();
         $types[] = DB::table("types")->where('typeGroups_id', $typeG)->get('id');
@@ -105,6 +104,8 @@ class ItemController extends Controller
             $items[]=DB::table("items")->where('shop_id', $shop->id)->where("loan_id", null)->get();
         }
 
+
+        // Making pages:
 
         $length = count($items[0]);
         //$items = array_slice($items, $page*30, 30);
