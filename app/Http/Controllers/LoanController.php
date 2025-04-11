@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Loan;
+use App\Models\Shop;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -44,6 +46,25 @@ class LoanController extends Controller
         $results = array();
         if (!$shop){
             $loans=DB::table("loans")->where("customer_id", $customer->id)->get();
+
+
+
+            for ($i = 0; $i < count($loans); $i++) {
+
+                $tmpShop = Shop::findOrFail($loans[$i]->shop_id);
+                $tmpUser = User::findOrFail($tmpShop->user_id);
+
+                $loans[$i]->shop = [
+                    'id' => $tmpShop->id,
+                    'name' => $tmpShop->name,
+                    'img' => $tmpUser->img,
+                ];
+
+                unset($loans[$i]->shop_id);
+
+            }
+
+
         }else{
             $loans= DB::table("loans")
             ->where($sFor, 'like', '%'.$key.'%')
