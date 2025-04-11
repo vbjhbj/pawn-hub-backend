@@ -18,10 +18,11 @@ class LoanController extends Controller
      */
     public function index(Request $request) 
     {
-        $expiredloans[] = DB::table("loans")->where('expDate', '<=', now()->toDate());
+        /*$expiredloans[] = DB::table("loans")->where('expDate', '<=', now()->toDate());
         foreach ($expiredloans as $loan){
             $loan->delete();
-        }
+        }*/
+
         $user = Auth::user();
         $shop = DB::table("shops")->where('user_id', $user->id)->first();
         if (!$shop){

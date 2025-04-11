@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
+            $table->longText('description')->nullable();
             $table->longText('img')->nullable();
 			$table->foreignId('loan_id')->nullable()->constrained()->onDelete('set null');
 			$table->foreignId('shop_id')->constrained();

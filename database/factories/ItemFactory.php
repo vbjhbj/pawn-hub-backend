@@ -25,13 +25,13 @@ class ItemFactory extends Factory
 
         return [
             'name'=> Functions::removeSpecialChars(fake()->sentence()),
-            'description' => fake()->realTextBetween($minNbChars = 10, $maxNbChars = 2000, $indexSize = 5),
+            'description' => (mt_rand(0, 9) == 1) ? null : fake()->realTextBetween($minNbChars = 10, $maxNbChars = 2000, $indexSize = 5),
             'loan_id' => (mt_rand(0, 1) == 1) ? random_int(1, 102) : null,
             'shop_id' => random_int(1, 62),
             'type_id' => random_int(1, 107),
             'payedValue' => $payed,
             'estimatedValue' => $estimated,
-            'img' => ''// (mt_rand(0, 9) == 1) ? null : Functions::randomImg("item")
+            'img' => (mt_rand(0, 9) == 1) ? null : Functions::randomImg("item")
         ];
     }
 }

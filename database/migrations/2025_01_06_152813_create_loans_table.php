@@ -20,6 +20,7 @@ return new class extends Migration
 			$table->date('expDate')->useCurrent();
 			$table->integer('givenAmount');
 			$table->float('interest');
+			$table->longText('description')->nullable();
             $table->timestamps();
         });
     }
