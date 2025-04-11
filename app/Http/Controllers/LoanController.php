@@ -54,7 +54,13 @@ class LoanController extends Controller
         foreach ($loans as $loan){
             $results[]=DB::table("items")->where("loan_id", $loan->id)->get();
         }
-        return json_encode($results);
+
+        $toReturn = [
+            'loans' => $results[0],
+            'items' => array_slice($results, 1),
+        ];
+
+        return json_encode($toReturn);
     }
 
     /**
