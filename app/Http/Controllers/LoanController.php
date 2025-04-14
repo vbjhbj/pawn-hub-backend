@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Loan;
 use App\Models\Shop;
 use App\Models\User;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -44,10 +45,9 @@ class LoanController extends Controller
         else{
             $asc = "desc";
         }
-        $results = array();
+
         if (!$shop){
             $loans=DB::table("loans")->where("customer_id", $customer->id)->get();
-
 
 
             for ($i = 0; $i < count($loans); $i++) {
@@ -72,17 +72,24 @@ class LoanController extends Controller
             ->orderBy($order, $asc)
             ->skip($page*30)->take(30)->get();
         }
-        $results[]=$loans;
-        foreach ($loans as $loan){
-            $results[]=DB::table("items")->where("loan_id", $loan->id)->get();
+
+        for ($i= 0; $i< count($loans); $i++) {
+            $items = DB::table("items")->where("loan_id", $loans[$i]->id)->get();
+
+            for ($j= 0; $j< count($items); $j++) {
+                $items[$j]->type = [
+                    'id' => $items[$j]->type_id,
+                    'name' => Type::find($items[$j]->type_id)->name
+                ];
+                unset($items[$j]->type_id);
+                //unset($items[$j]->img);
+            }
+
+            $loans[$i]->items = $items;
+            
         }
 
-        $toReturn = [
-            'loans' => $results[0],
-            'items' => array_slice($results, 1),
-        ];
-
-        return json_encode($toReturn);
+        return response()->json($loans);
     }
 
     /**

@@ -23,6 +23,7 @@ return new class extends Migration
 			$table->foreignId('type_id')->constrained();
 			$table->integer('estimatedValue');
 			$table->integer('payedValue');
+			$table->integer('condition');
         });
     }
 
