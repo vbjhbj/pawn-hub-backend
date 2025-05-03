@@ -6,6 +6,7 @@ use App\Models\Item;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
@@ -15,6 +16,28 @@ class ItemController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function authIndex(Request $request) {
+        $user = Auth::user();
+        $senderShop = DB::table("shops")->where('user_id', $user->id)->first();
+        
+        // Get Shop's All Products for Shops:
+        if ($senderShop) {
+
+            $items = Item::where('shop_id', $senderShop->id)->get();
+
+            return response()->json($items);
+
+        }
+        else {
+            return response()->json([
+                'error' => [
+                    'code' => 'ACCESS_DENIED',
+                    'message' => 'Hozzáférés megtagadva!'
+                ]
+            ],403);
+        }
+    }
+
     public function index(Request $request)
     {
         $key = "%" . $request->query('searchKey') . "%" ?? "%";
@@ -23,16 +46,19 @@ class ItemController extends Controller
         
         $shopId = $request->query("shopId");
 
-        // Bálint's code for filtering to Shop:
+        // Get Shop's Available Products for Customers:
 
         if ($shopId) {
-            $items = Item::where('shop_id', $shopId)->get();
+            $items = Item::where('shop_id', $shopId)->whereNull("loan_id")->get();
 
             return response()->json($items);
         }
 
         // ---------------------------
 
+
+        // Get All Available Products for Customers:
+    
         $shop = DB::table("shops")->where('id', $request->query("shopId"))->first();
         if ($shop){
             $shopuser = DB::table("users")->where('id', $shop->user_id)->first();
@@ -144,6 +170,8 @@ class ItemController extends Controller
             'length' => $length,
             'items' => $itemsOnPage
         ]);
+        
+
     }
 
     /**

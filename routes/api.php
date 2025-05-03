@@ -32,6 +32,7 @@ use App\Services\Functions;
 */
 
 Route::get('/items', [ItemController::class, 'index']);
+Route::get('/shopAllItems', [ItemController::class, 'authIndex'])->middleware('auth:sanctum');
 
 Route::get('/shops', [ShopController::class, 'index']);
 
