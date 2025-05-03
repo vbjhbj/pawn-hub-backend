@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Loan;
 use App\Models\Shop;
+use App\Models\Customer;
 use App\Models\User;
 use App\Models\Type;
 use Illuminate\Http\Request;
@@ -66,11 +67,24 @@ class LoanController extends Controller
             }
 
 
-        }else{
-            $loans= DB::table("loans")
-            ->where($sFor, 'like', '%'.$key.'%')
-            ->orderBy($order, $asc)
-            ->skip($page*30)->take(30)->get();
+        }else{ // If shop:
+
+            $loans=DB::table("loans")->where("shop_id", $shop->id)->get();
+
+            for ($i = 0; $i < count($loans); $i++) {
+
+                $tmpCust = Customer::findOrFail($loans[$i]->customer_id);
+                $tmpUser = User::findOrFail($tmpCust->user_id);
+
+                $loans[$i]->customer = [
+                    'id' => $tmpCust->id,
+                    'name' => $tmpCust->name,
+                    'img' => $tmpUser->img,
+                ];
+
+                unset($loans[$i]->customer_id);
+
+            }
         }
 
         for ($i= 0; $i< count($loans); $i++) {
