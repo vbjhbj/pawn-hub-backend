@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\customer;
+use App\Models\Customer;
 use App\Models\DeletedUser;
 use App\Models\Shop;
 use Illuminate\Http\Request;
@@ -29,11 +29,13 @@ class CustomerController extends Controller
     {
         $user = Auth::user();
         $shop = DB::table("shops")->where('user_id', $user->id)->first();
+
         $connections = DB::table("connections")->where('shop_id', $shop->id)->get();
-        $page = $request->query("page")-1;
-        $key = $request->query("searchKey");
-        $sFor = $request->query("searchIn");
-        $order = $request->query("orderBy");
+        
+        /*$page = $request->query("page")-1;
+        $key = $request->query("searchKey") ?? "";
+        $sFor = $request->query("searchIn") ?? "name";
+        $order = $request->query("orderBy") ?? "name";
         if($request->query("asc")){
             $asc = "asc";
         }
@@ -44,7 +46,26 @@ class CustomerController extends Controller
         $results = DB::table("customers")->where('shop_id', $shop->id)->where($sFor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30)->get();
         foreach ($connections as $con){
             DB::table("customers")->where('id', $con->customer_id)->where($sFor, 'like', '%'.$key.'%')->orderBy($order, $asc)->skip($page*30)->take(30)->get();
+        }*/
+
+        $results = [];
+
+        foreach ($connections as $con){
+            $cust = Customer::where('id', $con->customer_id)->first();
+
+            $tmpUser = DB::table("users")->where('id', $cust->user_id)->first();
+
+            if ($tmpUser) {
+                $cust->img = $tmpUser->img;
+                $cust->email = $tmpUser->email;
+                $cust->username = $tmpUser->username;
+
+            }
+
+            $results[] = $cust;
         }
+
+
         return $results;
     }
 
