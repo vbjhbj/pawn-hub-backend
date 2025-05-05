@@ -80,6 +80,7 @@ class CustomerController extends Controller
         $userId=Auth::id();
         $user=User::findOrFail($userId);
         $shop=Shop::where("user_id", $userId)->first();
+        
         $customer=new customer;
         $customer->name = $request->input('name');
         $customer->idCardNum = $request->input('idCardNum');
