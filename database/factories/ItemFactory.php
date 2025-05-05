@@ -21,13 +21,25 @@ class ItemFactory extends Factory
         $payed = round(random_int(400, 9999999), -2);
         $estimated = round($payed * (mt_rand(11, 15) / 10), -3);
         
+        $shop_id = null;
+        $loan_id = null;
+
+        if (mt_rand(0, 1) == 1) {
+            $loan_id = (mt_rand(0, 13) == 1) ? 1 : random_int(1, 102);
+        }
+
+        $shop_id = (mt_rand(0, 15) == 1) ? 1 : random_int(1, 62);
+
+
+
         ini_set('memory_limit', '256M');
 
         return [
             'name'=> Functions::removeSpecialChars(fake()->sentence()),
             'description' => (mt_rand(0, 9) == 1) ? null : fake()->realTextBetween($minNbChars = 10, $maxNbChars = 2000, $indexSize = 5),
-            'loan_id' => (mt_rand(0, 1) == 1) ? random_int(1, 102) : null,
-            'shop_id' => random_int(1, 62),
+            'location' => (mt_rand(0, 9) == 1) ? null : fake()->realTextBetween($minNbChars = 10, $maxNbChars = 200, $indexSize = 5),
+            'loan_id' => $loan_id,
+            'shop_id' => $shop_id,
             'type_id' => random_int(1, 107),
             'payedValue' => $payed,
             'estimatedValue' => $estimated,

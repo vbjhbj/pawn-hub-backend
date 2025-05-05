@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->longText('description')->nullable();
+            $table->longText('location')->nullable();
             $table->longText('img')->nullable();
 			$table->foreignId('loan_id')->nullable()->constrained()->onDelete('set null');
 			$table->foreignId('shop_id')->constrained();

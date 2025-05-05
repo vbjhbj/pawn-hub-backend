@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\Shop;
+use App\Models\Loan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,7 @@ class ItemController extends Controller
      */
 
     public function authIndex(Request $request) {
+
         $user = Auth::user();
         $senderShop = DB::table("shops")->where('user_id', $user->id)->first();
         
@@ -24,6 +26,24 @@ class ItemController extends Controller
         if ($senderShop) {
 
             $items = Item::where('shop_id', $senderShop->id)->get();
+
+            for ($i= 0; $i< count($items); $i++) {
+                if ($items[$i]->loan_id) {
+                    $items[$i]->loan = DB::table("loans")->where('id', $items[$i]->loan_id)->first();
+
+                    $customer = DB::table("customers")->where('id', $items[$i]->loan->customer_id)->first();
+                    $user = DB::table("users")->where('id', $customer->user_id)->first();
+                    $customer->img = $user->img;
+
+                    $items[$i]->customer = $customer;
+                }
+                else {
+                    $items[$i]->loan = null;
+                    $items[$i]->customer = null;
+                }
+                unset($items[$i]->loan_id);
+
+            }
 
             return response()->json($items);
 
