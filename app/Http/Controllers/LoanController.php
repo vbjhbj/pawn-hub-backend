@@ -132,16 +132,23 @@ class LoanController extends Controller
 
     public function create(Request $request)
     {
-        $userId=Auth::id();
-        $user=User::findOrFail($userId);
-        $shop=Shop::where("user_id", $userId)->first();
+
+        $user = Auth::user();
+        $shop = DB::table("shops")->where('user_id', $user->id)->first();
+
         $loan=new Loan;
         $loan->customer_id = $request->input('customer_id');
-        $loan->shop_id = $shop->id();
+        $loan->shop_id = $shop->id;
         $loan->expDate = $request->input('expDate');
         $loan->givenAmount = $request->input('givenAmount');
         $loan->interest = $request->input('interest');
+        $loan->created_at = $request->input('creationDate');
         $loan->save();
+
+        return response()->json([
+            'message' => 'Adósság létrehozva.',
+            'id' => $loan->id
+        ],201);
     }
 
     /**
