@@ -28,7 +28,7 @@ class ItemFactory extends Factory
             $loan_id = (mt_rand(0, 13) == 1) ? 1 : random_int(1, 102);
         }
 
-        $shop_id = (mt_rand(0, 15) == 1) ? 1 : random_int(1, 62);
+        $shop_id = (mt_rand(0, 20) == 1) ? 1 : random_int(1, 62);
 
 
 

@@ -1,0 +1,796 @@
+type: collection.insomnia.rest/5.0
+name: PawnHub
+meta:
+  id: wrk_f08825d51da9432a87230722b6092ae8
+  created: 1741939828084
+  modified: 1742916320803
+collection:
+  - name: User Operations
+    meta:
+      id: fld_2d603f14b5584501b7e8eecf226719f4
+      created: 1741939877100
+      modified: 1744033541123
+      sortKey: -1743406757277
+    children:
+      - name: Login
+        meta:
+          id: fld_718fde61247642b9877da15e6b0d106c
+          created: 1741940225255
+          modified: 1744033541123
+          sortKey: -1743152761324
+        children:
+          - url: http://127.0.0.1:8000/api/login
+            name: Login Customer
+            meta:
+              id: req_50f06fa665404205b27e8a65d24d58f4
+              created: 1741939880938
+              modified: 1744033541123
+              isPrivate: false
+              sortKey: -1741940232132
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"username": "custTest",
+                	"password": "custPassword"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/10.3.1
+            authentication:
+              token: 1|O7JvlUWW3KTwROhIsOnMzeXCvHrW6CfPmv7o3oXvd715ee74
+              type: bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://127.0.0.1:8000/api/login
+            name: Login Shop
+            meta:
+              id: req_a262337e05ea48b5a0cef3815101c33c
+              created: 1741940176961
+              modified: 1742919861790
+              isPrivate: false
+              sortKey: -1741940232032
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"username": "shopTest",
+                	"password": "shopPassword"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/10.3.1
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Register
+        meta:
+          id: fld_a55e6211bb184be9a465688346f4bd71
+          created: 1741940255860
+          modified: 1742916320781
+          sortKey: -1741940255860
+        children:
+          - url: http://127.0.0.1:8000/api/customer
+            name: Register Customer
+            meta:
+              id: req_e0e82c80ae5f4c3bb0232013fb12475c
+              created: 1741940262411
+              modified: 1742916320794
+              isPrivate: false
+              sortKey: -1741940262411
+            method: POST
+            body:
+              mimeType: application/json
+              text: |
+                {
+                  "username":"newCustomer",
+                  "email":"newcustomer@mail.org",
+                  "password":"newPasssword",
+                  "iban":"HU69572365932",
+                  "name":"New Customer",
+                  "idCardNum":"123456AB",
+                  "idCardExp":"2028-01-02",
+                  "birthday":"2004-01-02",
+                  "shippingAddress":"2750 Nagykőrös, Hajó u. 24.",
+                  "billingAddress":"2750 Nagykőrös, Számla u. 24.",
+                  "mobile":"+36705309904"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/10.3.1
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://127.0.0.1:8000/api/shop
+            name: Register Shop
+            meta:
+              id: req_f4b7fc19eddd45238b064e6633b8f48c
+              created: 1741940663256
+              modified: 1742916320798
+              isPrivate: false
+              sortKey: -1741940247271.5
+            method: POST
+            body:
+              mimeType: application/json
+              text: >
+                {
+                  "username": "newShopUser2",
+                  "email": "newshopuser2@mail.org",
+                  "password": "newPassword",
+                  "iban": "",
+                  "name": "New Shop",
+                  "taxId": "18756937-6-58",
+                  "website": "newshop.hu",
+                  "estYear": "1234",
+                  "address": "Hajó u. 24.",
+                  "settlement_id": "23",
+                  "mobile": "+36705309904",
+                  "intro": "A Lorem Ipsum egy egyszerű szövegrészlete, szövegutánzata a betűszedő és nyomdaiparnak. A Lorem Ipsum az 1500-as évek óta standard szövegrészletként szolgált az iparban; mikor egy ismeretlen nyomdász összeállította a betűkészletét és egy példa-könyvet vagy szöveget nyomott papírra, ezt használta. Nem csak 5 évszázadot élt túl, de az elektronikus betűkészleteknél is változatlanul megmaradt. Az 1960-as években népszerűsítették a Lorem Ipsum részleteket magukbafoglaló Letraset lapokkal, és legutóbb softwarekkel mint például az Aldus Pagemaker.",
+                "img": "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"
+
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/10.3.1
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Modify Data
+        meta:
+          id: fld_30d21c35085a49978af6aa1c4b46ef6c
+          created: 1742916357006
+          modified: 1742916357006
+          sortKey: -1742916357006
+        children:
+          - url: http://127.0.0.1:8000/api/customer
+            name: Modify Data for Customer
+            meta:
+              id: req_16bfdf65ab7342a5863b0f05a9f52c02
+              created: 1742916372125
+              modified: 1744033535168
+              isPrivate: false
+              sortKey: -1742916389936
+            method: PATCH
+            body:
+              mimeType: application/json
+              text: |
+                {
+                  "email":"orsos.fjanos@cust.org",
+                  "password":"newPasssword",
+                  "iban":"HU69572365932",
+                  "name":"New Customer",
+                  "idCardNum":"123456AB",
+                  "idCardExp":"2028-01-02",
+                  "birthday":"2004-01-02",
+                  "shippingAddress":"2750 Nagykőrös, Hajó u. 24.",
+                  "billingAddress":"2750 Nagykőrös, Számla u. 24.",
+                  "mobile":"+36705309904"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/10.3.1
+            authentication:
+              token: 1|Dyj4hT22VBxoJbjtYZ21J9rpQGnDSG2LexyWc8wZb031258d
+              type: bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://127.0.0.1:8000/api/shop
+            name: Modify Data for Shop
+            meta:
+              id: req_d717dc93cd7e4db6a5fcb33a5e33259a
+              created: 1742916383268
+              modified: 1742920622729
+              isPrivate: false
+              sortKey: -1742916389836
+            method: PATCH
+            body:
+              mimeType: application/json
+              text: |
+                {
+                  "email": "orsos.janos@cust.orga",
+                  "password": "vvffffvv",
+                  "iban": "",
+                  "name": "New Shop",
+                  "taxId": "18756937-6-58",
+                  "website": "newsffhop.hu",
+                  "estYear": "134",
+                  "address": "Hajó u. 24.",
+                  "settlement_id": "23",
+                  "mobile": "+36 705309904",
+                  "intro": " f  ",
+                "img": "iVBORw"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/10.3.1
+            authentication:
+              type: bearer
+              token: 2|16szzzvcwyEA5Ap8yfTYZp6INftdCvKKCk0YkRGX0e22a8ec
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Delete Account
+        meta:
+          id: fld_674504a0b46840debec53328e6b3463f
+          created: 1743152761224
+          modified: 1744033541122
+          sortKey: -1743152761224
+        children:
+          - url: http://127.0.0.1:8000/api/customer/6
+            name: Delete Account for Customer
+            meta:
+              id: req_d4dd7dc76fb24eb29cbbb0cc4273031b
+              created: 1743157452836
+              modified: 1744033541123
+              isPrivate: false
+              sortKey: -1743157461917
+            method: DELETE
+            body:
+              mimeType: application/json
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/10.3.1
+            authentication:
+              token: 1|O7JvlUWW3KTwROhIsOnMzeXCvHrW6CfPmv7o3oXvd715ee74
+              type: bearer
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://127.0.0.1:8000/api/shop/1
+            name: Delete Account for Shop
+            meta:
+              id: req_f2d03061bebe4a0996064160b8f80874
+              created: 1743756792330
+              modified: 1744033541123
+              isPrivate: false
+              sortKey: -1743756792331
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+  - name: Shop Operations
+    meta:
+      id: fld_0cef5287be134c7295942ff743cf184a
+      created: 1741942984041
+      modified: 1744038570233
+      sortKey: -1742066294841.9375
+    children:
+      - url: http://127.0.0.1:8000/api/shop/34
+        name: Get Shop [Both]
+        meta:
+          id: req_731c306402ae4f7a980cf1fca641728f
+          created: 1742920733458
+          modified: 1744038827385
+          isPrivate: false
+          sortKey: -1744038446919
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/10.3.1
+        authentication:
+          token: 1|ZNsJFDkoP08NVlMFmYShuCxfo0TeuqVKPTJxXZ8xba2608eb
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://127.0.0.1:8000/api/shops
+        name: Get Shops [Customer]
+        meta:
+          id: req_bdc66b20d9394f15876baea4ce692d27
+          created: 1744038802199
+          modified: 1744655803337
+          isPrivate: false
+          sortKey: -1744038309344
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/10.3.1
+        authentication:
+          token: 1|ZNsJFDkoP08NVlMFmYShuCxfo0TeuqVKPTJxXZ8xba2608eb
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Customer Operations
+    meta:
+      id: fld_9fca2444a1944c93a4f1845f945104c1
+      created: 1741943031108
+      modified: 1744038353304
+      sortKey: -1742074515562
+    children:
+      - url: http://127.0.0.1:8000/api/ownCustomer
+        name: Create OwnCustomer [Shop]
+        meta:
+          id: req_f50bb0c6bbf04f0c86ea93a3dba302cb
+          created: 1741943041366
+          modified: 1744038386291
+          isPrivate: false
+          sortKey: -1741943041366
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "email":"newcustomer@mail.org",
+              "name":"New Customer",
+              "idCardNum":"123456AB",
+              "idCardExp":"2028-01-02",
+              "birthday":"2004-01-02",
+              "shippingAddress":"2750 Nagykőrös, Hajó u. 24.",
+              "billingAddress":"2750 Nagykőrös, Számla u. 24.",
+              "mobile":"+36705309904"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.3.1
+        authentication:
+          token: 1|3Nm8c2e1XYegY9sZENWDeNBZ2lHbUskKyjX64GgT9c4048f3
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://127.0.0.1:8000/api/customers
+        name: Get Customers [Shop]
+        meta:
+          id: req_8745634651b74fffbb35220b80442260
+          created: 1742287945654
+          modified: 1746376136596
+          isPrivate: false
+          sortKey: -1742287945654
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/10.3.1
+        authentication:
+          token: 7|YrveAnsQ5uzKx4Zcds3B8Mri69g42jyz6eP5kdvq83bc96d7
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://127.0.0.1:8000/api/customer/3
+        name: Get Customer [Both]
+        meta:
+          id: req_3bd4d90ffbe1415a8cee40b80ca3a519
+          created: 1742917169001
+          modified: 1744038429878
+          isPrivate: false
+          sortKey: -1742287945754
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/10.3.1
+        authentication:
+          token: 1|ZNsJFDkoP08NVlMFmYShuCxfo0TeuqVKPTJxXZ8xba2608eb
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Misc Operations
+    meta:
+      id: fld_9cc1c23b56984abba84222c8ba528840
+      created: 1742206047083
+      modified: 1744038545393
+      sortKey: -1742008749801.5
+    children:
+      - url: http://127.0.0.1:8000/api/types
+        name: Get Types
+        meta:
+          id: req_445f9c35c0874d74a063f4cf9d26fd7d
+          created: 1743503728934
+          modified: 1744033541122
+          isPrivate: false
+          sortKey: -1743503728934
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/10.3.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Loan Operations
+    meta:
+      id: fld_4d8dee1a0f51477bb9502cc29895aee3
+      created: 1742553995321
+      modified: 1744038211489
+      sortKey: -1743406757477
+    children:
+      - url: http://127.0.0.1:8000/api/loans
+        name: Get Loans [Both]
+        meta:
+          id: req_16ffa7c3862549bba897246016c09040
+          created: 1742553999864
+          modified: 1746274631206
+          isPrivate: false
+          sortKey: -1742553999864
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/10.3.1
+        authentication:
+          token: 2|XxbQu1tUp0VeapR0ABtIoAHwI7YR8Ue078yaAFFAf6337a71
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://127.0.0.1:8000/api/loan
+        name: Modify Loan [Shop]
+        meta:
+          id: req_9390aa588dc54ec5ace25e0339610c96
+          created: 1746450956906
+          modified: 1746454242073
+          isPrivate: false
+          sortKey: -1742420972809
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"id": 160,
+            	"expDate": "2050-01-05",
+            	"description": "Alternative descriptio"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.3.1
+        authentication:
+          token: 12|ErZOMAgvRWXzjtHDmcdGdgS85LnhxMVnLGRbPBaKa49daf64
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://127.0.0.1:8000/api/loan
+        name: Create Loan [Shop]
+        meta:
+          id: req_4b3f855dbd534be483b754ade845cebd
+          created: 1746450982684
+          modified: 1746452134465
+          isPrivate: false
+          sortKey: -1742487486336.5
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+            	"customer_id": 2,
+            	"expDate": "2050-01-03",
+            	"creationDate": "2000-10-10",
+            	"description": "A Lorem Ipsum egy egyszerű szövegrészlete, szövegutánzata a betűszedő és nyomdaiparnak. A Lorem Ipsum az 1500-as évek óta standard szövegrészletként szolgált az iparban; mikor egy ismeretlen nyomdász összeállította a betűkészletét és egy példa-könyvet vagy szöveget nyomott papírra, ezt használta. Nem csak 5 évszázadot élt túl, de az elektronikus betűkészleteknél is változatlanul megmaradt. Az 1960-as években népszerűsítették a Lorem Ipsum részleteket magukbafoglaló Letraset lapokkal, és legutóbb softwarekkel mint például az Aldus Pagemaker.",
+            	"givenAmount": 2000,
+            	"interest": 3
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.3.1
+        authentication:
+          token: 12|ErZOMAgvRWXzjtHDmcdGdgS85LnhxMVnLGRbPBaKa49daf64
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Geography
+    meta:
+      id: fld_ce53e0a842054fb49f42ac2423ce6250
+      created: 1743406757177
+      modified: 1744038566996
+      sortKey: -1742058074121.875
+    children:
+      - name: Settlements
+        meta:
+          id: fld_d5d499b831004c2b80b1cc1cbc4602c8
+          created: 1743407585633
+          modified: 1744033541123
+          sortKey: -1743407585633
+        children:
+          - url: http://127.0.0.1:8000/api/settlements?postCode=632
+            name: Get Settlements by Post Code
+            meta:
+              id: req_ebf0a986bbc644c3a26904240c16f48e
+              created: 1742206054808
+              modified: 1744033541123
+              isPrivate: false
+              sortKey: -1743407625345
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/10.3.1
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://127.0.0.1:8000/api/settlements?searchKey=Kiskun
+            name: Get Settlements by Name
+            meta:
+              id: req_da1041c4d5c2445d8d096a21234dc2b8
+              created: 1742808006933
+              modified: 1744033541123
+              isPrivate: false
+              sortKey: -1743407625245
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/10.3.1
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://127.0.0.1:8000/api/settlement/2
+            name: Get Settlement by Id
+            meta:
+              id: req_6a4ea3fbef0644d5825ec403ddd4b01b
+              created: 1743406788202
+              modified: 1744033541123
+              isPrivate: false
+              sortKey: -1743407625445
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/10.3.1
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Holdings
+        meta:
+          id: fld_bd36dafdab06456ea12acaec564ee4d0
+          created: 1743407637920
+          modified: 1744033541123
+          sortKey: -1743407637920
+      - url: http://127.0.0.1:8000/api/holdings
+        name: Get  Holdings
+        meta:
+          id: req_e691a39e919d4dc98ee087c85016dfd4
+          created: 1743408205633
+          modified: 1744033541123
+          isPrivate: false
+          sortKey: -1743407624848.25
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/10.3.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Item Operations
+    meta:
+      id: fld_f81c868ce13f487dae7d78a0d9a11cf3
+      created: 1744021129402
+      modified: 1744038158197
+      sortKey: -1743406757377
+    children:
+      - url: http://127.0.0.1:8000/api/items?shopId=3
+        name: Get Purchasable Items of Shop [Customer]
+        meta:
+          id: req_7d19e6f31a5846a1afb138a1cdeac543
+          created: 1742546078046
+          modified: 1746291807916
+          isPrivate: false
+          sortKey: -1744038171669
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/10.3.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://127.0.0.1:8000/api/item/1
+        name: Get Item [Both]
+        meta:
+          id: req_fa30b68c53aa476da62bd76742b929eb
+          created: 1744021180099
+          modified: 1744038679049
+          isPrivate: false
+          sortKey: -1744038171769
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/10.3.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://127.0.0.1:8000/api/items
+        name: Get Purchasable Items [Customer]
+        meta:
+          id: req_7c2e50efb7ef4060a1ddba1f1af3266d
+          created: 1744038704124
+          modified: 1746291377471
+          isPrivate: false
+          sortKey: -1743897482000
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/10.3.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://127.0.0.1:8000/api/shopAllItems
+        name: Get Own Items [Shop]
+        meta:
+          id: req_3afad3043227492aa199ccb7b1449121
+          created: 1746291399194
+          modified: 1746299644709
+          isPrivate: false
+          sortKey: -1743827137165.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/10.3.1
+        authentication:
+          type: bearer
+          token: 5|YsizXevrwCxgKGUXqEY4lso9FiL8a8Xtlm6Yp8JDc1e1e6ac
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_b9fe592fcace91d39d43fcefe02e4b1b33456709
+    created: 1742916331438
+    modified: 1743003081583
+  cookies:
+    - key: auth_token
+      value: 1%7CufdwdBn8zRso4xqRvDtoJ9PaxsekebhksDPKb7WJ804c161c
+      maxAge: 63072000
+      domain: 127.0.0.1
+      path: /
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-03-25T15:28:10.009Z
+      lastAccessed: 2025-03-26T15:31:21.582Z
+      sameSite: lax
+      id: 28700d77-754e-4d93-909b-12e14db524d2
+environments:
+  name: Base Environment
+  meta:
+    id: env_b9fe592fcace91d39d43fcefe02e4b1b33456709
+    created: 1741939828085
+    modified: 1742916320765
+    isPrivate: false
