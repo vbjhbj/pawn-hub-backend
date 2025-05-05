@@ -130,6 +130,61 @@ class LoanController extends Controller
         }
     }
 
+    public function update(Request $request)
+    {
+
+        $id = $request->input('id');
+        $description = $request->input('description');
+        $expDate = $request->input('expDate');
+        
+
+        $user = Auth::user();
+        $shop = DB::table("shops")->where('user_id', $user->id)->first();
+        
+        $loan = DB::table("loans")->where('id', $id)->first();
+
+        if (!$shop || $loan->shop_id != $shop->id){
+            return response()->json([
+                'error' => [
+                    'code' => 'FORBIDDEN',
+                    'message' => 'Nincs joga módosítani az adósságot!'
+                ]
+            ],403);
+        }
+        else if (!$loan) {
+            return response()->json([
+                'error' => [
+                    'code' => 'NOT_FOUND',
+                    'message' => 'Az elem nem létezik!'
+                ]
+            ],404);
+        }
+        else { // If Everything's OK
+
+            return response()->json([
+                'id' => $request->input('id'),
+                'description' => $request->input('description'),
+                'expDate' => $request->input('expDate')
+            ],200);
+
+            if ($expDate && $loan->expDate != $expDate) {
+                $loan->expDate = $expDate;
+            }
+            if ($description && $loan->description != $description) {
+                $loan->description = $expDate;
+            }
+
+            $loan->save();
+            
+
+        }
+
+        return response()->json([
+            'message' => 'Adósság frissítve.',
+            'id' => $loan->id
+        ],200);
+    }
+
     public function create(Request $request)
     {
 

@@ -66,6 +66,8 @@ Route::patch('/item', [ItemController::class, 'update'])->middleware('auth:sanct
 
 Route::patch('/shop', [ShopController::class, 'update'])->middleware('auth:sanctum');
 
+Route::patch('/loan', [LoanController::class, 'update'])->middleware('auth:sanctum');
+
 Route::patch('/customer', [CustomerController::class, 'update'])->middleware('auth:sanctum');
 
 #-----------------------------------------------------------------------------------------------------
